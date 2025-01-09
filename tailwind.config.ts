@@ -12,6 +12,24 @@ export default {
 			colors: {
 				background: 'var(--background)',
 				foreground: 'var(--foreground)',
+				background_alt: 'var(--background-alt)',
+				foreground_alt: 'var(--foreground-alt)',
+				destructive_alt: 'var(--destructive-alt)',
+				classColor: {
+					priest_color: '#ffffff',
+					mage_color: '#68d4fc',
+					rogue_color: '#fff569',
+					druid_color: '#ff7d0a',
+					warlock_color: '#8d73db',
+					paladin_color: '#f58cba',
+					shaman_color: '#4184ff',
+					hunter_color: '#abd473',
+					warrior_color: '#bd7930',
+					deathknight_color: '#c41f3b',
+					monk_color: '#00ff96',
+					demonhunter_color: '#a330c9',
+					evoker_color: '#5dc5b0'
+				},
 				card: {
 					DEFAULT: 'var(--card)',
 					foreground: 'var(--card-foreground)'
@@ -55,6 +73,13 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			zIndex: {
+				'-1': '-1',
+			},
+			inset: {
+				'1/2': '50%',
+				'2/2': '100%'
 			}
 		}
 	},

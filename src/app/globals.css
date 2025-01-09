@@ -97,6 +97,10 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    margin: 0 auto;
+
+    max-width: 1620px;
+    min-width: 480px;
   }
   h3 {
     color: var(--border);
