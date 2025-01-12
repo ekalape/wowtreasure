@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
-import '@/lib/utils/capitalize';
+import { capitalize } from '@/lib/utils/capitalize';
 import styles from './style.module.css'
 
 type MenuItemType = {
@@ -21,7 +21,7 @@ export default function Menu(props: { menuItems: MenuItemType[] }) {
             href={item.link}
             className={` text-2xl text-blue-400  duration-400 static`}
           >
-            {item.title.capitalize()}
+            {capitalize(item.title)}
           </Link></span>
       ))}
     </div>

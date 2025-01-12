@@ -1,10 +1,19 @@
+import { redirect } from 'next/navigation'
+
 
 
 export default function Home() {
   return (
-    <main className="flex flex-col p-10 mt-32">
-
-      main
-    </main>
+    <MainPage />
   );
+}
+
+
+
+const MainPage = () => {
+
+  redirect('/add')
+  return (
+    <></>
+  )
 }
