@@ -34,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${font_space_grotesk.className} ${font_hachi.variable} ${font_yatra.variable} antialiased dark overflow-x-hidden`}>
         <Header />
-        <main className="flex flex-col p-10 mt-32">
+        <main className="flex flex-col p-10 mt-28">
           {children}
         </main>
       </body>
