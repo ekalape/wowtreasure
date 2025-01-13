@@ -1,4 +1,4 @@
-import { CharClass } from './CharClass';
+
 
 export interface IChar {
     id: string;
@@ -6,7 +6,6 @@ export interface IChar {
     fraction: string;
     server: string;
     class: string;
-    //class: CharClass;
     createdAt: string;
     earnings: IProfit[];
 }
