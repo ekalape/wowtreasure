@@ -103,7 +103,7 @@ body {
     min-width: 480px;
   }
   h3 {
-    color: var(--border);
+ @apply text-pink-300;
     font-family: var(--font-hachi);
     font-size: 0.8rem;
     font-weight: 400;

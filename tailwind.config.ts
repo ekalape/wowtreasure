@@ -80,6 +80,10 @@ export default {
 			inset: {
 				'1/2': '50%',
 				'2/2': '100%'
+			},
+			fontFamily: {
+				hachi: 'var(--font-hachi)',
+				yatra: 'var(--font-yatra)',
 			}
 		}
 	},
