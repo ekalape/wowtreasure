@@ -27,7 +27,9 @@ export async function getAllChars(userId: string): Promise<ICharsDataTransfer> {
     }
 }
 
-export async function addChar(userId: string, charData: CharDataType): Promise<ICharsDataTransfer> {
+export async function addChar(charData: CharDataType): Promise<ICharsDataTransfer> {
+
+    const userId = 'get from cookie'
 
     const newChar: IChar = {
         id: uuidv4(),
