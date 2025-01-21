@@ -1,29 +1,23 @@
 import React, { Suspense, use } from 'react'
 import CharsHolder from './components/CharsHolder'
+import { getAllChars } from '@/lib/services/chars.service';
+import AddMainPage from './AddMainPage';
+import { AddNewCharModal } from './components/AddNewCharModal';
 
 
 
 export default async function page() {
 
 
-    const getallchars = await fetch('http://localhost:3000/api/chars', {
-        cache: 'no-store',
-    })
-
-    const status = getallchars.status;
-    const chars = await getallchars.json();
+    const getallchars = getAllChars("jhbghdvnhs53");
 
 
-    if (status !== 200) {
-        return (
-            <h3>Failed to fetch data</h3>
-        );
-    }
 
     return (
-        <div>
+        <div className='w-full flex flex-col items-center'>
             <Suspense fallback={<h3>Loading...</h3>}>
-                <CharsHolder chars={chars} />
+                <AddMainPage charsPromise={getallchars} />
+
             </Suspense>
         </div>
     )

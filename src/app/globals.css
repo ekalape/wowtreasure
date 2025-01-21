@@ -102,6 +102,23 @@ body {
     max-width: 1620px;
     min-width: 480px;
   }
+  h2 {
+ color:rgb(from var(--foreground-alt) r g b /0.9);
+    font-family: var(--font-hachi);
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    margin: auto 4px;
+    align-self: right;
+    text-align: center;
+    position: relative;
+    right:calc(-50% + 20px);
+    & .highlighted{
+font-weight: bold;
+font-size: 1rem;
+    }
+  }
   h3 {
  @apply text-pink-300;
     font-family: var(--font-hachi);
