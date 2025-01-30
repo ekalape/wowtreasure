@@ -18,7 +18,7 @@ const laterDate = new Date()
 export default function ShortDataViewByChar({ char, entries }: ShortDataViewPropsType) {
 
     const profs = char.earnings.sort((a, b) => compareAsc(a.date, b.date)).slice(char.earnings.length - entries, char.earnings.length);
-    console.log(char)
+
     return (
         <div className='flex flex-col gap-2 w-full mt-4'>
             {profs.map((pr, index) => (

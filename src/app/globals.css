@@ -6,7 +6,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 @layer base {
   :root {
     --background: #ffffff;
@@ -47,7 +46,7 @@ body {
     --card-foreground: #d6d6d6;
     --popover: #2c2c2c;
     --popover-foreground: #d6d6d6;
-    --primary: #5039FFFF;
+    --primary: #5039ffff;
     --primary-foreground: #d6d6d6;
     --secondary: #3d3d3d;
     --secondary-foreground: #d6d6d6;
@@ -66,7 +65,7 @@ body {
     --chart-4: #6a6aa1;
     --chart-5: #a64d89;
   }
-  .calenDark{
+  .calenDark {
     --darkest-blue: #14162c;
     --darkier-blue: #323876;
     --dark-blue: #343a89;
@@ -74,7 +73,7 @@ body {
     --light-blue: #7c98de;
     --lighter-blue: #cad5f3;
     --lighest-blue: #f2f4fc;
-  
+
     --darkest-yellow: #86500d;
     --darkier-yellow: #a36705;
     --dark-yellow: #cc9102;
@@ -82,11 +81,11 @@ body {
     --light-yellow: #ffeb66;
     --lighter-yellow: #fff489;
     --lighest-yellow: #fffcc2;
-  
+
     --background: var(--darkest-blue);
     --hover-background: var(--darkier-blue);
     --text: var(--lighest-yellow);
-    --text-hovered:var(--medium-yellow);
+    --text-hovered: var(--medium-yellow);
     --border: var(--dark-blue);
     --border-hovered: var(--dark-yellow);
   }
@@ -103,24 +102,26 @@ body {
     min-width: 480px;
   }
   h2 {
- color:rgb(from var(--foreground-alt) r g b /0.9);
+    color: rgb(from var(--foreground-alt) r g b / 0.9);
     font-family: var(--font-hachi);
     font-size: 0.8rem;
     font-weight: 400;
     font-style: normal;
     display: inline-block;
-    margin: auto 4px;
-    align-self: right;
+
+    display: inline-block;
     text-align: center;
-    position: relative;
-    right:calc(-50% + 20px);
-    & .highlighted{
-font-weight: bold;
-font-size: 1rem;
+    /* align-self: center; */
+    /*     position: relative;
+    right: calc(-50% + 20px); */
+    & .highlighted {
+      font-weight: bold;
+      font-size: 1rem;
     }
   }
+
   h3 {
- @apply text-pink-300;
+    @apply text-pink-300;
     font-family: var(--font-hachi);
     font-size: 0.8rem;
     font-weight: 400;
@@ -132,9 +133,14 @@ font-size: 1rem;
   }
 
   .btn-shine {
-/*     padding: 12px 48px; */
+    /*     padding: 12px 48px; */
     @apply text-blue-400;
-    background: linear-gradient(to right, #b2e9ff 0, var(--foreground-alt) 16%, rgb(from var(--foreground-alt) r g b /0.9) 30%);
+    background: linear-gradient(
+      to right,
+      #b2e9ff 0,
+      var(--foreground-alt) 16%,
+      rgb(from var(--foreground-alt) r g b / 0.9) 30%
+    );
     background-position: left center;
     background-clip: text;
     -webkit-background-clip: text;
@@ -142,9 +148,9 @@ font-size: 1rem;
     animation: shine 4s infinite linear;
     animation-fill-mode: forwards;
     -webkit-text-size-adjust: none;
-    cursor:default;
+    cursor: default;
   }
- 
+
   @keyframes shine {
     0% {
       background-position: 0;
@@ -157,5 +163,3 @@ font-size: 1rem;
     }
   }
 }
-
-

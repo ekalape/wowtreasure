@@ -1,15 +1,14 @@
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView'
 import { IChar } from '@/lib/models/char.interface'
-import { parseISO, isWithinInterval, eachDayOfInterval } from 'date-fns'
-import React from 'react'
+import { parseISO, isWithinInterval, eachDayOfInterval, isSameDay } from 'date-fns'
+import React, { useEffect } from 'react'
 
 
 
 
 type ShortDataViewPropsType = {
-    char: IChar,
-    fromDate: string,
-    toDate: string
+    day: string;
+    chars: IChar[]
 }
 
 interface ResultItem {
@@ -19,31 +18,33 @@ interface ResultItem {
 }
 
 
-export default function ShortDataViewByDate({ char, fromDate, toDate }: ShortDataViewPropsType) {
+export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsType) {
 
-    const profits: ResultItem[] = [];
+    const theDay = parseISO(day)
 
-    const profs = char.earnings.filter((pr) => isWithinInterval(pr.date, { start: fromDate, end: toDate }) && pr.amount > 0);
-    if (!profs) return []
-    const groupedByDate: Record<string, number> = {};
+    const todayAdded = chars.filter(ch => {
+        console.log("filter --> ", ch)
+        return ch.earnings.some(er => isSameDay(er.date, theDay))
+    }).map(ch => {
+        console.log("map --> ", ch)
+        return {
+            char: ch,
+            earns: ch.earnings.filter(er => isSameDay(er.date, theDay)).reduce((acc, earn) => acc + earn.amount, 0)
+        }
+    })
 
-    profs.forEach(({ date, amount }) => {
-        groupedByDate[date] = (groupedByDate[date] || 0) + amount;
-    });
 
-    for (const date in groupedByDate) {
-        profits.push({
-            char: char,
-            date,
-            amount: groupedByDate[date],
-        });
-    };
+    useEffect(() => {
+        console.log(todayAdded)
+    }, [todayAdded])
+
 
 
     return (
-        <div className='flex flex-col gap-2 w-full'>
-            {profits.map(pr => (
-                <CharCardDataView key={pr.char.id} id={pr.char.id} charclass={pr.char.class} fraction={pr.char.fraction}> {pr.date} - {pr.amount}</CharCardDataView>
+        <div className='flex flex-col gap-2 w-full mt-4'>
+            {todayAdded.length === 0 && <h3 className='mt-4'>This day is empty</h3>}
+            {todayAdded.map(ta => (
+                <CharCardDataView key={ta.char.id} id={ta.char.id} charclass={ta.char.class} fraction={ta.char.fraction}> {ta.char.name} - {ta.earns}</CharCardDataView>
             ))}
 
         </div>
