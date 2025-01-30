@@ -1,5 +1,6 @@
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView'
 import { IChar } from '@/lib/models/char.interface'
+import useCharsStore from '@/store/charsStore'
 import { parseISO, isWithinInterval, eachDayOfInterval, compareAsc, format, formatDistance } from 'date-fns'
 import React from 'react'
 
@@ -7,7 +8,7 @@ import React from 'react'
 
 
 type ShortDataViewPropsType = {
-    char: IChar,
+
     entries: number
 }
 
@@ -15,7 +16,16 @@ type ShortDataViewPropsType = {
 const laterDate = new Date()
 
 
-export default function ShortDataViewByChar({ char, entries }: ShortDataViewPropsType) {
+export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType) {
+    const char = useCharsStore((state) => state.selectedChar);
+
+    if (!char) {
+        return (
+            <div className='flex flex-col gap-2 w-full mt-4'>
+                <h3>Choose a character</h3>
+            </div>
+        )
+    }
 
     const profs = char.earnings.sort((a, b) => compareAsc(a.date, b.date)).slice(char.earnings.length - entries, char.earnings.length);
 

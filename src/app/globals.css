@@ -131,6 +131,9 @@ body {
     align-self: center;
     text-align: center;
   }
+  button {
+    min-width: 100px;
+  }
 
   .btn-shine {
     /*     padding: 12px 48px; */

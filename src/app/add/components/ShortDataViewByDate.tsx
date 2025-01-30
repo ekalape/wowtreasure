@@ -20,24 +20,18 @@ interface ResultItem {
 
 export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsType) {
 
+
+
     const theDay = parseISO(day)
 
     const todayAdded = chars.filter(ch => {
-        console.log("filter --> ", ch)
         return ch.earnings.some(er => isSameDay(er.date, theDay))
     }).map(ch => {
-        console.log("map --> ", ch)
         return {
             char: ch,
             earns: ch.earnings.filter(er => isSameDay(er.date, theDay)).reduce((acc, earn) => acc + earn.amount, 0)
         }
     })
-
-
-    useEffect(() => {
-        console.log(todayAdded)
-    }, [todayAdded])
-
 
 
     return (

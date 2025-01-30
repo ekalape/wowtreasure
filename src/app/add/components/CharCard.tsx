@@ -9,14 +9,24 @@ import alliance_img from '@/assets/aliance-icon.png';
 import horde_img from '@/assets/horde-icon.png';
 import clsx from 'clsx';
 import { font_space_grotesk } from '@/assets/fonts';
+import useCharsStore from '@/store/charsStore';
 
 
 export default function CharCard(props: { char: IChar }) {
   const { char } = props;
 
-  const [selectedChar, setSelectedChar] = useState<IChar | null>(null);
+  const selectedChar = useCharsStore((state) => state.selectedChar);
+  const setSelectedChar = useCharsStore((state) => state.setSelectedChar);
 
   const classColor = useMemo(() => getClassColor(char.class), []);
+
+  const handleSelection = () => {
+    if (!selectedChar || selectedChar.id !== char.id) {
+      setSelectedChar(char);
+    } else {
+      setSelectedChar(null);
+    }
+  }
 
 
   return (
@@ -27,7 +37,7 @@ export default function CharCard(props: { char: IChar }) {
         borderColor: classColor,
         backgroundColor: selectedChar?.id === char.id ? `${classColor}4D` : 'transparent',
       }}
-      onClick={selectedChar?.id === char.id ? () => setSelectedChar(null) : () => setSelectedChar(char)}>
+      onClick={handleSelection}>
       <Image
         src={char.fraction === 'horde' ? horde_img.src : alliance_img.src}
         alt={''}

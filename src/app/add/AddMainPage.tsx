@@ -8,17 +8,17 @@ import ShortDataViewByChar from './components/ShortDataViewByChar';
 import { IChar } from '@/lib/models/char.interface';
 import { format, sub } from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
+import useCharsStore from '@/store/charsStore';
+import OneDateChooser from '@/components/DateChooser/OneDateChooser';
 const today = new Date().toISOString();
 const from = sub(today, { months: 1 }).toISOString();
 
 export default function AddMainPage({ charsPromise }: { charsPromise: Promise<ICharsDataTransfer> }) {
 
     const allchars = use(charsPromise);
+    const selectedChar = useCharsStore((state) => state.selectedChar);
 
-    const [selectedChar, setSelectedChar] = useState<IChar | null>(allchars.data ? allchars.data[0] : null);
-    const [selectedDate, setSelectedDate] = useState(today);
-
-
+    const selectedDate = useCharsStore((state) => state.selectedDate);
 
     if (!allchars.data) {
         return (
@@ -32,11 +32,12 @@ export default function AddMainPage({ charsPromise }: { charsPromise: Promise<IC
 
     return (<div className='flex flex-col gap-12 w-full items-center justify-start'>
         <CharsHolder chars={allchars.data} />
+        <section className='flex w-1/3'><OneDateChooser /></section>
         <section className='flex gap-12 w-full'>
             <AddProfitForm />
             <div className='w-1/3 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
                 {selectedChar ? <><h2>Last entries of <span className='highlighted'>{selectedChar?.name}</span></h2>
-                    <ShortDataViewByChar char={selectedChar} entries={3} /></>
+                    <ShortDataViewByChar entries={3} /></>
                     : <h2>Choose a character</h2>
                 }
             </div>
