@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 import { font_space_grotesk, font_hachi, font_yatra } from '@/assets/fonts';
 import Header from '@/components/Header/Header';
-import SlopeDivider from '@/components/ui/SlopeDivider';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: 'Count your chars profits',
-  description: 'Add and see your profits',
+  description: 'Control your profits',
   icons: {
     icon: '/w-icon.png',
   },

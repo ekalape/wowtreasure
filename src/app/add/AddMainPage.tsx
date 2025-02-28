@@ -2,10 +2,8 @@
 import { ICharsDataTransfer } from '@/lib/models/dataTransfer.interface';
 import CharsHolder from './components/CharsHolder'
 import { use, useState } from 'react';
-import { AddNewCharModal } from './components/AddNewCharModal';
 import AddProfitForm from './components/AddProfitForm';
 import ShortDataViewByChar from './components/ShortDataViewByChar';
-import { IChar } from '@/lib/models/char.interface';
 import { format, sub } from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
