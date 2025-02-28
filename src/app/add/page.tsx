@@ -1,18 +1,20 @@
 import React, { Suspense } from 'react'
-import { getAllChars } from '@/lib/services/chars.service';
+
 import AddMainPage from './AddMainPage';
+import { findUserAction } from '../actions/UserAction';
+import { IUser } from '@/lib/models/user.interface';
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
 
 
 export default async function page() {
-
-    const getallchars = getAllChars("jhbghdvnhs53");
-
-
+    const userPromise: Promise<IUser> = findUserAction("jhbghdvnhs53");
     return (
-        <div className='w-full flex flex-col items-center'>
+        <div className="w-full flex flex-col items-center">
             <Suspense fallback={<h3>Loading...</h3>}>
-                <AddMainPage charsPromise={getallchars} />
+                <ErrorBoundary fallback={<h3>Something went wrong</h3>}>
+                    <AddMainPage userPromise={userPromise} />
+                </ErrorBoundary>
             </Suspense>
         </div>
-    )
+    );
 }

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
-import { createNewUserAction, findUserAction } from '../actions/UserAction';
+import { createNewUserAction, findUserAction } from '../../actions/UserAction';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -14,7 +14,7 @@ export default function AddUserComponent() {
 
     async function createUser() {
         const userId = uuidv4();
-        await createNewUserAction(userId, userName);
+        await createNewUserAction(userId);
     }
 
     async function findUser() {

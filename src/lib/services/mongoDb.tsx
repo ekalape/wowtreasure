@@ -1,9 +1,8 @@
 import mongoose, { Mongoose } from 'mongoose';
-import { unique } from 'next/dist/build/utils';
-import { env } from 'process';
+
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
+
 
 const UserSchema = new Schema({
     userid: { type: String, unique: true },
@@ -13,37 +12,48 @@ const UserSchema = new Schema({
         server: String,
         fraction: String,
         class: String,
-        createdAt: { type: Date, default: Date.now },
-        earnings: [{ date: Date, amount: Number }]
+        createdAt: { type: String, default: (Date.now).toString() },
+        earnings: [{ date: String, amount: Number }]
     }],
-    createdAt: Number,
-    wowTokens: [{ date: Date, price: Number }]
-});
+    wowTokens: [{ date: String, price: Number }]
+},
+    {
+        toJSON: {
+            transform: (doc, ret) => {
+                ret._id = ret._id.toString(); // Преобразуем _id в строку
+                return ret;
+            },
+        },
+    });
 
 
 let cachedConnection: Mongoose | null = null;
-export async function connectToDb() {
+const mongooseConnection = (() => {
+    let cachedConnection: Mongoose | null = null;
 
-    if (cachedConnection) {
-        console.log("Using cached MongoDB connection");
-        return cachedConnection;
-    }
-    try {
-        const mongoDbUri = process.env.MONGODB_URI;
-        if (!mongoDbUri) { throw new Error("MONGODB_URI is not defined"); }
+    return async (): Promise<Mongoose> => {
+        if (cachedConnection) {
+            console.log("Using cached MongoDB connection");
+            return cachedConnection;
+        }
 
-        cachedConnection = await mongoose.connect(
-            mongoDbUri,
-            { bufferCommands: false }
-        );
-        console.log("Connected to MongoDB");
-        return cachedConnection;
-    } catch (error) {
-        console.error("MongoDB connection error:", error);
-        throw error;
-    }
+        try {
+            const mongoDbUri = process.env.MONGODB_URI;
+            if (!mongoDbUri) {
+                throw new Error("MONGODB_URI is not defined");
+            }
 
-}
+            cachedConnection = await mongoose.connect(mongoDbUri, { bufferCommands: false });
+            console.log("Connected to MongoDB");
+            return cachedConnection;
+        } catch (error) {
+            console.error("MongoDB connection error:", error);
+            throw error;
+        }
+    };
+})();
+
+export const connectToDb = mongooseConnection;
 export const wowUser = mongoose.models.wowUser || mongoose.model('wowUser', UserSchema);
 
 
