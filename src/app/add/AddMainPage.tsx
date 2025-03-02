@@ -7,7 +7,7 @@ import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
 import { IChar } from '@/lib/models/char.interface';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import { IUser } from '@/lib/models/user.interface';
 const today = new Date().toISOString();
 const from = sub(today, { months: 1 }).toISOString();
@@ -15,9 +15,17 @@ const from = sub(today, { months: 1 }).toISOString();
 export default function AddMainPage({ userPromise }: { userPromise: Promise<IUser> }) {
 
     const user = use(userPromise)
-    const allchars = user.chars;
+
+    const setChars = useCharsStore((state) => state.setChars);
+
+    const allchars = useCharsStore((state) => state.chars);
     const selectedChar = useCharsStore((state) => state.selectedChar);
     const selectedDate = useCharsStore((state) => state.selectedDate);
+
+    useEffect(() => {
+        if (user)
+            setChars(user.chars)
+    }, [user.chars])
 
 
     return (<div className='flex flex-col gap-12 w-full items-center justify-start'>

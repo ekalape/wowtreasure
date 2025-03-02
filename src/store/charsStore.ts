@@ -16,9 +16,12 @@ const useCharsStore = create<ICharsStore>((set) => ({
     setSelectedDate: (date: string) => set(state => ({ selectedDate: date })),
     setSign: (sign: string) => set(state => ({ sign: sign })),
 
+    setChars(chars: IChar[]) {
+        set({ chars: chars })
+    },
+
     getChars: async () => {
-        const res = await fetch('http://localhost:3000/api/chars').then(res => res.json());
-        set(state => ({ chars: res }));
+
     },
 
 }))

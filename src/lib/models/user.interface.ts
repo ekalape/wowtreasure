@@ -1,7 +1,7 @@
 import { IChar } from './char.interface';
 
 export interface IUser {
-    id: string;
+    userid: string;
     chars: IChar[];
     wowTokens: WowTokenType[]
 }

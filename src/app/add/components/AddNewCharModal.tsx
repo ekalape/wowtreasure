@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useState, useTransition } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,41 +12,55 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { CharDataType } from '@/lib/models/char.interface'
-import { addChar } from '@/lib/services/chars.service'
+
+import { wowUser } from '@/lib/services/mongoDb'
+import { IChar } from '@/lib/models/char.interface'
+import { v4 as uuidv4 } from 'uuid';
+import { addNewCharacter } from '@/app/actions/UserAction'
+import useCharsStore from '@/store/charsStore'
+
+
 
 export function AddNewCharModal() {
     const [open, setOpen] = useState(false)
 
-    const [error, setError] = useState<string|null>(null);
+    const [currentFraction, setCurrentFraction] = useState("Horde");
 
-    const [state, formAction, isPending] = useActionState(handleSubmit, null)
+    const [state, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null })
 
-    const [isPendingTransition, startTransition] = useTransition()
+    const setChars = useCharsStore(state => state.setChars)
 
-    function handleSubmit(currentstate: CharDataType | null, formData: FormData) {
+    async function handleSubmit(prevState: { chars: IChar[] | null, error: Error | null }, data: FormData) {
+        const userid = "jhbghdvnhs53";
+        if (!data.get('name')?.toString().trim() ||
+            !data.get('class')?.toString().trim() ||
+            !data.get('server')?.toString().trim()
+        ) {
 
-        if (!formData.get('name') || !formData.get('class') || !formData.get('server') || !formData.get('fraction')) {
-            return null;
+            return prevState;
+        } else {
+            const newCharacter: IChar = {
+                charid: uuidv4(),
+                name: data.get('name')?.toString().trim() || "",
+                charclass: data.get('class')?.toString().trim() || "",
+                server: data.get('server')?.toString().trim() || "",
+                fraction: currentFraction,
+                createdAt: (new Date()).toISOString(),
+                earnings: [],
+
+            }
+            const updatedChars = await addNewCharacter(newCharacter, userid);
+            console.log("updatedChars___>", updatedChars);
+            if (updatedChars && updatedChars.chars) {
+                setChars(updatedChars.chars)
+            }
+            setOpen(false);
+            return { chars: updatedChars.chars, error: updatedChars.error }
         }
-
-        const newState = {
-            name: formData.get('name') as string,
-            class: formData.get('class') as string,
-            server: formData.get('server') as string,
-            fraction: formData.get('fraction') as string
-        }
-        console.log('Character added')
-        console.log(newState)
-        
-        startTransition(async () => {
-           const res= await addChar(newState);
-        if(res.error){setError(res.error.message)}
-        });
-        /*  setOpen(false); */
-        return newState
     }
-
+    useEffect(() => {
+        console.log('fraction', currentFraction)
+    }, [currentFraction])
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -83,13 +97,24 @@ export function AddNewCharModal() {
                         <Input id="server" className="col-span-3" name="server" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="fraction" className="text-right">
-                            Fraction
+                        <Label htmlFor="fractionHorde" className="text-right">
+                            Horde
                         </Label>
-                        <Input id="fraction" className="col-span-3" name="fraction" />
+                        <Input id="fractionHorde" className="col-span-3"
+                            name="fraction" type='radio' value="Horde"
+                            checked={currentFraction === "Horde"} onChange={() => setCurrentFraction("Horde")} />
+                        <Label htmlFor="fractionAliance" className="text-right">
+                            Aliance
+                        </Label>
+                        <Input id="fractionAliance" className="col-span-3"
+                            name="fraction" type='radio' value="Aliance"
+                            checked={currentFraction === "Aliance"} onChange={() => setCurrentFraction("Aliance")} />
                     </div>
                     <div className="flex justify-end gap-4">
-                        <Button type="button" variant="outline" onClick={() => setOpen(false)} className={` text-sm font-hachi ${isPending ? 'text-background' : 'text-foreground_alt'}`}>
+                        <Button type="button"
+                            variant="outline"
+                            onClick={() => setOpen(false)}
+                            className={` text-sm font-hachi ${isPending ? 'text-background' : 'text-foreground_alt'}`}>
                             Cancel
                         </Button>
                         <Button disabled={isPending}

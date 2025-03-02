@@ -18,10 +18,10 @@ export default function CharCard(props: { char: IChar }) {
   const selectedChar = useCharsStore((state) => state.selectedChar);
   const setSelectedChar = useCharsStore((state) => state.setSelectedChar);
 
-  const classColor = useMemo(() => getClassColor(char.class), []);
+  const classColor = useMemo(() => getClassColor(char.charclass.toLowerCase()), []);
 
   const handleSelection = () => {
-    if (!selectedChar || selectedChar.id !== char.id) {
+    if (!selectedChar || selectedChar.charid !== char.charid) {
       setSelectedChar(char);
     } else {
       setSelectedChar(null);
@@ -35,11 +35,11 @@ export default function CharCard(props: { char: IChar }) {
       title={char.name}
       style={{
         borderColor: classColor,
-        backgroundColor: selectedChar?.id === char.id ? `${classColor}4D` : 'transparent',
+        backgroundColor: selectedChar?.charid === char.charid ? `${classColor}4D` : 'transparent',
       }}
       onClick={handleSelection}>
       <Image
-        src={char.fraction === 'horde' ? horde_img.src : alliance_img.src}
+        src={char.fraction.toLowerCase() === 'horde' ? horde_img.src : alliance_img.src}
         alt={''}
         width={50}
         height={50}></Image>

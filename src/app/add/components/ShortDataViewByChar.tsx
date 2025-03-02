@@ -34,8 +34,8 @@ export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType)
             {profs.map((pr, index) => (
                 <CharCardDataView
                     key={pr.date + pr.amount + index}
-                    id={char.id}
-                    charclass={char.class}
+                    id={char.charid}
+                    charclass={char.charclass}
                     fraction={char.fraction}>
                     {formatDistance(laterDate, pr.date) + ' ago'} - {pr.amount}
                 </CharCardDataView >

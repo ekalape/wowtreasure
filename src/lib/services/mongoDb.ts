@@ -1,6 +1,9 @@
 import mongoose, { Mongoose } from 'mongoose';
 
 
+console.log("mongoDb.ts loaded");
+
+
 const Schema = mongoose.Schema;
 
 
@@ -11,8 +14,8 @@ const UserSchema = new Schema({
         name: String,
         server: String,
         fraction: String,
-        class: String,
-        createdAt: { type: String, default: (Date.now).toString() },
+        charclass: String,
+        createdAt: { type: String, default: (new Date()).toString() },
         earnings: [{ date: String, amount: Number }]
     }],
     wowTokens: [{ date: String, price: Number }]
@@ -27,7 +30,9 @@ const UserSchema = new Schema({
     });
 
 
-let cachedConnection: Mongoose | null = null;
+export const wowUser = mongoose.models.wowUser || mongoose.model('wowUser', UserSchema);
+
+
 const mongooseConnection = (() => {
     let cachedConnection: Mongoose | null = null;
 
@@ -44,6 +49,7 @@ const mongooseConnection = (() => {
             }
 
             cachedConnection = await mongoose.connect(mongoDbUri, { bufferCommands: false });
+
             console.log("Connected to MongoDB");
             return cachedConnection;
         } catch (error) {
@@ -54,8 +60,7 @@ const mongooseConnection = (() => {
 })();
 
 export const connectToDb = mongooseConnection;
-export const wowUser = mongoose.models.wowUser || mongoose.model('wowUser', UserSchema);
 
 
 
-
+console.log("inside file mongoDB.ts--> mongoDb.ts loaded, wowUser defined:", !!wowUser);

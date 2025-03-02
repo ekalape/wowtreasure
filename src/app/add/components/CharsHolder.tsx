@@ -6,10 +6,11 @@ import { AddNewCharModal } from './AddNewCharModal';
 
 export default function CharsHolder({ chars }: { chars: IChar[] }) {
 
+
     return (
         <div className='flex gap-2 w-full items-center justify-start'>
             {chars.map((ch) => (
-                <CharCard key={ch.name} char={ch} />
+                <CharCard key={ch.charid} char={ch} />
             ))}
             <AddNewCharModal />
 

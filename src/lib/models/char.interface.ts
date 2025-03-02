@@ -1,11 +1,11 @@
 
 
 export interface IChar {
-    id: string;
+    charid: string;
     name: string;
     fraction: string;
     server: string;
-    class: string;
+    charclass: string;
     createdAt: string;
     earnings: IProfit[];
 }
@@ -15,4 +15,4 @@ export interface IProfit {
     amount: number
 }
 
-export type CharDataType = Pick<IChar, 'name' | 'server' | 'class' | 'fraction'>
+export type CharDataType = Pick<IChar, 'name' | 'server' | 'charclass' | 'fraction'>

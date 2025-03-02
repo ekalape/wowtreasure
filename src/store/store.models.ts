@@ -11,6 +11,8 @@ export interface ICharsStore {
     setSelectedDate: (date: string) => void,
     setSign: (sign: string) => void,
 
+    setChars: (chars: IChar[]) => void,
+
     getChars: () => void
 
 }
