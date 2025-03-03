@@ -18,6 +18,7 @@ import { IChar } from '@/lib/models/char.interface'
 import { v4 as uuidv4 } from 'uuid';
 import { addNewCharacter } from '@/app/actions/UserAction'
 import useCharsStore from '@/store/charsStore'
+import InputRadio from './InputVariants/Radio/InputRadio'
 
 
 
@@ -72,45 +73,37 @@ export function AddNewCharModal() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]" onPointerDownOutside={() => setOpen(false)}>
                 <DialogHeader>
-                    <DialogTitle>Add New Character</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className='text-xl text-center'>Add New Character</DialogTitle>
+                    <DialogDescription className='text-sm text-center'>
                         Enter the details of your new character here.
                     </DialogDescription>
                 </DialogHeader>
                 <form action={formAction} className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="flex flex-col items-center gap-4">
                         <Label htmlFor="name" className="text-right">
                             Name
                         </Label>
                         <Input id="name" className="col-span-3" name="name" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="flex flex-col items-center gap-4">
                         <Label htmlFor="class" className="text-right">
                             Class
                         </Label>
                         <Input id="class" className="col-span-3" name="class" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="flex flex-col items-center gap-4">
                         <Label htmlFor="server" className="text-right">
                             Server
                         </Label>
                         <Input id="server" className="col-span-3" name="server" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="fractionHorde" className="text-right">
-                            Horde
-                        </Label>
-                        <Input id="fractionHorde" className="col-span-3"
-                            name="fraction" type='radio' value="Horde"
-                            checked={currentFraction === "Horde"} onChange={() => setCurrentFraction("Horde")} />
-                        <Label htmlFor="fractionAliance" className="text-right">
-                            Aliance
-                        </Label>
-                        <Input id="fractionAliance" className="col-span-3"
-                            name="fraction" type='radio' value="Aliance"
-                            checked={currentFraction === "Aliance"} onChange={() => setCurrentFraction("Aliance")} />
+                    <div className="flex flex-col items-center gap-4">
+                        Fraction
+                        <InputRadio fractionChecked={currentFraction} setFractionChecked={setCurrentFraction} />
+
                     </div>
-                    <div className="flex justify-end gap-4">
+                    <hr />
+                    <div className="flex justify-center gap-4 mt-3">
                         <Button type="button"
                             variant="outline"
                             onClick={() => setOpen(false)}

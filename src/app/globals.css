@@ -35,6 +35,9 @@ body {
     --chart-3: #4d5c86;
     --chart-4: #afbf69;
     --chart-5: #f1ae4b;
+
+    --hordeColor: #9e3131;
+    --allianceColor: #1f5aff;
   }
 
   .dark {
@@ -64,6 +67,9 @@ body {
     --chart-3: #d94c4c;
     --chart-4: #6a6aa1;
     --chart-5: #a64d89;
+
+    --hordeColor: #ac5454;
+    --allianceColor: #5272ff;
   }
   .calenDark {
     --darkest-blue: #14162c;

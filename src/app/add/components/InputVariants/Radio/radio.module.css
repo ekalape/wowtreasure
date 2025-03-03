@@ -1,0 +1,135 @@
+.radioInputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 350px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radioInputs > * {
+  margin: 6px;
+}
+
+#hordeRadio:checked + .radioTile {
+  border-color: var(--hordeColor);
+  color: var(--hordeColor);
+  background-color: rgb(from var(--hordeColor) r g b / 0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+#allianceRadio:checked + .radioTile {
+  border-color: var(--allianceColor);
+  color: var(--allianceColor);
+  background-color: rgb(from var(--allainceColor) r g b / 0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+#hordeRadio:checked + .radioTile:before {
+  transform: scale(1);
+  opacity: 1;
+  background-color: var(--hordeColor);
+  border-color: var(--hordeColor);
+}
+#allianceRadio:checked + .radioTile:before {
+  transform: scale(1);
+  opacity: 1;
+  background-color: var(--allianceColor);
+  border-color: var(--allianceColor);
+}
+
+#hordeRadio:checked + .radioTile .radioIcon img {
+  fill: var(--hordeColor);
+}
+#allianceRadio:checked + .radioTile .radioIcon img {
+  fill: var(--allianceColor);
+}
+
+#hordeRadio:checked + .radioTile .radioLabel {
+  color: var(--hordeColor);
+}
+#allianceRadio:checked + .radioTile .radioLabel {
+  color: var(--allianceColor);
+}
+
+#hordeRadio:focus + .radioTile {
+  border-color: var(--hordeColor);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 0 0 4px #b5c9fc;
+}
+#allianceRadio:focus + .radioTile {
+  border-color: var(--allianceColor);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 0 0 4px #b5c9fc;
+}
+
+.radioInput:focus + .radioTile:before {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.radioTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  min-height: 80px;
+  border-radius: 0.5rem;
+  border: 2px solid #b5bfd9;
+  background-color: transparent;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.15s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.radioTile:before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #b5bfd9;
+  background-color: transparent;
+  border-radius: 50%;
+  top: 0.25rem;
+  left: 0.25rem;
+  opacity: 0;
+  transform: scale(0);
+  transition: 0.25s ease;
+}
+
+.radioTile:hover {
+  border-color: #2260ff;
+}
+
+.radioTile:hover:before {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.radioIcon img {
+  width: 2rem;
+  height: 2rem;
+  fill: #494949;
+}
+
+.radioLabel {
+  color: #707070;
+  transition: 0.375s ease;
+  text-align: center;
+  font-size: 13px;
+}
+
+.radioInput {
+  /*   appearance: none; */
+  display: none;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
