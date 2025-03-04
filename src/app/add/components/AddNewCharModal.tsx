@@ -19,6 +19,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { addNewCharacter } from '@/app/actions/UserAction'
 import useCharsStore from '@/store/charsStore'
 import InputRadio from './InputVariants/Radio/InputRadio'
+import DropDownMenu from './InputVariants/DropDownMenu/DropDownMenu'
+import { CLASS_OPTIONS } from './InputVariants/InputVariantsConstToUse'
+import CheckedConfirmation from './InputVariants/CheckedConfirmation/CheckedConfirmation'
 
 
 
@@ -26,6 +29,7 @@ export function AddNewCharModal() {
     const [open, setOpen] = useState(false)
 
     const [currentFraction, setCurrentFraction] = useState("Horde");
+    const [currentClass, setCurrentClass] = useState("");
 
     const [state, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null })
 
@@ -60,8 +64,8 @@ export function AddNewCharModal() {
         }
     }
     useEffect(() => {
-        console.log('fraction', currentFraction)
-    }, [currentFraction])
+        console.log('class', currentClass)
+    }, [currentClass])
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -78,27 +82,31 @@ export function AddNewCharModal() {
                         Enter the details of your new character here.
                     </DialogDescription>
                 </DialogHeader>
-                <form action={formAction} className="grid gap-4 py-4">
-                    <div className="flex flex-col items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Name
-                        </Label>
-                        <Input id="name" className="col-span-3" name="name" />
+                <form action={formAction} className="grid gap-6 py-4">
+                    <div className="flex w-full items-center gap-4 relative">
+                        <div className="flex w-full flex-col items-center gap-4">
+                            <Label htmlFor="name" className="text-right">
+                                Name
+                            </Label>
+                            <Input id="name" className="col-span-3" name="name" /></div>
+                        <CheckedConfirmation ok={true} className='-bottom-1' />
+                    </div>
+                    <div className="flex w-full items-center gap-4 relative">
+                        <div className="flex w-full flex-col items-center gap-4">
+                            <Label htmlFor="server" className="text-right">
+                                Server
+                            </Label>
+                            <Input id="server" className="col-span-3" name="server" /></div>
+                        <CheckedConfirmation ok={true} className='-bottom-1' />
+                    </div>
+                    <div className='flex w-full items-center justify-center gap-4 relative mb-4'>
+                        <div className="flex flex-col items-center gap-4 relative h-10 mt-4 w-full" >
+                            <DropDownMenu options={[...Object.values(CLASS_OPTIONS)]} checked={currentClass} setChecked={setCurrentClass} />
+                        </div>
+                        <CheckedConfirmation ok={true} className='right-12' />
                     </div>
                     <div className="flex flex-col items-center gap-4">
-                        <Label htmlFor="class" className="text-right">
-                            Class
-                        </Label>
-                        <Input id="class" className="col-span-3" name="class" />
-                    </div>
-                    <div className="flex flex-col items-center gap-4">
-                        <Label htmlFor="server" className="text-right">
-                            Server
-                        </Label>
-                        <Input id="server" className="col-span-3" name="server" />
-                    </div>
-                    <div className="flex flex-col items-center gap-4">
-                        Fraction
+                        <div className='flex w-full items-end justify-center gap-4 relative'>Fraction<CheckedConfirmation ok={true} className='-right-6' /></div>
                         <InputRadio fractionChecked={currentFraction} setFractionChecked={setCurrentFraction} />
 
                     </div>
