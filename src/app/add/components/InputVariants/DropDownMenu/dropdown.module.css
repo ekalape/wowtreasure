@@ -1,5 +1,5 @@
 .select {
-  width: fit-content;
+  width: 170px;
   cursor: pointer;
   position: absolute;
   transition: 300ms;
@@ -45,19 +45,10 @@
   padding: 5px 10px;
   background-color: var(--background);
   position: relative;
-  top: -100px;
-  opacity: 0;
+  top: 0;
+  opacity: 1;
   transition: 300ms;
   z-index: 100;
-}
-
-.select:hover > .options {
-  opacity: 1;
-  top: 0;
-}
-
-.select:hover > .selected .arrow {
-  transform: rotate(0deg);
 }
 
 .option {

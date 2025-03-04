@@ -41,7 +41,6 @@ export function AddNewCharModal() {
             !data.get('class')?.toString().trim() ||
             !data.get('server')?.toString().trim()
         ) {
-
             return prevState;
         } else {
             const newCharacter: IChar = {
@@ -89,7 +88,7 @@ export function AddNewCharModal() {
                                 Name
                             </Label>
                             <Input id="name" className="col-span-3" name="name" /></div>
-                        <CheckedConfirmation ok={true} className='-bottom-1' />
+                      {/*   <CheckedConfirmation ok={true} className='-bottom-1' /> */}
                     </div>
                     <div className="flex w-full items-center gap-4 relative">
                         <div className="flex w-full flex-col items-center gap-4">
@@ -97,16 +96,18 @@ export function AddNewCharModal() {
                                 Server
                             </Label>
                             <Input id="server" className="col-span-3" name="server" /></div>
-                        <CheckedConfirmation ok={true} className='-bottom-1' />
+                       {/*  <CheckedConfirmation ok={true} className='-bottom-1' /> */}
                     </div>
                     <div className='flex w-full items-center justify-center gap-4 relative mb-4'>
                         <div className="flex flex-col items-center gap-4 relative h-10 mt-4 w-full" >
                             <DropDownMenu options={[...Object.values(CLASS_OPTIONS)]} checked={currentClass} setChecked={setCurrentClass} />
                         </div>
-                        <CheckedConfirmation ok={true} className='right-12' />
+                        {/* <CheckedConfirmation ok={true} className='right-12' /> */}
                     </div>
                     <div className="flex flex-col items-center gap-4">
-                        <div className='flex w-full items-end justify-center gap-4 relative'>Fraction<CheckedConfirmation ok={true} className='-right-6' /></div>
+                        <div className='flex w-full items-end justify-center gap-4 relative'>Fraction
+                            {/* <CheckedConfirmation ok={true} className='-right-6' /> */}
+                            </div>
                         <InputRadio fractionChecked={currentFraction} setFractionChecked={setCurrentFraction} />
 
                     </div>
@@ -125,5 +126,9 @@ export function AddNewCharModal() {
             </DialogContent>
         </Dialog>
     )
+}
+
+function formFieldsValidation(formData: FormDataEntryValue): boolean {
+return formData.toString().trim().length>2 ? true : false;
 }
 
