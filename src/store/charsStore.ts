@@ -17,6 +17,7 @@ const useCharsStore = create<ICharsStore>((set) => ({
     setSign: (sign: string) => set(state => ({ sign: sign })),
 
     setChars(chars: IChar[]) {
+
         set({ chars: chars })
     },
 

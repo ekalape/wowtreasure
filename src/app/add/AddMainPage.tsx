@@ -6,11 +6,11 @@ import { format, sub } from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
-import { IChar } from '@/lib/models/char.interface';
 import { use, useEffect } from 'react';
 import { IUser } from '@/lib/models/user.interface';
-const today = new Date().toISOString();
-const from = sub(today, { months: 1 }).toISOString();
+
+const today = new Date();
+const from = sub(today, { months: 1 });
 
 export default function AddMainPage({ userPromise }: { userPromise: Promise<IUser> }) {
 
@@ -22,17 +22,18 @@ export default function AddMainPage({ userPromise }: { userPromise: Promise<IUse
     const selectedChar = useCharsStore((state) => state.selectedChar);
     const selectedDate = useCharsStore((state) => state.selectedDate);
 
+
     useEffect(() => {
         if (user)
             setChars(user.chars)
-    }, [user.chars])
+    }, [user])
 
 
     return (<div className='flex flex-col gap-12 w-full items-center justify-start'>
         <CharsHolder chars={allchars} />
         <section className='flex w-1/3'><OneDateChooser /></section>
         <section className='flex gap-12 w-full'>
-            <AddProfitForm />
+            <AddProfitForm charid={selectedChar?.charid as string} date={selectedDate} />
             <div className='w-1/3 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
                 {selectedChar ? <><h2>Last entries of <span className='highlighted'>{selectedChar?.name}</span></h2>
                     <ShortDataViewByChar entries={3} /></>
@@ -44,8 +45,6 @@ export default function AddMainPage({ userPromise }: { userPromise: Promise<IUse
                 <ShortDataViewByDate day={selectedDate} chars={allchars} />
             </div>
         </section>
-
-
     </div>
     )
 }

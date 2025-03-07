@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useState } from 'react'
+import { useActionState, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,8 +12,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-
-import { wowUser } from '@/lib/services/mongoDb'
 import { IChar } from '@/lib/models/char.interface'
 import { v4 as uuidv4 } from 'uuid';
 import { addNewCharacter } from '@/app/actions/UserAction'
@@ -21,13 +19,11 @@ import useCharsStore from '@/store/charsStore'
 import InputRadio from './InputVariants/Radio/InputRadio'
 import DropDownMenu from './InputVariants/DropDownMenu/DropDownMenu'
 import { CLASS_OPTIONS } from './InputVariants/InputVariantsConstToUse'
-import CheckedConfirmation from './InputVariants/CheckedConfirmation/CheckedConfirmation'
 
 
 
 export function AddNewCharModal() {
     const [open, setOpen] = useState(false)
-
     const [currentFraction, setCurrentFraction] = useState("Horde");
     const [currentClass, setCurrentClass] = useState("");
 
@@ -36,9 +32,9 @@ export function AddNewCharModal() {
     const setChars = useCharsStore(state => state.setChars)
 
     async function handleSubmit(prevState: { chars: IChar[] | null, error: Error | null }, data: FormData) {
-        const userid = "jhbghdvnhs53";
+
         if (!data.get('name')?.toString().trim() ||
-            !data.get('class')?.toString().trim() ||
+            currentClass.length === 0 ||
             !data.get('server')?.toString().trim()
         ) {
             return prevState;
@@ -46,14 +42,14 @@ export function AddNewCharModal() {
             const newCharacter: IChar = {
                 charid: uuidv4(),
                 name: data.get('name')?.toString().trim() || "",
-                charclass: data.get('class')?.toString().trim() || "",
+                charclass: currentClass,
                 server: data.get('server')?.toString().trim() || "",
                 fraction: currentFraction,
                 createdAt: (new Date()).toISOString(),
                 earnings: [],
 
             }
-            const updatedChars = await addNewCharacter(newCharacter, userid);
+            const updatedChars = await addNewCharacter(newCharacter);
             console.log("updatedChars___>", updatedChars);
             if (updatedChars && updatedChars.chars) {
                 setChars(updatedChars.chars)
@@ -62,9 +58,7 @@ export function AddNewCharModal() {
             return { chars: updatedChars.chars, error: updatedChars.error }
         }
     }
-    useEffect(() => {
-        console.log('class', currentClass)
-    }, [currentClass])
+
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -74,7 +68,8 @@ export function AddNewCharModal() {
                     +
                 </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]" onPointerDownOutside={() => setOpen(false)}>
+            <DialogContent className="sm:max-w-[425px]"
+                onPointerDownOutside={() => setOpen(false)}>
                 <DialogHeader>
                     <DialogTitle className='text-xl text-center'>Add New Character</DialogTitle>
                     <DialogDescription className='text-sm text-center'>
@@ -88,7 +83,7 @@ export function AddNewCharModal() {
                                 Name
                             </Label>
                             <Input id="name" className="col-span-3" name="name" /></div>
-                      {/*   <CheckedConfirmation ok={true} className='-bottom-1' /> */}
+
                     </div>
                     <div className="flex w-full items-center gap-4 relative">
                         <div className="flex w-full flex-col items-center gap-4">
@@ -96,18 +91,18 @@ export function AddNewCharModal() {
                                 Server
                             </Label>
                             <Input id="server" className="col-span-3" name="server" /></div>
-                       {/*  <CheckedConfirmation ok={true} className='-bottom-1' /> */}
+
                     </div>
                     <div className='flex w-full items-center justify-center gap-4 relative mb-4'>
                         <div className="flex flex-col items-center gap-4 relative h-10 mt-4 w-full" >
                             <DropDownMenu options={[...Object.values(CLASS_OPTIONS)]} checked={currentClass} setChecked={setCurrentClass} />
                         </div>
-                        {/* <CheckedConfirmation ok={true} className='right-12' /> */}
+
                     </div>
                     <div className="flex flex-col items-center gap-4">
                         <div className='flex w-full items-end justify-center gap-4 relative'>Fraction
-                            {/* <CheckedConfirmation ok={true} className='-right-6' /> */}
-                            </div>
+
+                        </div>
                         <InputRadio fractionChecked={currentFraction} setFractionChecked={setCurrentFraction} />
 
                     </div>
@@ -129,6 +124,6 @@ export function AddNewCharModal() {
 }
 
 function formFieldsValidation(formData: FormDataEntryValue): boolean {
-return formData.toString().trim().length>2 ? true : false;
+    return formData.toString().trim().length > 2 ? true : false;
 }
 

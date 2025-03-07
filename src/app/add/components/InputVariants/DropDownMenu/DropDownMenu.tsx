@@ -1,10 +1,9 @@
 
 'use client';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './dropdown.module.css'
 import clsx from 'clsx';
-import { animate } from 'motion';
-import { AnimatePresence, motion, useAnimate, usePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 
 type DropDownMenuProps = {
