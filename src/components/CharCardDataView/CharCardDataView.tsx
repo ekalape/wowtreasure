@@ -13,9 +13,7 @@ type CharCardDataViewProps = {
 
 export default function CharCardDataViewByChar({ charclass, fraction, children }: CharCardDataViewProps) {
 
-    const classColor = getClassColor(charclass);
-
-
+    const classColor = getClassColor(charclass.toLowerCase());
 
     return (
         <div

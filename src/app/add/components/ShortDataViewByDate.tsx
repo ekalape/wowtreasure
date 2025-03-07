@@ -20,8 +20,6 @@ interface ResultItem {
 
 export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsType) {
 
-
-
     const theDay = parseISO(day)
 
     const todayAdded = chars.filter(ch => {
@@ -38,7 +36,10 @@ export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsTy
         <div className='flex flex-col gap-2 w-full mt-4'>
             {todayAdded.length === 0 && <h3 className='mt-4'>This day is empty</h3>}
             {todayAdded.map(ta => (
-                <CharCardDataView key={ta.char.charid} id={ta.char.charid} charclass={ta.char.charclass} fraction={ta.char.fraction}> {ta.char.name} - {ta.earns}</CharCardDataView>
+                <CharCardDataView key={ta.char.charid}
+                    id={ta.char.charid}
+                    charclass={ta.char.charclass}
+                    fraction={ta.char.fraction}> {ta.char.name} - {ta.earns}</CharCardDataView>
             ))}
 
         </div>

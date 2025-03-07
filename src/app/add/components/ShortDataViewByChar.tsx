@@ -17,7 +17,8 @@ const laterDate = new Date()
 
 
 export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType) {
-    const char = useCharsStore((state) => state.selectedChar);
+    const charId = useCharsStore((state) => state.selectedChar)?.charid;
+    const char = useCharsStore((state) => state.chars.find(ch => ch.charid === charId));
 
     if (!char) {
         return (
@@ -26,11 +27,11 @@ export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType)
             </div>
         )
     }
-
     const profs = char.earnings.sort((a, b) => compareAsc(a.date, b.date)).slice(char.earnings.length - entries, char.earnings.length);
 
     return (
         <div className='flex flex-col gap-2 w-full mt-4'>
+            {profs.length === 0 && <h3 className='mt-4'>This character has no profits at all</h3>}
             {profs.map((pr, index) => (
                 <CharCardDataView
                     key={pr.date + pr.amount + index}
