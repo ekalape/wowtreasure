@@ -21,7 +21,7 @@ export default function AddProfitForm({ charid, date }: { charid: string, date: 
 
     const inputRef = useRef<HTMLInputElement>(null);
     const submitProfitForm = async (prevState: ProfitResponse | null, formData: FormData): Promise<ProfitResponse | null> => {
-        console.log("submitProfitForm called with:", formData.get("profitform"));
+
         const profitInput = formData.get("profitform")?.toString().trim();
 
         if (!profitInput || !charid) {
@@ -29,8 +29,11 @@ export default function AddProfitForm({ charid, date }: { charid: string, date: 
         }
 
         const profitAmount = Number(profitInput);
-        if (isNaN(profitAmount) || profitAmount <= 0) {
-            return { success: false, error: "Profit must be a positive number" };
+        /*         if (isNaN(profitAmount) || profitAmount <= 0) {
+                    return { success: false, error: "Profit must be a positive number" };
+                } */
+        if (isNaN(profitAmount)) {
+            return { success: false, error: "Profit must be a number" };
         }
 
 

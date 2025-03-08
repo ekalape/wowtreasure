@@ -3,6 +3,8 @@
 import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import CustomError from './CustomError';
 import { IChar } from '@/lib/models/char.interface';
+import { WowTokenType } from '@/lib/models/user.interface';
+import { revalidatePath } from 'next/cache';
 
 
 type NewCharFormDataType = {
@@ -11,7 +13,7 @@ type NewCharFormDataType = {
 
 export async function createNewUserAction(userId: string) {
 
-    await connectToDb();
+    /*     await connectToDb(); */
     try {
         const newUser = new wowUser({ userid: userId, chars: [], wowTokens: [] });
         console.log('created', newUser.toJSON())
@@ -25,7 +27,7 @@ export async function createNewUserAction(userId: string) {
 }
 
 export async function findUserAction(userId: string) {
-    await connectToDb();
+    /*     await connectToDb(); */
     try {
         const user = await wowUser.findOne({ userid: userId });
         if (!user) {
@@ -46,14 +48,14 @@ export async function findUserAction(userId: string) {
 
 export async function getAllCharsAction() {
     const userid = "jhbghdvnhs53";
-    await connectToDb();
+    /*     await connectToDb(); */
     const chars = (await wowUser.findOne({ userid: userid })).chars;
     return JSON.parse(JSON.stringify(chars));
 }
 
 export async function addNewCharacter(newCharacter: IChar): Promise<NewCharFormDataType> {
     const userid = "jhbghdvnhs53";
-    await connectToDb();
+    /*    await connectToDb(); */
 
     try {
         const chars = (await wowUser.findOne({ userid: userid })).chars;
@@ -68,7 +70,7 @@ export async function addNewCharacter(newCharacter: IChar): Promise<NewCharFormD
 }
 export async function addNewProfit(charid: string, date: string, amount: number) {
     const userid = "jhbghdvnhs53";
-    await connectToDb();
+    /*     await connectToDb(); */
     try {
         const user = await wowUser.findOne({ userid });
         if (!user) {
@@ -102,4 +104,25 @@ export async function addNewProfit(charid: string, date: string, amount: number)
     }
 
 
+}
+
+
+export async function addNewTokenAmount(tokenAmount: number, date: string) {
+    const userid = "jhbghdvnhs53";
+    /*  await connectToDb(); */
+    try {
+        const userTokens: WowTokenType[] = (await wowUser
+            .findOne({ userid })).wowTokens
+
+        if (!userTokens) {
+            return { success: false, error: "User not found" };
+        }
+        userTokens.push({ date, price: tokenAmount });
+        await wowUser.updateOne({ userid: userid }, { wowTokens: userTokens });
+        revalidatePath('/wwtoken')
+        return { success: true };
+    } catch (e) {
+        console.error("Error in addNewTokenAmount:", e);
+        return { success: false, error: e instanceof Error ? e.message : "Unknown error" };
+    }
 }
