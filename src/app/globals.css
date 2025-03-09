@@ -120,10 +120,10 @@ body {
     /* align-self: center; */
     /*     position: relative;
     right: calc(-50% + 20px); */
-    & .highlighted {
-      font-weight: bold;
-      font-size: 1rem;
-    }
+  }
+  .highlighted {
+    font-weight: bold;
+    font-size: 1.2rem;
   }
 
   h3 {

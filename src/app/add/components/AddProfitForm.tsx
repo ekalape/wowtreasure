@@ -29,9 +29,7 @@ export default function AddProfitForm({ charid, date }: { charid: string, date: 
         }
 
         const profitAmount = Number(profitInput);
-        /*         if (isNaN(profitAmount) || profitAmount <= 0) {
-                    return { success: false, error: "Profit must be a positive number" };
-                } */
+
         if (isNaN(profitAmount)) {
             return { success: false, error: "Profit must be a number" };
         }
@@ -39,13 +37,11 @@ export default function AddProfitForm({ charid, date }: { charid: string, date: 
 
         const result = await addNewProfit(charid, date, profitAmount);
 
-        if (result.success) {
-            const updatedChars = await getAllCharsAction();
-            console.log('updatedChars', updatedChars)
-            setChars(updatedChars);
-        }
-
-        console.log('result', result)
+        /*         if (result.success) {
+                    const updatedChars = await getAllCharsAction();
+                    console.log('updatedChars', updatedChars)
+                    setChars(updatedChars);
+                } */
         return result
 
     }

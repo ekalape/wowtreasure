@@ -19,7 +19,7 @@ export default function Menu(props: { menuItems: MenuItemType[] }) {
         <span className={`px-2 ${styles.menuItem} ${pathname === item.link && styles.selected}`} key={item.title}>
           <Link
             href={item.link}
-            className={` text-2xl text-blue-400  duration-400 static`}
+            className={` text-2xl text-blue-400  duration-400 static font-yatra`}
           >
             {capitalize(item.title)}
           </Link></span>

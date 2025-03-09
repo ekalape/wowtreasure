@@ -21,6 +21,8 @@ const useCharsStore = create<ICharsStore>()(
 
             setChars(chars: IChar[]) {
                 set({ chars: chars })
+                /* const charId = this.selectedChar?.charid;
+                set({ selectedChar: chars.find(char => char.charid === charId) || null }) */
             },
 
             getChars: async () => {
