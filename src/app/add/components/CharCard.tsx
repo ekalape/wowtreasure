@@ -31,7 +31,7 @@ export default function CharCard(props: { char: IChar }) {
 
   return (
     <Card
-      className='w-24 p-2 pb-1 flex flex-col items-center border-2 cursor-pointer'
+      className='w-20 aspect-square p-2 pb-1 flex flex-col items-center border-2 cursor-pointer'
       title={char.name}
       style={{
         borderColor: classColor,
@@ -41,10 +41,10 @@ export default function CharCard(props: { char: IChar }) {
       <Image
         src={char.fraction.toLowerCase() === 'horde' ? horde_img.src : alliance_img.src}
         alt={''}
-        width={50}
-        height={50}></Image>
+        width={40}
+        height={40}></Image>
       <p
-        className={clsx(font_space_grotesk.className, 'w-full text-center text-lg italic truncate')}
+        className={clsx(font_space_grotesk.className, 'w-full text-center text-md italic truncate')}
         style={{ color: classColor }}>
         {char.name}
       </p>

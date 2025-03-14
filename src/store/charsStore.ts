@@ -17,7 +17,10 @@ const useCharsStore = create<ICharsStore>()(
 
             setSelectedChar: (char: IChar | null) => set({ selectedChar: char }),
             setSelectedDate: (date: string) => set({ selectedDate: date }),
-            setSign: (sign: string) => set({ sign: sign }),
+            setSign: (sign: string) => {
+                console.log("sign is setted in the store", sign)
+                set({ sign: sign })
+            },
 
             setChars(chars: IChar[]) {
                 set({ chars: chars })

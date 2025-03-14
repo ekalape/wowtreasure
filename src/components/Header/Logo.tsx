@@ -6,9 +6,9 @@ import { ROUTES } from '@/lib/utils/routes';
 
 export default function () {
   return (
-    <div className='py-1 px-3'>
+    <div className='py-1 px-3 relative'>
       <Link href={ROUTES.HOME}>
-        <Image src={logoImg.src} alt={'Logo'} width={80} height={80} className='m-2 absolute left-6 top-8'></Image>
+        <Image src={logoImg.src} alt={'Logo'} width={70} height={70} className='m-2 relative left-4'></Image>
       </Link>
     </div>
   );

@@ -14,12 +14,16 @@ export default function Menu(props: { menuItems: MenuItemType[] }) {
   const pathname = usePathname()
 
   return (
-    <div className={`${styles.menuPosition} p-1 flex items-center gap-5`}>
+    <div className={`${styles.menuPosition} p-1 flex items-center gap-4`}>
       {props.menuItems.map((item) => (
-        <span className={`px-2 ${styles.menuItem} ${pathname === item.link && styles.selected}`} key={item.title}>
+        <span className={` ${styles.menuItem} ${pathname === item.link && styles.selected}`} key={item.title}>
           <Link
             href={item.link}
-            className={` text-2xl text-blue-400  duration-400 static font-yatra`}
+            className={` text-xl text-blue-400  duration-400 static font-yatra flex
+               before:content-[''] before:block before:rounded-full before:w-1 before:h-1 before:bg-blue-400 
+                before:mt-3 before:mr-3 
+                ${item.title === "add" && 'before:hidden'}
+                `}
           >
             {capitalize(item.title)}
           </Link></span>

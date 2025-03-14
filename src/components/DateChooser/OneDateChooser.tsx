@@ -3,14 +3,15 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import useCharsStore from '@/store/charsStore'
 import { format, sub } from 'date-fns';
-import { Crushed } from 'next/font/google';
+
 
 export default function OneDateChooser() {
 
 
-    /* const [inputDate, setInputDate] = useState(new Date().toISOString()); */
     const selectedDate = useCharsStore((state) => state.selectedDate);
     const setSelectedDate = useCharsStore((state) => state.setSelectedDate);
+
+    const signedDate = useCharsStore((state) => state.sign)
 
     const handleSelectedDate = (type: string) => {
         if (type === "Today") {
@@ -19,10 +20,10 @@ export default function OneDateChooser() {
         }
         else if (type === "Sign") {
 
-            setSelectedDate(sub(new Date(), { months: 1 }).toISOString());
+            setSelectedDate(signedDate);
         }
         else if (type === "Start") {
-            setSelectedDate(sub(new Date(), { months: 5 }).toISOString());
+            setSelectedDate(sub(new Date(), { months: 5 }).toISOString()); //TODO change!!!!!
         }
         else {
             setSelectedDate(type);

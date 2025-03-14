@@ -26,7 +26,7 @@ export default function RootLayout({
         className={`${font_space_grotesk.className} ${font_hachi.variable} ${font_yatra.variable} antialiased dark overflow-x-hidden`}>
         <Header />
         <ErrorBoundary fallback={<h3>Something went wrong</h3>}>
-          <main className="flex flex-col p-10 mt-28">
+          <main className="flex flex-col p-10 mt-8">
             {children}
           </main>
         </ErrorBoundary>
