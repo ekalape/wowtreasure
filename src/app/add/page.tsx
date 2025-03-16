@@ -4,6 +4,7 @@ import AddMainPage from './AddMainPage';
 import { findUserAction, getAllCharsAction } from '../actions/UserAction';
 import { IUser } from '@/lib/models/user.interface';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import Loading from '../loading';
 
 
 export default async function page() {
@@ -13,7 +14,7 @@ export default async function page() {
 
     return (
         <div className="w-full flex flex-col items-center">
-            <Suspense fallback={<h3>Loading...</h3>}>
+            <Suspense fallback={<Loading />}>
                 <ErrorBoundary fallback={<h3>Something went wrong</h3>}>
                     <AddMainPage chars={chars} />
                 </ErrorBoundary>

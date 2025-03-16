@@ -1,12 +1,19 @@
+
+'use client';
 import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import useCharsStore from '@/store/charsStore'
-import { format, sub } from 'date-fns';
+import { format, isAfter, sub } from 'date-fns';
+import { Calendar } from '../ui/calendar';
+import DateChooserInput from './DateChooserInput';
+
+const today = new Date();
 
 
 export default function OneDateChooser() {
 
+    const [openCalendar, setOpenCalendar] = useState(false);
 
     const selectedDate = useCharsStore((state) => state.selectedDate);
     const setSelectedDate = useCharsStore((state) => state.setSelectedDate);
@@ -16,26 +23,29 @@ export default function OneDateChooser() {
     const handleSelectedDate = (type: string) => {
         if (type === "Today") {
             console.log("today")
-            setSelectedDate(new Date().toISOString());
+            setSelectedDate(today.toISOString());
         }
         else if (type === "Sign") {
-
             setSelectedDate(signedDate);
         }
         else if (type === "Start") {
             setSelectedDate(sub(new Date(), { months: 5 }).toISOString()); //TODO change!!!!!
         }
         else {
-            setSelectedDate(type);
+            setSelectedDate(today.toISOString());
         }
+        setOpenCalendar(false)
     }
 
 
+
+
     return (
-        <div className='flex gap-3 p-3 w-full'>
+        <div className='flex gap-3 p-3 w-full relative'>
             <Button onClick={() => handleSelectedDate('Start')}>Start</Button>
             <Button onClick={() => handleSelectedDate('Sign')}>Sign</Button>
-            <Input type='date' value={format(new Date(selectedDate), 'yyyy-MM-dd')} onChange={(e) => setSelectedDate(e.target.value)}></Input>
+
+            <DateChooserInput date={selectedDate} setDate={setSelectedDate} />
             <Button onClick={() => handleSelectedDate('Today')}>Today</Button>
         </div>
     )

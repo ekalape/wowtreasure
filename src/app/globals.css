@@ -4,6 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
 }
 /* html {
   font-size: 12px;
@@ -120,9 +121,6 @@ body {
 
     display: inline-block;
     text-align: center;
-    /* align-self: center; */
-    /*     position: relative;
-    right: calc(-50% + 20px); */
   }
   .highlighted {
     font-weight: bold;
@@ -141,7 +139,7 @@ body {
     text-align: center;
   }
   button {
-    min-width: 100px;
+    font-family: var(--font-yatra);
   }
 
   .btn-shine {

@@ -7,7 +7,7 @@ import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
 import { use, useEffect, useState } from 'react';
-import { IUser } from '@/lib/models/user.interface';
+
 import { IChar } from '@/lib/models/char.interface';
 
 const today = new Date();
