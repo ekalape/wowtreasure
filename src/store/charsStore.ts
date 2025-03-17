@@ -14,21 +14,16 @@ const useCharsStore = create<ICharsStore>()(
             selectedChar: null,
             selectedDate: new Date().toISOString(),
             sign: tempSign,
+            start: '10/08/2024',
 
             setSelectedChar: (char: IChar | null) => set({ selectedChar: char }),
             setSelectedDate: (date: string) => set({ selectedDate: date }),
             setSign: (sign: string) => {
-                console.log("sign is setted in the store", sign)
                 set({ sign: sign })
             },
 
             setChars(chars: IChar[]) {
                 set({ chars: chars })
-                /* const charId = this.selectedChar?.charid;
-                set({ selectedChar: chars.find(char => char.charid === charId) || null }) */
-            },
-
-            getChars: async () => {
 
             },
 

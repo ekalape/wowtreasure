@@ -5,6 +5,7 @@ export interface ICharsStore {
     selectedChar: IChar | null
     selectedDate: string
     sign: string
+    start: string
 
 
     setSelectedChar: (char: IChar | null) => void,
@@ -13,6 +14,7 @@ export interface ICharsStore {
 
     setChars: (chars: IChar[]) => void,
 
-    getChars: () => void
+
+
 
 }

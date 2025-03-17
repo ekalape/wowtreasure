@@ -1,10 +1,12 @@
 import { WowTokenType } from '@/lib/models/user.interface';
 import TokenForm from './TokenForm';
-import { wowUser } from '@/lib/services/mongoDb';
+import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import { format } from 'date-fns/format';
 
 
+
 export default async function page() {
+    /*    await connectToDb(); */
     const userTokens: WowTokenType[] = (await wowUser
         .findOne({ userid: "jhbghdvnhs53" })).wowTokens
 

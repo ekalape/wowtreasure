@@ -1,11 +1,9 @@
 
 'use client';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import { Input } from '../ui/input'
 import useCharsStore from '@/store/charsStore'
-import { format, isAfter, sub } from 'date-fns';
-import { Calendar } from '../ui/calendar';
+import { sub } from 'date-fns';
 import DateChooserInput from './DateChooserInput';
 
 const today = new Date();
@@ -36,10 +34,6 @@ export default function OneDateChooser() {
         }
         setOpenCalendar(false)
     }
-
-
-
-
     return (
         <div className='flex gap-3 p-3 w-full relative'>
             <Button onClick={() => handleSelectedDate('Start')}>Start</Button>

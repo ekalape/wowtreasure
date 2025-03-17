@@ -4,6 +4,9 @@ import "./globals.css";
 import { font_space_grotesk, font_hachi, font_yatra } from '@/assets/fonts';
 import Header from '@/components/Header/Header';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import { connectToDb, wowUser } from '@/lib/services/mongoDb';
+import { findUserAction } from './actions/UserAction';
+import CustomError from './actions/CustomError';
 
 
 export const metadata: Metadata = {
@@ -15,11 +18,13 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await connectToDb();
+
   return (
     <html lang="en">
       <body
