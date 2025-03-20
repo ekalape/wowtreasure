@@ -1,8 +1,15 @@
+import { SearchParamsType } from '@/lib/models/StatisticsSearchParams';
 import React from 'react'
+import StatsCalendar from './StatsCalendar';
+import { getAllCharsAction } from '@/app/actions/UserAction';
 
-export default async function CalendarPage({ params }: { params: Promise<{ charName: string }> }) {
-    const { charName } = await params;
+
+
+export default async function CalendarPage() {
+    const chars = (await getAllCharsAction());
+
     return (
-        <div>Calendar + {charName}</div>
+        <div>
+            <StatsCalendar chars={chars || []} /></ div>
     )
 }
