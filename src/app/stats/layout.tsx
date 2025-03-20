@@ -1,5 +1,6 @@
 
 import TwoDateChooser from '@/components/DateChooser/TwoDatesChooser'
+import { NuqsAdapter } from 'nuqs/adapters/next'
 import React from 'react'
 
 type LayoutProps = {
@@ -11,24 +12,26 @@ type LayoutProps = {
 export default function Layout({ children, CalendarChooser, Details }: LayoutProps) {
     const charName = 'charName'
     return (
-        <div className='w-full h-full grid grid-cols-2 gap-3 justify-items-center m-auto justify-center'>
-            <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
+        <NuqsAdapter>
+            <div className='w-full h-full grid grid-cols-2 gap-3 justify-items-center m-auto justify-center'>
+                <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
 
-                <TwoDateChooser />
-            </section>
+                    <TwoDateChooser />
+                </section>
 
-            <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
+                <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
 
-                {CalendarChooser}
-            </section>
-            <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+                    {CalendarChooser}
+                </section>
+                <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
 
-                {Details}
-            </section>
+                    {Details}
+                </section>
 
-            <section className='w-1/2 border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
-                {children}
-            </section>
-        </div>
+                <section className='w-1/2 border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
+                    {children}
+                </section>
+            </div>
+        </NuqsAdapter>
     )
 }

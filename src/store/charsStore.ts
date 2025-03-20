@@ -5,7 +5,7 @@ import { ICharsStore } from './store.models';
 import { persist } from 'zustand/middleware';
 
 
-const tempSign = sub(new Date(), { months: 1 }).toISOString();
+/* const tempSign = sub(new Date(), { months: 1 }).toISOString(); */
 
 const useCharsStore = create<ICharsStore>()(
     persist(
@@ -13,7 +13,7 @@ const useCharsStore = create<ICharsStore>()(
             chars: [],
             selectedChar: null,
             selectedDate: new Date().toISOString(),
-            sign: tempSign,
+            sign: localStorage.getItem('sign') || sub(new Date(), { weeks: 1 }).toISOString(),
             start: '10/08/2024',
 
             setSelectedChar: (char: IChar | null) => set({ selectedChar: char }),

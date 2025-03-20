@@ -13,6 +13,7 @@ const today = new Date();
 
 export default function DateChooserInput({ date, setDate, freeChoice }: DateChooserInputProps) {
     const [openCalendar, setOpenCalendar] = useState(false);
+    console.log('date', date)
     useEffect(() => {
         const outsideClick = (e: MouseEvent) => {
             const calendarElement = document.querySelector('.setDateCalendar');

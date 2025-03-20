@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import useCharsStore from '@/store/charsStore'
 import { format, sub } from 'date-fns';
 import DateChooserInput from './DateChooserInput';
-import { useRouter } from 'next/navigation';
+import { parseAsString, useQueryState } from 'nuqs';
 
 
 const today = new Date();
@@ -14,43 +14,44 @@ const today = new Date();
 export default function TwoDateChooser() {
 
     const start = useCharsStore((state) => state.start);
-    const router = useRouter();
-
     const signedDate = useCharsStore((state) => state.sign)
 
+    const [from, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
+    const [to, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
 
-    const [rangeDate, setRangeDate] = useState<{ from: string, to: string }>({ from: signedDate, to: today.toISOString() });
+    const [fromDate, setFromDate] = useState(signedDate);
+    const [toDate, setToDate] = useState(today.toISOString());
 
     const handleDate = (type: string) => {
         if (type === "Today") {
-            console.log("today")
-            setRangeDate(prev => ({ ...prev, to: today.toISOString() }));
+            setToDate(today.toISOString())
         }
         else if (type === "Sign") {
-            setRangeDate(prev => ({ ...prev, from: signedDate }));
+            setFromDate(signedDate)
         }
         else if (type === "Start") {
-            setRangeDate(prev => ({ ...prev, from: start }));
+            setFromDate(start)
         }
         else {
-            setRangeDate({ from: signedDate, to: today.toISOString() });
+            setFromDate(signedDate)
+            setToDate(today.toISOString())
         }
 
     }
 
     useEffect(() => {
-        router.push('/stats?from=' + format(rangeDate.from, 'dd-MM-yyyy') + '&to=' + format(rangeDate.to, 'dd-MM-yyyy'))
-    }, [rangeDate])
+        setFrom(format(fromDate, 'dd-MM-yyyy'))
+        setTo(format(toDate, 'dd-MM-yyyy'))
+    }, [fromDate, toDate])
 
     return (
         <div className='flex gap-3 p-3 w-full relative'>
             <Button onClick={() => handleDate('Start')}>Start</Button>
             <Button onClick={() => handleDate('Sign')}>Sign</Button>
-
             <DateChooserInput
-                date={rangeDate.from || signedDate} setDate={(d) => setRangeDate(prev => ({ ...prev, from: d }))} />
+                date={fromDate || signedDate} setDate={(d) => setFromDate(d)} />
             <DateChooserInput
-                date={rangeDate.to} setDate={(d) => setRangeDate(prev => ({ ...prev, to: d }))} />
+                date={toDate || today.toISOString()} setDate={(d) => setToDate(d)} />
             <Button onClick={() => handleDate('Today')}>Today</Button>
         </div>
     )
