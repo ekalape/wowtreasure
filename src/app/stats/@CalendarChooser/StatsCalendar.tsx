@@ -2,43 +2,34 @@
 
 import { Calendar } from '@/components/ui/calendar';
 import useCharsStore from '@/store/charsStore';
-import { useSearchParams } from 'next/navigation';
+
 import { format, parse } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../handleProfitData';
+import { parseAsString, useQueryState } from 'nuqs';
 
 
 const today = new Date();
 
 export default function StatsCalendar({ chars }: { chars: IChar[] }) {
-    const searchParams = useSearchParams();
 
     const sign = useCharsStore(state => state.sign);
 
-    const from = useMemo(() => parse(searchParams.get('from') || format(sign, 'dd-MM-yyyy'), 'dd-MM-yyyy', new Date()), [searchParams, sign]);
-    const to = useMemo(() => parse(searchParams.get('to') || format(today, 'dd-MM-yyyy'), 'dd-MM-yyyy', new Date()), [searchParams]);
-    const dayToView = searchParams.get('dayToView')
-
-    const [viewedDay, setViewedDay] = useState(dayToView ? parse(dayToView, 'dd-MM-yyyy', new Date()) : today);
-
-    const [displayedDates, setDisplayedDates] = useState<{ from: Date, to: Date }>({ from: new Date(from), to: new Date(to) });
-
-    const profitsByDate = useMemo(() => handleProfitData(chars, from, to), [from, to]);
-
-    useEffect(() => {
-        setDisplayedDates({ from, to })
-    }, [from, to])
+    const [from] = useQueryState('from', parseAsString.withOptions({ shallow: false }).withDefault(format(sign, 'dd-MM-yyyy')));
+    const [to] = useQueryState('to', parseAsString.withOptions({ shallow: false }).withDefault(format(today, 'dd-MM-yyyy')));
+    const [dayToView, setDayToView] = useQueryState('day', parseAsString.withOptions({ shallow: false }));
 
 
+    const profitsByDate = useMemo(() => handleProfitData(chars, parse(from, 'dd-MM-yyyy', new Date()), parse(to, 'dd-MM-yyyy', new Date())), [from, to]);
 
     return (
         <div>
-            <Calendar selected={viewedDay} mode='single'
-                onSelect={(e: Date | undefined) => setViewedDay(e || today)}
+            <Calendar selected={dayToView ? parse(dayToView, 'dd-MM-yyyy', new Date()) : today} mode='single'
+                onSelect={(e: Date | undefined) => setDayToView(format(e || today, 'dd-MM-yyyy'))}
                 toDate={today}
                 modifiers={{
-                    displayedDates: displayedDates,
+                    displayedDates: { from: parse(from, 'dd-MM-yyyy', new Date()), to: parse(to, 'dd-MM-yyyy', new Date()) },
                     heavy: profitsByDate.filter(pr => pr.fullProfit >= 10000).map(pr => new Date(pr.date)),
                     medium: profitsByDate.filter(pr => pr.fullProfit >= 1000 && pr.fullProfit < 10000).map(pr => new Date(pr.date)),
                     light: profitsByDate.filter(pr => pr.fullProfit < 1000).map(pr => new Date(pr.date))

@@ -13,18 +13,17 @@ export default function Layout({ children, CalendarChooser, Details }: LayoutPro
     const charName = 'charName'
     return (
         <NuqsAdapter>
-            <div className='w-full h-full grid grid-cols-2 gap-3 justify-items-center m-auto justify-center'>
-                <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
+            <div className='w-full h-full grid grid-cols-[1fr_2fr] gap-3 justify-items-center m-auto justify-center'>
 
+                <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
                     <TwoDateChooser />
                 </section>
 
-                <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
-
+                <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
                     {CalendarChooser}
                 </section>
-                <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
 
+                <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
                     {Details}
                 </section>
 

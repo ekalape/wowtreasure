@@ -1,12 +1,10 @@
+import { getAllCharsAction } from '@/app/actions/UserAction';
+import StatsDetails from './StatsDetails';
 
 
-export default async function page({ searchParams }: { searchParams: Promise<{ from: string, to: string }> }) {
-    const { from, to } = await searchParams;
-
-
-
-
+export default async function page() {
+    const chars = await getAllCharsAction();
     return (
-        <div>page Details + {from} + {to}</div>
+        <StatsDetails chars={chars} />
     )
 }

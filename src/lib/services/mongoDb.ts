@@ -48,7 +48,7 @@ const mongooseConnection = (() => {
                 throw new Error("MONGODB_URI is not defined");
             }
 
-            cachedConnection = await mongoose.connect(mongoDbUri, { bufferCommands: false });
+            cachedConnection = await mongoose.connect(mongoDbUri);
 
             console.log("Connected to MongoDB");
             return cachedConnection;

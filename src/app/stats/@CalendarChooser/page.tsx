@@ -9,7 +9,6 @@ export default async function CalendarPage() {
     const chars = (await getAllCharsAction());
 
     return (
-        <div>
-            <StatsCalendar chars={chars || []} /></ div>
+        <div> <StatsCalendar chars={chars || []} /></ div>
     )
 }
