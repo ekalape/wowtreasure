@@ -5,6 +5,7 @@ export default async function page({ searchParams }: { searchParams: Promise<{ f
 
 
 
+
     return (
         <div>page Details + {from} + {to}</div>
     )

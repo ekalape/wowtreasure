@@ -3,9 +3,10 @@
 import { Calendar } from '@/components/ui/calendar';
 import useCharsStore from '@/store/charsStore';
 import { useSearchParams } from 'next/navigation';
-import { format, isAfter, isBefore, parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
-import { IChar, IProfit } from '@/lib/models/char.interface';
+import { IChar } from '@/lib/models/char.interface';
+import { handleProfitData } from '../handleProfitData';
 
 
 const today = new Date();
@@ -23,35 +24,9 @@ export default function StatsCalendar({ chars }: { chars: IChar[] }) {
 
     const [displayedDates, setDisplayedDates] = useState<{ from: Date, to: Date }>({ from: new Date(from), to: new Date(to) });
 
-
-    const profits = useMemo(() => chars.map(char => ({
-        ...char,
-        earnings: char.earnings.filter(earning =>
-            new Date(earning.date) >= from && new Date(earning.date) <= to
-        )
-    })), [chars, from, to]);
-
-    const profitsByDate = useMemo(() => {
-        const result = Object.values(profits.reduce((acc, char) => {
-            char.earnings.forEach(earning => {
-                const earningDate = earning.date.split('T')[0];
-
-                if (new Date(earningDate) >= from && new Date(earningDate) <= to) {
-                    if (!acc[earningDate]) {
-                        acc[earningDate] = { date: earningDate, chars: [], fullProfit: 0 };
-                    }
-                    acc[earningDate].chars.push(char);
-                    acc[earningDate].fullProfit += earning.amount;
-                }
-            });
-            return acc;
-        }, {} as Record<string, { date: string; chars: IChar[]; fullProfit: number }>)
-        );
-        return result;
-    }, [profits, from, to]);
+    const profitsByDate = useMemo(() => handleProfitData(chars, from, to), [from, to]);
 
     useEffect(() => {
-
         setDisplayedDates({ from, to })
     }, [from, to])
 

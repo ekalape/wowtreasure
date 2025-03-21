@@ -34,7 +34,7 @@ export async function findUserAction(userId: string) {
 
 export async function getAllCharsAction() {
     const userid = "jhbghdvnhs53";
-    /*await connectToDb();*/
+    await connectToDb();
     try {
         const chars = (await wowUser.findOne({ userid: userid })).chars;
         return JSON.parse(JSON.stringify(chars));
