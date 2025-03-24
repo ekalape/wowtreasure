@@ -6,7 +6,7 @@ import { format } from 'date-fns/format';
 
 
 export default async function page() {
-    /*    await connectToDb(); */
+    await connectToDb();
     const userTokens: WowTokenType[] = (await wowUser
         .findOne({ userid: "jhbghdvnhs53" })).wowTokens
 

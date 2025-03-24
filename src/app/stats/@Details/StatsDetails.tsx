@@ -68,7 +68,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
     if (!from || !to) return <div>No boundaries for details</div>;
 
     return (
-        <div className='flex justify-around items-top'>
+        <div className='grid grid-cols-[repeat(2,minmax(350px,50%))] gap-12 items-start'>
             <div className='flex flex-col gap-2'>
                 <h3><span>Total Profit:{' '} </span><span className='highlighted font-yatra'>{profits.reduce((acc, pr) => acc + pr.fullProfit, 0)}</span></h3>
                 <div className='flex flex-col gap-2'>

@@ -10,7 +10,7 @@ type LayoutProps = {
 }
 
 export default function Layout({ children, CalendarChooser, Details }: LayoutProps) {
-    const charName = 'charName'
+
     return (
         <NuqsAdapter>
             <div className='w-full h-full grid grid-cols-[1fr_2fr] gap-3 justify-items-center m-auto justify-center'>
