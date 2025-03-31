@@ -5,6 +5,11 @@ import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { eachDayOfInterval, format, isSameDay, parse, startOfDay } from 'date-fns';
 
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
+import { parseAsString, useQueryState } from 'nuqs';
+import useCharsStore from '@/store/charsStore';
+
+/* Почему в чарте числа через одно  пишутся снизу */
+/* Почему на странице статистики не отображается последний день, то есть сегодня */
 
 type ChartProps = {
   profits: { date: string; chars: IChar[]; fullProfit: number }[];
@@ -21,10 +26,21 @@ const chartConfig: ChartConfig = {
     color: 'var(--primary)',
   },
 };
-export default function Chart({ profits, from, to }: ChartProps) {
+
+const today = new Date();
+export default function Chart({ profits }: ChartProps) {
+  const signedDate = localStorage.getItem('sign') || useCharsStore((state) => state.sign);
+
+  const [from] =
+    useQueryState('from', parseAsString.withOptions({ shallow: false })) ??
+    format(signedDate, 'dd-MM-yyyy');
+  const [to] =
+    useQueryState('to', parseAsString.withOptions({ shallow: false })) ||
+    format(today, 'dd-MM-yyyy');
+
   const alldays = getDaysBetweenDates(from, to);
 
-  alldays.length > 20 ? alldays.splice(0, alldays.length - 20) : alldays;
+  alldays.length > 30 ? alldays.splice(0, alldays.length - 30) : alldays;
 
   const fullChartData = alldays.map((day) => {
     const dayProfit = profits.find((pr) =>
@@ -45,11 +61,9 @@ export default function Chart({ profits, from, to }: ChartProps) {
         <XAxis
           dataKey='date'
           tickLine={false}
-          tickMargin={10}
+          tickMargin={5}
           axisLine={false}
-          tickFormatter={
-            (value) => value.slice(0, 5) /* value.slice(5).split('-').reverse().join('/') */
-          }
+          tickFormatter={(value) => value.slice(0, 5)}
         />
         <ChartTooltip content={<CustomTooltip />} />
         <Bar dataKey='fullProfit' fill='var(--primary)' radius={4} />
@@ -64,7 +78,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] 
   }
 
   const data: { date: string; chars: IChar[]; fullProfit: number } = payload[0].payload;
-  const { chars, fullProfit } = data;
+  const { date, chars, fullProfit } = data;
   const allchars: string[] = [...new Set(chars.map((char: IChar) => char.name))];
 
   return (
@@ -73,6 +87,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] 
         <span className='font-bold'>Profit: </span>
         <span>{fullProfit}</span>
       </div>
+      <div>{date}</div>
       <div>
         <span className='font-bold'>Characters: </span>
         <ul>
@@ -84,7 +99,8 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] 
     </div>
   );
 };
-function getDaysBetweenDates(from: string, to: string): string[] {
+function getDaysBetweenDates(from: string | null, to: string | null): string[] {
+  if (!from || !to) return [];
   const startDate = parse(from, 'dd-MM-yyyy', new Date());
   const endDate = parse(to, 'dd-MM-yyyy', new Date());
 
