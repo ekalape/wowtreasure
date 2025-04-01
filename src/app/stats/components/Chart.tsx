@@ -53,6 +53,7 @@ export default function Chart({ profits }: ChartProps) {
       fullProfit: dayProfit ? dayProfit.fullProfit : 0,
     };
   });
+  /* console.dir(fullChartData); */
 
   return (
     <ChartContainer config={chartConfig} className='min-h-[100px] max-h-[350px] w-full'>

@@ -8,6 +8,7 @@ import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
 import { useMemo, useState } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { p, s } from 'motion/react-client';
+import { transformToDate } from './../../../lib/utils/transformDate';
 
 export default function StatsDetails({ chars }: { chars: IChar[] }) {
   const [from] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
@@ -18,8 +19,8 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
     if (!from || !to) return [];
     return handleProfitData(
       chars,
-      parse(from, 'dd-MM-yyyy', new Date()),
-      parse(to, 'dd-MM-yyyy', new Date()),
+      transformToDate(from),
+      transformToDate(to),
     );
   }, [chars, from, to]);
 
@@ -39,7 +40,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
 
   const profitsByDate = useMemo(() => {
     if (!dayToView) return null;
-    const parsedDayToView = parse(dayToView, 'dd-MM-yyyy', new Date());
+    const parsedDayToView = transformToDate(dayToView);
     const dd = profits.find((pr) => isSameDay(parsedDayToView, pr.date.split('T')[0]));
     if (!dd) return null;
 

@@ -1,38 +1,34 @@
-import React from 'react';
+import TwoDateChooser from '@/components/DateChooser/TwoDatesChooser';
+import { NuqsAdapter } from 'nuqs/adapters/next';
+import React, { Suspense } from 'react';
+import StatsCalendar from './components/StatsCalendar';
+import StatsDetails from './components/StatsDetails';
+import StatsCharts from './components/StatsCharts';
 import { getAllCharsAction } from '../actions/UserAction';
-import { handleProfitData } from './handleProfitData';
-import { parse, sub } from 'date-fns';
-import Chart from './Chart';
 
-type searchParamsProps = {
-  from: string;
-  to: string;
-  dayToView: string;
-};
-
-const today = new Date();
-const oneWeekAgo = sub(today, { weeks: 1 });
-
-export default async function ChartPage({
-  searchParams,
-}: {
-  searchParams: Promise<searchParamsProps>;
-}) {
+export default async function StatsPage() {
   const chars = await getAllCharsAction();
-  const { from, to } = await searchParams;
-  const profits = handleProfitData(
-    chars,
-    from ? parse(from, 'dd-MM-yyyy', new Date()) : oneWeekAgo,
-    to ? parse(to, 'dd-MM-yyyy', new Date()) : today,
-  );
 
   return (
-    <div className='w-full flex justify-center p-3'>
-      {profits.length === 0 ? (
-        <h3 className='mt-2 font-yatra text-lg'>No profits found for this range</h3>
-      ) : (
-        <Chart profits={profits} from={from} to={to} />
-      )}
-    </div>
+    <NuqsAdapter>
+      <div className='w-full h-full grid grid-cols-[1fr_2fr] gap-3 justify-items-center m-auto justify-center'>
+        <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
+          <TwoDateChooser />
+        </section>
+
+        <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
+          <StatsCalendar chars={chars} />
+        </section>
+        <Suspense fallback={<div>Loading...</div>}>
+          <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+            <StatsDetails chars={chars} />
+          </section>
+
+          <section className='min-w-1/2 w-5/6 border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
+            <StatsCharts chars={chars} />
+          </section>
+        </Suspense>
+      </div>
+    </NuqsAdapter>
   );
 }

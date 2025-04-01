@@ -1,6 +1,6 @@
 import { format, parse } from 'date-fns';
 
-export function transforToDate(value: string) {
+export function transformToDate(value: string) {
   if (!value) return new Date();
   if (/^\d{2}-\d{2}-\d{4}$/.test(value)) return parse(value, 'dd-MM-yyyy', new Date());
   if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) return parse(value, 'dd/MM/yyyy', new Date());
