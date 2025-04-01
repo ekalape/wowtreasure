@@ -24,7 +24,7 @@ export default async function StatsPage() {
             <StatsDetails chars={chars} />
           </section>
 
-          <section className='min-w-1/2 w-5/6 border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
+          <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
             <StatsCharts chars={chars} />
           </section>
         </Suspense>

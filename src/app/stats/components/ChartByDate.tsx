@@ -7,9 +7,7 @@ import { eachDayOfInterval, format, isSameDay, parse, startOfDay } from 'date-fn
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { parseAsString, useQueryState } from 'nuqs';
 import useCharsStore from '@/store/charsStore';
-
-/* Почему в чарте числа через одно  пишутся снизу */
-/* Почему на странице статистики не отображается последний день, то есть сегодня */
+import { transformToDate } from '@/lib/utils/transformDate';
 
 type ChartProps = {
   profits: { date: string; chars: IChar[]; fullProfit: number }[];
@@ -28,7 +26,7 @@ const chartConfig: ChartConfig = {
 };
 
 const today = new Date();
-export default function Chart({ profits }: ChartProps) {
+export default function ChartByDate({ profits }: ChartProps) {
   const signedDate = localStorage.getItem('sign') || useCharsStore((state) => state.sign);
 
   const [from] =
@@ -43,9 +41,7 @@ export default function Chart({ profits }: ChartProps) {
   alldays.length > 30 ? alldays.splice(0, alldays.length - 30) : alldays;
 
   const fullChartData = alldays.map((day) => {
-    const dayProfit = profits.find((pr) =>
-      isSameDay(new Date(pr.date), parse(day, 'dd-MM-yyyy', new Date())),
-    );
+    const dayProfit = profits.find((pr) => isSameDay(new Date(pr.date), transformToDate(day)));
 
     return {
       date: day,
@@ -53,10 +49,9 @@ export default function Chart({ profits }: ChartProps) {
       fullProfit: dayProfit ? dayProfit.fullProfit : 0,
     };
   });
-  /* console.dir(fullChartData); */
 
   return (
-    <ChartContainer config={chartConfig} className='min-h-[100px] max-h-[350px] w-full'>
+    <ChartContainer config={chartConfig} className='min-h-[100px] max-h-[250px] w-full'>
       <BarChart data={fullChartData}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -84,13 +79,13 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] 
 
   return (
     <div className='rounded-lg border bg-background p-2 shadow-sm'>
-      <div className='mb-2'>
+      <div className='mb-2 font-yatra text-lg'>
         <span className='font-bold'>Profit: </span>
         <span>{fullProfit}</span>
       </div>
-      <div>{date}</div>
+      <div className='mb-2 italic text-sky-500'>{date}</div>
       <div>
-        <span className='font-bold'>Characters: </span>
+        <span className='font-bold text-pink-300 mb-2'>Characters: </span>
         <ul>
           {allchars.map((charname: string) => (
             <li key={charname}>{charname}</li>

@@ -6,7 +6,8 @@ import { handleProfitData } from '../handleProfitData';
 import { transformToDate, transformToString } from '@/lib/utils/transformDate';
 import { sub } from 'date-fns';
 import useCharsStore from '@/store/charsStore';
-import Chart from './Chart';
+import ChartByDate from './ChartByDate';
+import ChartByChar from './ChartByChar';
 
 const today = new Date();
 
@@ -23,11 +24,25 @@ export default function StatsCharts({ chars }: { chars: IChar[] }) {
   );
 
   return (
-    <div className='w-full flex justify-center p-3'>
+    <div className='w-full flex flex-col items-centerjustify-center p-1'>
+      <h3 className='mb-3'>
+        Profits between {from || signedDate} and {to || transformToString(today)}
+      </h3>
       {profits.length === 0 ? (
         <h3 className='mt-2 font-yatra text-lg'>No profits found for this range</h3>
       ) : (
-        <Chart profits={profits} from={from || signedDate} to={to || transformToString(today)} />
+        <section className='grid grid-cols-2 gap-3'>
+          <ChartByDate
+            profits={profits}
+            from={from || signedDate}
+            to={to || transformToString(today)}
+          />
+          <ChartByChar
+            profits={profits}
+            from={from || signedDate}
+            to={to || transformToString(today)}
+          />
+        </section>
       )}
     </div>
   );
