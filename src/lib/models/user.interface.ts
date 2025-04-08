@@ -1,13 +1,15 @@
 import { IChar } from './char.interface';
 
 export interface IUser {
-    userid: string;
-    chars: IChar[];
-    wowTokens: WowTokenType[]
+  userid: string;
+  email: string;
+  password: string;
+  name?: string;
+  chars: IChar[];
+  wowTokens: WowTokenType[];
 }
 
-
 export interface WowTokenType {
-    date: string;
-    price: number;
+  date: string;
+  price: number;
 }

@@ -2,10 +2,17 @@ import { WowTokenType } from '@/lib/models/user.interface';
 import TokenForm from './TokenForm';
 import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import { format } from 'date-fns/format';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export default async function page() {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session?.user?.email;
   await connectToDb();
-  const userTokens: WowTokenType[] = (await wowUser.findOne({ userid: 'jhbghdvnhs53' })).wowTokens;
+  const userTokens: WowTokenType[] = (await wowUser.findOne({ email })).wowTokens;
 
   const smallest = userTokens.reduce((acc, curr) => {
     return acc.price < curr.price ? acc : curr;
@@ -35,8 +42,9 @@ export default async function page() {
         </div>
         <div className='text-foreground_alt'>
           Largest token cost:{'  '}
-          <span className='text-foreground text-xl'>{format(largest.date, 'dd MMMM (yyyy)')}</span>-{' '}
-          <span className='text-pink-300 text-xl'>{largest.price}</span>
+          <span className='text-foreground text-xl'>
+            {format(largest.date, 'dd MMMM (yyyy)')}
+          </span>- <span className='text-pink-300 text-xl'>{largest.price}</span>
         </div>
       </div>
     </div>

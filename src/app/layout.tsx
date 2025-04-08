@@ -4,6 +4,8 @@ import './globals.css';
 import { font_space_grotesk, font_hachi, font_yatra } from '@/assets/fonts';
 import Header from '@/components/Header/Header';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Count your chars profits',
@@ -15,19 +17,28 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   header,
+  auth,
   children,
 }: Readonly<{
   header: React.ReactNode;
+  auth: React.ReactNode;
   children: React.ReactNode;
 }>) {
-  const loggedIn = false;
+  const session = await getServerSession();
+  if (session) {
+    console.log('logged in inside main layout, redirect /add');
+    /*  redirect('/add'); */
+  }
   return (
     <html lang='en'>
       <body
         className={`${font_space_grotesk.className} ${font_hachi.variable} ${font_yatra.variable} antialiased dark overflow-x-hidden`}>
-        {loggedIn ? header : null}
+        {session ? header : null}
         <ErrorBoundary fallback={<h3>Something went wrong</h3>}>
-          <main className='flex flex-col relative'>{children}</main>
+          <main className='flex flex-col relative'>
+            {children}
+            {!session ? auth : null}
+          </main>
         </ErrorBoundary>
       </body>
     </html>

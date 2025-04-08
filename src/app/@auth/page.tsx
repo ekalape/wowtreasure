@@ -24,6 +24,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { signIn } from 'next-auth/react';
+import { createNewUserAction } from '../actions/UserAction';
+import { useRouter } from 'next/navigation';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -48,6 +51,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>('login');
+  const router = useRouter();
 
   // Login form
   const loginForm = useForm<LoginFormValues>({
@@ -70,21 +74,46 @@ export default function AuthPage() {
   });
 
   // Handle login form submission
-  function onLoginSubmit(data: LoginFormValues) {
-    console.log('Login data:', data);
+  async function onLoginSubmit(data: LoginFormValues) {
+    const res = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: true,
+    });
 
-    // Here you would typically call your authentication API
+    console.log('Login data:', data);
+    console.log('result ', res);
+    if (res?.error) {
+      alert(res.error);
+    }
+    if (res) {
+      router.push('/add');
+    }
   }
 
   // Handle register form submission
-  function onRegisterSubmit(data: RegisterFormValues) {
-    console.log('Register data:', data);
+  async function onRegisterSubmit(data: RegisterFormValues) {
+    const res = await createNewUserAction(data.email, data.password, data.name);
 
-    // Here you would typically call your registration API
+    console.log('Register data:', data);
+    console.log('result:', res);
+    if (res) {
+      const resSignIn = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: true,
+      });
+      if (resSignIn) router.push('/add');
+    } else {
+      alert('Something went wrong');
+    }
   }
 
   return (
-    <main className='min-h-screen bg-transparent flex flex-col items-center p-4'>
+    <main className='min-h-screen bg-transparent flex flex-col items-center p-4 w-1/2'>
+      <h2 className='text-2xl text-purple-500 font-bold text-center p-2 mt-10 mb-10 '>
+        Welcome to your own treasure bank
+      </h2>
       <div className='w-full max-w-md  '>
         <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
           <TabsList className='grid w-full grid-cols-2 mb-2 border-2 border-background_alt rounded-lg bg-transparent p-0 pl-1 pr-1'>

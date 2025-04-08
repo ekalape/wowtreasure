@@ -5,8 +5,15 @@ import StatsCalendar from './components/StatsCalendar';
 import StatsDetails from './components/StatsDetails';
 import StatsCharts from './components/StatsCharts';
 import { getAllCharsAction } from '../actions/UserAction';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export default async function StatsPage() {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+
   const chars = await getAllCharsAction();
 
   return (

@@ -4,9 +4,16 @@ import AddMainPage from './AddMainPage';
 import { getAllCharsAction } from '../actions/UserAction';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
 import Loading from '../loading';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
 
 export default async function page() {
-  //const userPromise: Promise<IUser> = findUserAction("jhbghdvnhs53");
+  const session = await getServerSession();
+  console.log('session inside add page ----> ', session);
+  if (!session) {
+    console.log('not logged in inside add page, redirect /');
+    redirect('/');
+  }
 
   const chars = await getAllCharsAction();
 
