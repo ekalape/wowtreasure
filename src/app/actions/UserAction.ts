@@ -86,6 +86,7 @@ export async function getAllCharsAction() {
   await connectToDb();
   try {
     const chars = (await wowUser.findOne({ email })).chars;
+    console.log('chars inside getAllCharsAction ----> ', chars);
     return JSON.parse(JSON.stringify(chars));
   } catch (e) {
     console.error('Error in getAllCharsAction:', e);

@@ -18,8 +18,8 @@ export default async function StatsPage() {
 
   return (
     <NuqsAdapter>
-      <div className='w-full h-full grid grid-cols-[1fr_2fr] gap-3 justify-items-center m-auto  mt-8 justify-center'>
-        <section className='w-1/2 border-2 border-background_alt p-4 rounded-lg col-span-2 items-center flex justify-center'>
+      <div className='w-full p-8 h-full grid md:grid-cols-[1fr_2fr] grid-cols-1 gap-3 justify-items-center m-auto  mt-8 justify-center'>
+        <section className='md:w-1/2 w-content border-2 border-background_alt p-4 rounded-lg md:col-span-2 items-center flex justify-center'>
           <TwoDateChooser />
         </section>
 
@@ -31,7 +31,7 @@ export default async function StatsPage() {
             <StatsDetails chars={chars} />
           </section>
 
-          <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg col-span-2 justify-center items-center'>
+          <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg md:col-span-2 justify-center items-center'>
             <StatsCharts chars={chars} />
           </section>
         </Suspense>

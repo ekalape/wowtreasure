@@ -9,9 +9,7 @@ import { getServerSession } from 'next-auth';
 
 export default async function page() {
   const session = await getServerSession();
-  console.log('session inside add page ----> ', session);
   if (!session) {
-    console.log('not logged in inside add page, redirect /');
     redirect('/');
   }
 

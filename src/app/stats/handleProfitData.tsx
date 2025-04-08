@@ -31,6 +31,6 @@ export function handleProfitData(chars: IChar[], from: Date, to: Date) {
       return acc;
     }, {} as Record<string, { date: string; chars: IChar[]; fullProfit: number }>),
   );
-  console.dir(result);
+
   return result;
 }

@@ -22,13 +22,13 @@ const handler = NextAuth({
       },
     }),
   ],
+
   session: {
     strategy: 'jwt' as SessionStrategy,
     maxAge: 30 * 24 * 60 * 7, // 7 days
   },
   callbacks: {
     async session({ session, token }) {
-      console.log('callback session is called');
       if (session.user && token.email) {
         session.user.email = token.email as string;
       } else {
@@ -42,6 +42,14 @@ const handler = NextAuth({
       }
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      console.log('redirecting to --> ', url, ' from ', baseUrl);
+      if (url === baseUrl) return `${baseUrl}/add`;
+      return url;
+    },
+  },
+  pages: {
+    signIn: '/',
   },
 });
 

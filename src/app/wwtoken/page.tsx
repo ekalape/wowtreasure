@@ -16,11 +16,11 @@ export default async function page() {
 
   const smallest = userTokens.reduce((acc, curr) => {
     return acc.price < curr.price ? acc : curr;
-  });
+  }, userTokens[0]);
 
   const largest = userTokens.reduce((acc, curr) => {
     return acc.price > curr.price ? acc : curr;
-  });
+  }, userTokens[0]);
   const totalCost = userTokens.reduce((acc, curr) => {
     return acc + curr.price;
   }, 0);
@@ -35,17 +35,24 @@ export default async function page() {
           tokens with total of{'  '}
           <span className='text-pink-300 text-xl'>{totalCost}</span>
         </div>
-        <div className='text-foreground_alt'>
-          Smallest token cost:{'  '}
-          <span className='text-foreground text-xl'>{format(smallest.date, 'dd MMMM (yyyy)')}</span>
-          - <span className='text-pink-300 text-xl'>{smallest.price}</span>
-        </div>
-        <div className='text-foreground_alt'>
-          Largest token cost:{'  '}
-          <span className='text-foreground text-xl'>
-            {format(largest.date, 'dd MMMM (yyyy)')}
-          </span>- <span className='text-pink-300 text-xl'>{largest.price}</span>
-        </div>
+        {userTokens.length > 0 && (
+          <>
+            <div className='text-foreground_alt'>
+              Smallest token cost:{'  '}
+              <span className='text-foreground text-xl'>
+                {format(smallest.date, 'dd MMMM (yyyy)')}
+              </span>
+              - <span className='text-pink-300 text-xl'>{smallest.price}</span>
+            </div>
+            <div className='text-foreground_alt'>
+              Largest token cost:{'  '}
+              <span className='text-foreground text-xl'>
+                {format(largest.date, 'dd MMMM (yyyy)')}
+              </span>
+              - <span className='text-pink-300 text-xl'>{largest.price}</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

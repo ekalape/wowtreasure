@@ -10,7 +10,7 @@ const today = new Date();
 
 export default function TwoDateChooser() {
   const start = useCharsStore((state) => state.start);
-  const signedDate = localStorage.getItem('sign') || useCharsStore((state) => state.sign);
+  const signedDate = useCharsStore((state) => state.sign);
 
   const [from, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
   const [to, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));

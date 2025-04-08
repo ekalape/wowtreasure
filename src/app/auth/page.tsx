@@ -86,9 +86,9 @@ export default function AuthPage() {
     if (res?.error) {
       alert(res.error);
     }
-    if (res) {
+    /*  if (res) {
       router.push('/add');
-    }
+    } */
   }
 
   // Handle register form submission
@@ -103,7 +103,7 @@ export default function AuthPage() {
         password: data.password,
         redirect: true,
       });
-      if (resSignIn) router.push('/add');
+      /* if (resSignIn) router.push('/add'); */
     } else {
       alert('Something went wrong');
     }

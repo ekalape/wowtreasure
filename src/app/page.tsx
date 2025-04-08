@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthPage from './@auth/page';
+import AuthPage from './auth/page';
 import Image from 'next/image';
 import treasurepic from '@/assets/treasure-pic4.png';
 import { getServerSession } from 'next-auth';
