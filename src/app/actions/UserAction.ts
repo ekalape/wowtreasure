@@ -56,37 +56,12 @@ export async function createNewUserAction(email: string, password: string, usern
   }
 }
 
-/* export async function findUserAction(userId: string) {
-    await connectToDb();
-    try {
-        const user = await wowUser.findOne({ userid: userId });
-        if (!user) {
-            const newUser = new wowUser({
-                userid: userId,
-                chars: [],
-                wowTokens: [],
-            });
-            console.log('created new user', newUser.toJSON());
-            await newUser.save();
-            return JSON.parse(JSON.stringify(newUser));
-        }
-        return JSON.parse(JSON.stringify(user));
-    } catch (e) {
-        throw new CustomError("User creation error", 400, e);
-    }
-} */
-
 export async function getAllCharsAction() {
   const session = await getServerSession();
-  /*   if (!session) {
-    redirect('/');
-  } */
-  console.log('session inside getAllCharsAction ----> ', session);
   const email = session?.user?.email;
   await connectToDb();
   try {
     const chars = (await wowUser.findOne({ email })).chars;
-    console.log('chars inside getAllCharsAction ----> ', chars);
     return JSON.parse(JSON.stringify(chars));
   } catch (e) {
     console.error('Error in getAllCharsAction:', e);

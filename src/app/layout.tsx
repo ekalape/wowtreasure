@@ -3,7 +3,7 @@ import './globals.css';
 import { font_space_grotesk, font_hachi, font_yatra } from '@/assets/fonts';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
 import { getServerSession } from 'next-auth';
-import AuthPage from './auth/page';
+import AuthPage from './auth/AuthPage';
 import Header from '@/components/Header/Header';
 
 export const metadata: Metadata = {

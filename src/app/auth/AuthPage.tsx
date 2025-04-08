@@ -86,9 +86,6 @@ export default function AuthPage() {
     if (res?.error) {
       alert(res.error);
     }
-    /*  if (res) {
-      router.push('/add');
-    } */
   }
 
   // Handle register form submission
@@ -103,14 +100,13 @@ export default function AuthPage() {
         password: data.password,
         redirect: true,
       });
-      /* if (resSignIn) router.push('/add'); */
     } else {
       alert('Something went wrong');
     }
   }
 
   return (
-    <main className='min-h-screen bg-transparent flex flex-col items-center p-4 w-1/2'>
+    <main className='min-h-screen bg-transparent flex flex-col items-center p-4 w-1/2 self-center'>
       <h2 className='text-2xl text-purple-500 font-bold text-center p-2 mt-10 mb-10 '>
         Welcome to your own treasure bank
       </h2>
