@@ -17,20 +17,17 @@ export default function OneDateChooser() {
 
   const handleSelectedDate = (type: string) => {
     if (type === 'Today') {
-      console.log('today');
       setSelectedDate(formatISO(today));
     } else if (type === 'Sign') {
       setSelectedDate(signedDate);
     } else if (type === 'Start') {
-      setSelectedDate(sub(new Date(), { months: 5 }).toISOString()); //TODO change!!!!!
+      setSelectedDate(sub(new Date(), { months: 10 }).toISOString()); //TODO change!!!!!
     } else {
       setSelectedDate(formatISO(today));
     }
     setOpenCalendar(false);
   };
-  useEffect(() => {
-    console.log('selectedDate inside dayChooser', selectedDate);
-  }, [selectedDate]);
+
   return (
     <div className='flex gap-3 p-3 w-full relative'>
       <Button onClick={() => handleSelectedDate('Start')}>Start</Button>

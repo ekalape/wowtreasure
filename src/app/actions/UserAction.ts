@@ -41,7 +41,7 @@ export async function createNewUserAction(email: string, password: string, usern
       chars: [],
       wowTokens: [],
     });
-    console.log('created new user', newUser.email, 'name - ', newUser.name);
+
     await newUser.save();
     return JSON.parse(
       JSON.stringify({
@@ -94,7 +94,7 @@ export async function addNewProfit(charid: string, date: string, amount: number)
   const email = session?.user?.email;
   try {
     const user = await wowUser.findOne({ email });
-    console.log('user inside useraction-----> ', JSON.stringify(user));
+
     if (!user) {
       return { success: false, error: 'User not found' };
     }

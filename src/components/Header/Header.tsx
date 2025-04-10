@@ -10,7 +10,6 @@ import { getServerSession } from 'next-auth';
 
 export default async function Header() {
   const session = await getServerSession();
-  console.log(session);
 
   return (
     <section className='flex flex-col gap-3 bg-transparent relative'>
