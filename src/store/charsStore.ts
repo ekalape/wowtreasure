@@ -4,8 +4,6 @@ import { create } from 'zustand';
 import { ICharsStore } from './store.models';
 import { persist } from 'zustand/middleware';
 
-/* const tempSign = sub(new Date(), { months: 1 }).toISOString(); */
-
 const useCharsStore = create<ICharsStore>()(
   persist(
     (set) => ({

@@ -14,6 +14,8 @@ export default async function StatsPage() {
     redirect('/');
   }
 
+  
+
   const chars = await getAllCharsAction();
 
   return (

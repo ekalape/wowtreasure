@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { format } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import { Calendar } from '../ui/calendar';
 
 type DateChooserInputProps = {
@@ -10,8 +10,14 @@ type DateChooserInputProps = {
 };
 const today = new Date();
 
-export default function DateChooserInput({ date, setDate, freeChoice }: DateChooserInputProps) {
+export default function DateChooserInput({ date, setDate }: DateChooserInputProps) {
   const [openCalendar, setOpenCalendar] = useState(false);
+
+  const handleCalendarSelect = (e: Date | undefined) => {
+    if (!e) setDate(formatISO(today));
+    else setDate(formatISO(e));
+    setOpenCalendar(false);
+  };
 
   useEffect(() => {
     const outsideClick = (e: MouseEvent) => {
@@ -31,7 +37,7 @@ export default function DateChooserInput({ date, setDate, freeChoice }: DateChoo
   return (
     <>
       <Button variant={'outline'} onClick={() => setOpenCalendar((prev) => !prev)}>
-        {format(date || today, 'dd/MM/yyyy')}
+        {format(date, 'dd/MM/yyyy')}
       </Button>
       {openCalendar && (
         <div className='absolute z-20 bg-background top-14 left-32 w-[300px] h-[350px] '>
@@ -39,7 +45,7 @@ export default function DateChooserInput({ date, setDate, freeChoice }: DateChoo
           <Calendar
             mode='single'
             selected={today}
-            toDate={freeChoice ? undefined : today}
+            toDate={today}
             showOutsideDays
             fixedWeeks
             weekStartsOn={1}
@@ -48,10 +54,7 @@ export default function DateChooserInput({ date, setDate, freeChoice }: DateChoo
                 <p className='mt-2 text-center'>You chose: {format(date, 'dd/MM/yyyy')}</p>
               ) : null
             }
-            onSelect={(e) => {
-              setDate(e?.toISOString() || today.toISOString());
-              setOpenCalendar(false);
-            }}
+            onSelect={(e) => handleCalendarSelect(e)}
             className='setDateCalendar rounded-md border w-full '
           />
         </div>

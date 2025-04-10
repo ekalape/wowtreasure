@@ -26,7 +26,6 @@ import {
 } from '@/components/ui/form';
 import { signIn } from 'next-auth/react';
 import { createNewUserAction } from '../actions/UserAction';
-import { useRouter } from 'next/navigation';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -51,7 +50,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>('login');
-  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   // Login form
   const loginForm = useForm<LoginFormValues>({
@@ -60,6 +59,7 @@ export default function AuthPage() {
       email: '',
       password: '',
     },
+    mode: 'onChange',
   });
 
   // Register form
@@ -71,6 +71,7 @@ export default function AuthPage() {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onChange',
   });
 
   // Handle login form submission
@@ -84,6 +85,7 @@ export default function AuthPage() {
     console.log('Login data:', data);
     console.log('result ', res);
     if (res?.error) {
+      setError(res.error);
       alert(res.error);
     }
   }
@@ -100,7 +102,12 @@ export default function AuthPage() {
         password: data.password,
         redirect: true,
       });
+      if (resSignIn?.error) {
+        setError(resSignIn.error);
+        alert(resSignIn.error);
+      }
     } else {
+      setError('User creation error');
       alert('Something went wrong');
     }
   }
@@ -154,7 +161,10 @@ export default function AuthPage() {
                     />
                   </CardContent>
                   <CardFooter>
-                    <Button type='submit' className='w-full'>
+                    <Button
+                      type='submit'
+                      className='w-full'
+                      disabled={!loginForm.formState.isValid}>
                       Enter
                     </Button>
                   </CardFooter>
@@ -226,7 +236,10 @@ export default function AuthPage() {
                     />
                   </CardContent>
                   <CardFooter>
-                    <Button type='submit' className='w-full'>
+                    <Button
+                      type='submit'
+                      className='w-full'
+                      disabled={!registerForm.formState.isValid}>
                       Create Account
                     </Button>
                   </CardFooter>
