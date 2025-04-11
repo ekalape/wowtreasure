@@ -32,11 +32,11 @@ const useCharsStore = create<ICharsStore>()(
     {
       name: 'wwchars-store',
       partialize: (state) => ({ selectedChar: state.selectedChar, sign: state.sign }),
-      onRehydrateStorage: (state) => {
+      onRehydrateStorage: () => {
         console.log('hydration starts');
 
         // optional
-        return (state, error) => {
+        return (error) => {
           if (error) {
             console.log('an error happened during hydration', error);
           } else {

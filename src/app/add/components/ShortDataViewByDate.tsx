@@ -1,7 +1,6 @@
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
 import { IChar } from '@/lib/models/char.interface';
-import { parseISO, isWithinInterval, eachDayOfInterval, isSameDay } from 'date-fns';
-import React, { useEffect } from 'react';
+import { isSameDay } from 'date-fns';
 
 type ShortDataViewPropsType = {
   day: string;

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import useCharsStore from '@/store/charsStore';
 import { formatISO, sub } from 'date-fns';
@@ -8,7 +8,7 @@ import DateChooserInput from './DateChooserInput';
 const today = new Date();
 
 export default function OneDateChooser() {
-  const [openCalendar, setOpenCalendar] = useState(false);
+  const [_, setOpenCalendar] = useState(false);
 
   const selectedDate = useCharsStore((state) => state.selectedDate);
   const setSelectedDate = useCharsStore((state) => state.setSelectedDate);

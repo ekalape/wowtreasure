@@ -4,7 +4,6 @@ import { parseAsString, useQueryState } from 'nuqs';
 import React from 'react';
 import { handleProfitData } from '../handleProfitData';
 import { transformToDate, transformToString } from '@/lib/utils/transformDate';
-import { sub } from 'date-fns';
 import useCharsStore from '@/store/charsStore';
 import ChartByDate from './ChartByDate';
 import ChartByChar from './ChartByChar';

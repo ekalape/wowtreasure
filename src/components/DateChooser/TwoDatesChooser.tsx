@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import useCharsStore from '@/store/charsStore';
-import { format, sub } from 'date-fns';
+import { format } from 'date-fns';
 import DateChooserInput from './DateChooserInput';
 import { parseAsString, useQueryState } from 'nuqs';
 
@@ -12,8 +12,8 @@ export default function TwoDateChooser() {
   const start = useCharsStore((state) => state.start);
   const signedDate = useCharsStore((state) => state.sign);
 
-  const [from, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
-  const [to, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
+  const [, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
+  const [, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
 
   const [fromDate, setFromDate] = useState(signedDate);
   const [toDate, setToDate] = useState(today.toISOString());

@@ -1,48 +1,41 @@
-import CharCardDataView from '@/components/CharCardDataView/CharCardDataView'
-import { IChar } from '@/lib/models/char.interface'
-import useCharsStore from '@/store/charsStore'
-import { parseISO, isWithinInterval, eachDayOfInterval, compareAsc, format, formatDistance } from 'date-fns'
-import React from 'react'
-
-
-
+import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
+import useCharsStore from '@/store/charsStore';
+import { compareAsc, formatDistance } from 'date-fns';
+import React from 'react';
 
 type ShortDataViewPropsType = {
+  entries: number;
+};
 
-    entries: number
-}
-
-
-const laterDate = new Date()
-
+const laterDate = new Date();
 
 export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType) {
-    const charId = useCharsStore((state) => state.selectedChar)?.charid;
-    const char = useCharsStore((state) => state.chars.find(ch => ch.charid === charId));
+  const charId = useCharsStore((state) => state.selectedChar)?.charid;
+  const char = useCharsStore((state) => state.chars.find((ch) => ch.charid === charId));
 
-    if (!char) {
-        return (
-            <div className='flex flex-col gap-2 w-full mt-4'>
-                <h3>Choose a character</h3>
-            </div>
-        )
-    }
-    const profs = char.earnings.sort((a, b) => compareAsc(a.date, b.date)).slice(char.earnings.length - entries, char.earnings.length);
-
+  if (!char) {
     return (
-        <div className='flex flex-col gap-2 w-full mt-4'>
-            {profs.length === 0 && <h3 className='mt-4'>This character has no profits at all</h3>}
-            {profs.map((pr, index) => (
-                <CharCardDataView
-                    key={pr.date + pr.amount + index}
-                    id={char.charid}
-                    charclass={char.charclass}
-                    fraction={char.fraction}>
-                    {formatDistance(laterDate, pr.date) + ' ago'} - {pr.amount}
-                </CharCardDataView >
-            ))
-            }
+      <div className='flex flex-col gap-2 w-full mt-4'>
+        <h3>Choose a character</h3>
+      </div>
+    );
+  }
+  const profs = char.earnings
+    .sort((a, b) => compareAsc(a.date, b.date))
+    .slice(char.earnings.length - entries, char.earnings.length);
 
-        </div >
-    )
+  return (
+    <div className='flex flex-col gap-2 w-full mt-4'>
+      {profs.length === 0 && <h3 className='mt-4'>This character has no profits at all</h3>}
+      {profs.map((pr, index) => (
+        <CharCardDataView
+          key={pr.date + pr.amount + index}
+          id={char.charid}
+          charclass={char.charclass}
+          fraction={char.fraction}>
+          {formatDistance(laterDate, pr.date) + ' ago'} - {pr.amount}
+        </CharCardDataView>
+      ))}
+    </div>
+  );
 }

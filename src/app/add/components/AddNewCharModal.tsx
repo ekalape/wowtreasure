@@ -25,7 +25,7 @@ export function AddNewCharModal() {
   const [currentFraction, setCurrentFraction] = useState('Horde');
   const [currentClass, setCurrentClass] = useState('');
 
-  const [state, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null });
+  const [_, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null });
 
   const setChars = useCharsStore((state) => state.setChars);
 
@@ -131,6 +131,4 @@ export function AddNewCharModal() {
   );
 }
 
-function formFieldsValidation(formData: FormDataEntryValue): boolean {
-  return formData.toString().trim().length > 2 ? true : false;
-}
+

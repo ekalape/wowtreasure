@@ -4,7 +4,7 @@ import { Calendar } from '@/components/ui/calendar';
 import useCharsStore from '@/store/charsStore';
 
 import { format, parse } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';

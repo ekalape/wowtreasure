@@ -5,7 +5,6 @@ import Menu from './Menu';
 import SlopeDivider from '../ui/SlopeDivider';
 import TimeSignSet from './TimeSignSet';
 import AuthBlock from './AuthBlock';
-import { get } from 'http';
 import { getServerSession } from 'next-auth';
 
 export default async function Header() {

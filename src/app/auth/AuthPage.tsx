@@ -50,7 +50,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>('login');
-  const [error, setError] = useState<string | null>(null);
+  const [_, setError] = useState<string | null>(null);
 
   // Login form
   const loginForm = useForm<LoginFormValues>({

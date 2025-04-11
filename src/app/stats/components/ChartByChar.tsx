@@ -2,7 +2,6 @@
 import { IChar } from '@/lib/models/char.interface';
 import React, { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-import { eachDayOfInterval, format, isSameDay, parse, startOfDay } from 'date-fns';
 
 import {
   ChartConfig,
@@ -10,8 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { parseAsString, useQueryState } from 'nuqs';
-import useCharsStore from '@/store/charsStore';
+
 type ChartProps = {
   profits: { date: string; chars: IChar[]; fullProfit: number }[];
   from: string;
@@ -26,15 +24,6 @@ const chartConfig: ChartConfig = {
 
 const today = new Date();
 export default function ChartByChar({ profits }: ChartProps) {
-  const signedDate = localStorage.getItem('sign') || useCharsStore((state) => state.sign);
-
-  const [from] =
-    useQueryState('from', parseAsString.withOptions({ shallow: false })) ??
-    format(signedDate, 'dd-MM-yyyy');
-  const [to] =
-    useQueryState('to', parseAsString.withOptions({ shallow: false })) ||
-    format(today, 'dd-MM-yyyy');
-
   const profitsByChars = useMemo(() => {
     return profits.reduce((acc, pr) => {
       pr.chars.forEach((char) => {

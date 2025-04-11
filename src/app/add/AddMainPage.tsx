@@ -2,19 +2,18 @@
 import CharsHolder from './components/CharsHolder';
 import AddProfitForm from './components/AddProfitForm';
 import ShortDataViewByChar from './components/ShortDataViewByChar';
-import { format, sub } from 'date-fns';
+import { format} from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IChar } from '@/lib/models/char.interface';
 
 const today = new Date();
-const from = sub(today, { months: 1 });
+
 
 export default function AddMainPage({ chars }: { chars: IChar[] }) {
-  //const user = use(userPromise)
 
   const setChars = useCharsStore((state) => state.setChars);
 

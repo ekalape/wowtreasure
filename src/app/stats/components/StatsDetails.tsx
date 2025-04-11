@@ -2,12 +2,11 @@
 
 import { parseAsString, useQueryState } from 'nuqs';
 import { handleProfitData } from '../handleProfitData';
-import useCharsStore from '@/store/charsStore';
-import { isSameDay, parse } from 'date-fns';
+
+import { isSameDay } from 'date-fns';
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
-import { p, s } from 'motion/react-client';
 import { transformToDate } from './../../../lib/utils/transformDate';
 
 export default function StatsDetails({ chars }: { chars: IChar[] }) {
@@ -17,11 +16,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
 
   const profits = useMemo(() => {
     if (!from || !to) return [];
-    return handleProfitData(
-      chars,
-      transformToDate(from),
-      transformToDate(to),
-    );
+    return handleProfitData(chars, transformToDate(from), transformToDate(to));
   }, [chars, from, to]);
 
   const profitsByChars = useMemo(() => {

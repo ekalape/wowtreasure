@@ -3,14 +3,13 @@
 import { Card } from '@/components/ui/card';
 import { getClassColor } from '@/lib/charClass-color';
 import { IChar } from '@/lib/models/char.interface';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Image from 'next/image';
 import alliance_img from '@/assets/aliance-icon.png';
 import horde_img from '@/assets/horde-icon.png';
 import clsx from 'clsx';
 import { font_space_grotesk } from '@/assets/fonts';
 import useCharsStore from '@/store/charsStore';
-
 
 export default function CharCard(props: { char: IChar }) {
   const { char } = props;
@@ -26,8 +25,7 @@ export default function CharCard(props: { char: IChar }) {
     } else {
       setSelectedChar(null);
     }
-  }
-
+  };
 
   return (
     <Card

@@ -27,7 +27,7 @@ const chartConfig: ChartConfig = {
 
 const today = new Date();
 export default function ChartByDate({ profits }: ChartProps) {
-  const signedDate = localStorage.getItem('sign') || useCharsStore((state) => state.sign);
+  const signedDate = useCharsStore((state) => state.sign);
 
   const [from] =
     useQueryState('from', parseAsString.withOptions({ shallow: false })) ??
@@ -38,7 +38,7 @@ export default function ChartByDate({ profits }: ChartProps) {
 
   const alldays = getDaysBetweenDates(from, to);
 
-  alldays.length > 30 ? alldays.splice(0, alldays.length - 30) : alldays;
+  if (alldays.length > 30) alldays.splice(0, alldays.length - 30);
 
   const fullChartData = alldays.map((day) => {
     const dayProfit = profits.find((pr) => isSameDay(new Date(pr.date), transformToDate(day)));
@@ -68,7 +68,12 @@ export default function ChartByDate({ profits }: ChartProps) {
   );
 }
 
-const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
+type CustomTooltipProps = {
+  active?: boolean;
+  payload?: { payload: { date: string; chars: IChar[]; fullProfit: number } }[];
+};
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (!active || !payload || !payload.length) {
     return null;
   }
