@@ -8,7 +8,7 @@ import DateChooserInput from './DateChooserInput';
 const today = new Date();
 
 export default function OneDateChooser() {
-  const [_, setOpenCalendar] = useState(false);
+  const [, setOpenCalendar] = useState(false);
 
   const selectedDate = useCharsStore((state) => state.selectedDate);
   const setSelectedDate = useCharsStore((state) => state.setSelectedDate);
