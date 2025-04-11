@@ -25,7 +25,7 @@ export function AddNewCharModal() {
   const [currentFraction, setCurrentFraction] = useState('Horde');
   const [currentClass, setCurrentClass] = useState('');
 
-  const [_, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null });
+  const [, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null });
 
   const setChars = useCharsStore((state) => state.setChars);
 
@@ -130,5 +130,3 @@ export function AddNewCharModal() {
     </Dialog>
   );
 }
-
-

@@ -7,12 +7,6 @@ type ShortDataViewPropsType = {
   chars: IChar[];
 };
 
-interface ResultItem {
-  char: IChar;
-  date: string;
-  amount: number;
-}
-
 export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsType) {
   const theDay = day.split('T')[0];
 

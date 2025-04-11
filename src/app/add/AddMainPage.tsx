@@ -10,8 +10,6 @@ import { useEffect, useState } from 'react';
 
 import { IChar } from '@/lib/models/char.interface';
 
-const today = new Date();
-
 
 export default function AddMainPage({ chars }: { chars: IChar[] }) {
 

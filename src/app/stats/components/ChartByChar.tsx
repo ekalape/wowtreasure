@@ -22,7 +22,6 @@ const chartConfig: ChartConfig = {
   },
 };
 
-const today = new Date();
 export default function ChartByChar({ profits }: ChartProps) {
   const profitsByChars = useMemo(() => {
     return profits.reduce((acc, pr) => {
