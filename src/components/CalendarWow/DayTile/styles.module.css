@@ -1,0 +1,69 @@
+.dayTile {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: rgb(from var(--text) r g b / 0.8);
+  border: 1px solid var(--border);
+  &:hover {
+    color: var(--text-hovered);
+  }
+}
+
+.disabled {
+  color: rgb(from var(--text) r g b / 0.2);
+  cursor: default;
+  pointer-events: none;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+.insideRange:not(.disabled) {
+  @apply text-red-300;
+  /*  color: var(--text); */
+  font-weight: bold;
+  &:hover {
+    color: var(--text-hovered);
+  }
+}
+
+.today {
+  border: 1px solid var(--text-hovered);
+  color: var(--text);
+  font-weight: bold;
+  &:hover {
+    color: var(--text-hovered);
+  }
+}
+
+.afterToDate:not(.disabled) {
+  @apply text-blue-300/70;
+  /*  color: rgb(from var(--text) r g b / 0.5); */
+  cursor: default;
+  pointer-events: none;
+}
+
+.small {
+  background-color: rgb(from var(--medium-blue) r g b / 0.3);
+}
+.medium {
+  background-color: rgb(from var(--medium-blue) r g b / 0.5);
+}
+.large {
+  background-color: rgb(from var(--medium-blue) r g b / 0.7);
+}
+.max {
+  background-color: var(--medium-blue);
+}
+
+.selected:not(.disabled) {
+  color: var(--text-hovered);
+  border: var(--light-blue) 1px solid;
+}

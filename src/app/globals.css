@@ -6,9 +6,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   height: 100vh;
 }
-/* html {
-  font-size: 12px;
-} */
+html {
+  font-size: 16px;
+}
 
 @layer base {
   :root {
@@ -25,7 +25,7 @@ body {
     --secondary: #e0e0e0;
     --secondary-foreground: #2d2d2d;
     --muted: #e0e0e0;
-    --muted-foreground: #777777;
+    --muted-foreground: #716d79;
     --accent: #e0e0e0;
     --accent-foreground: #2d2d2d;
     --destructive: #f24c4c;
@@ -58,7 +58,7 @@ body {
     --secondary: #3d3d3d;
     --secondary-foreground: #d6d6d6;
     --muted: #3d3d3d;
-    --muted-foreground: #a4a4a4;
+    --muted-foreground: #8589a1;
     --accent: #3d3d3d;
     --accent-foreground: #d6d6d6;
     --destructive: #9d4c4c;
@@ -96,7 +96,7 @@ body {
     --hover-background: var(--darkier-blue);
     --text: var(--lighest-yellow);
     --text-hovered: var(--medium-yellow);
-    --border: var(--dark-blue);
+    --border: #1a1e52;
     --border-hovered: var(--dark-yellow);
   }
 }

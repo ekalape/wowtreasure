@@ -3,12 +3,14 @@
 import { Calendar } from '@/components/ui/calendar';
 import useCharsStore from '@/store/charsStore';
 
-import { format, parse } from 'date-fns';
+import { format, isWithinInterval, lastDayOfMonth, parse } from 'date-fns';
 import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';
 import { transformToDate } from '@/lib/utils/transformDate';
+import { fi } from 'date-fns/locale';
+import { CalendarW } from '@/components/CalendarWow';
 
 const today = new Date();
 
@@ -23,10 +25,7 @@ export default function StatsCalendar({ chars }: { chars: IChar[] }) {
     'to',
     parseAsString.withOptions({ shallow: false }).withDefault(format(today, 'dd-MM-yyyy')),
   );
-  const [dayToView, setDayToView] = useQueryState(
-    'day',
-    parseAsString.withOptions({ shallow: false }),
-  );
+  const [, setDayToView] = useQueryState('day', parseAsString.withOptions({ shallow: false }));
 
   const profitsByDate = useMemo(
     () =>
@@ -38,29 +37,22 @@ export default function StatsCalendar({ chars }: { chars: IChar[] }) {
     [from, to],
   );
 
+  const handleDayClick = (date: Date) => {
+    setDayToView(format(date, 'dd-MM-yyyy'));
+  };
+
   return (
     <div>
-      <Calendar
-        selected={dayToView ? transformToDate(dayToView) : today}
-        mode='single'
-        onSelect={(e: Date | undefined) => setDayToView(format(e || today, 'dd-MM-yyyy'))}
-        toDate={today}
-        modifiers={{
-          displayedDates: { from: transformToDate(from), to: transformToDate(to) },
-          heavy: profitsByDate
-            .filter((pr) => pr.fullProfit >= 10000)
-            .map((pr) => new Date(pr.date)),
-          medium: profitsByDate
-            .filter((pr) => pr.fullProfit >= 1000 && pr.fullProfit < 10000)
-            .map((pr) => new Date(pr.date)),
-          light: profitsByDate.filter((pr) => pr.fullProfit < 1000).map((pr) => new Date(pr.date)),
-        }}
-        modifiersClassNames={{
-          displayedDates: 'text-pink-300',
-          heavy: 'bg-blue-700/80',
-          medium: 'bg-blue-700/50',
-          light: 'bg-blue-700/20',
-        }}
+      <CalendarW
+        onDayClick={handleDayClick}
+        currentDate={today}
+        disabledFrom={today}
+        startDay={transformToDate(from)}
+        endDay={transformToDate(to)}
+        values={profitsByDate.map((pr) => ({
+          date: pr.date,
+          fullProfit: pr.fullProfit,
+        }))}
       />
     </div>
   );

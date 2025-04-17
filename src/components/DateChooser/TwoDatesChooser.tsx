@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import useCharsStore from '@/store/charsStore';
-import { format } from 'date-fns';
+import { format, isAfter, parseISO } from 'date-fns';
 import DateChooserInput from './DateChooserInput';
 import { parseAsString, useQueryState } from 'nuqs';
 
@@ -12,8 +12,8 @@ export default function TwoDateChooser() {
   const start = useCharsStore((state) => state.start);
   const signedDate = useCharsStore((state) => state.sign);
 
-  const [, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
-  const [, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
+  const [from, setFrom] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
+  const [to, setTo] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
 
   const [fromDate, setFromDate] = useState(signedDate);
   const [toDate, setToDate] = useState(today.toISOString());
@@ -40,8 +40,16 @@ export default function TwoDateChooser() {
     <div className='flex gap-3 p-3 w-full relative'>
       <Button onClick={() => handleDate('Start')}>Start</Button>
       <Button onClick={() => handleDate('Sign')}>Sign</Button>
-      <DateChooserInput date={fromDate || signedDate} setDate={(d) => setFromDate(d)} />
-      <DateChooserInput date={toDate || today.toISOString()} setDate={(d) => setToDate(d)} />
+      <DateChooserInput
+        date={fromDate || signedDate}
+        setDate={(d) => setFromDate(d)}
+        disabledAfter={today}
+      />
+      <DateChooserInput
+        date={toDate || today.toISOString()}
+        setDate={(d) => setToDate(d)}
+        disabledAfter={today}
+      />
       <Button onClick={() => handleDate('Today')}>Today</Button>
     </div>
   );

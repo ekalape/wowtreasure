@@ -26,6 +26,8 @@ export default function CharCardDataViewByChar({
         backgroundColor: `${classColor}4D`,
       }}>
       <Image
+        width={10}
+        height={10}
         src={fraction === 'horde' ? horde_img.src : alliance_img.src}
         className='w-4 h-4 '
         alt='Fraction icon'

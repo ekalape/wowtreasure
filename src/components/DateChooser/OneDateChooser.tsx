@@ -33,7 +33,7 @@ export default function OneDateChooser() {
       <Button onClick={() => handleSelectedDate('Start')}>Start</Button>
       <Button onClick={() => handleSelectedDate('Sign')}>Sign</Button>
 
-      <DateChooserInput date={selectedDate} setDate={setSelectedDate} />
+      <DateChooserInput date={selectedDate} setDate={setSelectedDate} disabledAfter={today} />
       <Button onClick={() => handleSelectedDate('Today')}>Today</Button>
     </div>
   );

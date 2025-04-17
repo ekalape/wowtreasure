@@ -2,15 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { format, formatISO } from 'date-fns';
 import { Calendar } from '../ui/calendar';
+import { CalendarW } from '../CalendarWow';
 
 type DateChooserInputProps = {
   date: string;
   setDate: (date: string) => void;
-  freeChoice?: boolean;
+  disabledBefore?: Date | undefined;
+  disabledAfter?: Date | undefined;
 };
 const today = new Date();
 
-export default function DateChooserInput({ date, setDate }: DateChooserInputProps) {
+export default function DateChooserInput({
+  date,
+  setDate,
+  disabledBefore,
+  disabledAfter,
+}: DateChooserInputProps) {
   const [openCalendar, setOpenCalendar] = useState(false);
 
   const handleCalendarSelect = (e: Date | undefined) => {
@@ -21,17 +28,19 @@ export default function DateChooserInput({ date, setDate }: DateChooserInputProp
 
   useEffect(() => {
     const outsideClick = (e: MouseEvent) => {
-      const calendarElement = document.querySelector('.setDateCalendar');
-      if (calendarElement && !(e.target as HTMLElement).closest('.setDateCalendar')) {
-        if (openCalendar) {
-          setOpenCalendar(false);
-        }
+      const calendarElement = document.querySelector('.calendarSpace');
+      if (calendarElement && !(e.target as HTMLElement).closest('.calendarSpace') && openCalendar) {
+        setOpenCalendar(false);
       }
     };
     document.body.addEventListener('click', outsideClick);
     return () => {
       document.body.removeEventListener('click', outsideClick);
     };
+  }, [openCalendar]);
+
+  useEffect(() => {
+    console.log('openCalendar', openCalendar);
   }, [openCalendar]);
 
   return (
@@ -42,20 +51,12 @@ export default function DateChooserInput({ date, setDate }: DateChooserInputProp
       {openCalendar && (
         <div className='absolute z-20 bg-background top-14 left-32 w-[300px] h-[350px] '>
           {' '}
-          <Calendar
-            mode='single'
-            selected={today}
-            toDate={today}
-            showOutsideDays
-            fixedWeeks
-            weekStartsOn={1}
-            footer={
-              date ? (
-                <p className='mt-2 text-center'>You chose: {format(date, 'dd/MM/yyyy')}</p>
-              ) : null
-            }
-            onSelect={(e) => handleCalendarSelect(e)}
-            className='setDateCalendar rounded-md border w-full '
+          <CalendarW
+            onDayClick={handleCalendarSelect}
+            currentDate={today}
+            values={[]}
+            disabledFrom={disabledAfter}
+            disabledTo={disabledBefore}
           />
         </div>
       )}
