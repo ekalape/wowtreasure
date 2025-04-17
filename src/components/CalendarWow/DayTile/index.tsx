@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './styles.module.css';
 import { format, isAfter, isBefore, isEqual, isToday } from 'date-fns';
 import { useCalendarContext } from '../CalendarMain';

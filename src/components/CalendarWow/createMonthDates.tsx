@@ -1,4 +1,4 @@
-import { IChar } from '@/lib/models/char.interface';
+
 import { endOfMonth, isSameMonth, sub, getDay, add, isSameDay, parseISO } from 'date-fns';
 
 export interface DayType {

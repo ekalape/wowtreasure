@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { format, formatISO } from 'date-fns';
-import { Calendar } from '../ui/calendar';
 import { CalendarW } from '../CalendarWow';
 
 type DateChooserInputProps = {

@@ -1,15 +1,13 @@
 'use client';
 
-import { Calendar } from '@/components/ui/calendar';
 import useCharsStore from '@/store/charsStore';
 
-import { format, isWithinInterval, lastDayOfMonth, parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';
 import { transformToDate } from '@/lib/utils/transformDate';
-import { fi } from 'date-fns/locale';
 import { CalendarW } from '@/components/CalendarWow';
 
 const today = new Date();

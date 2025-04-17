@@ -5,7 +5,6 @@ import { createContext, useContext, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import DayTile from '../DayTile';
 import { createMonthDates } from '../createMonthDates';
-import { IChar } from '@/lib/models/char.interface';
 
 type DateValueType = {
   date: string;
