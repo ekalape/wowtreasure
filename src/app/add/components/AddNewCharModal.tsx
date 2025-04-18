@@ -64,7 +64,7 @@ export function AddNewCharModal() {
       <DialogTrigger asChild>
         <button
           disabled={isPending}
-          className={`w-16 h-16 rounded-full border-2 flex items-center justify-center border-foreground_alt text-foreground_alt text-3xl `}>
+          className={`w-16 h-16 rounded-full border-2 flex items-center justify-center border-foreground_alt text-foreground_alt text-3xl/3 pt-1 hover:bg-background_alt hover:text-foreground duration-200 `}>
           +
         </button>
       </DialogTrigger>

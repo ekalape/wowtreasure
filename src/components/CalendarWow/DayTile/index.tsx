@@ -24,9 +24,8 @@ export default function DayTile(props: DayTilePropsType) {
   const { onDaySelect, selectedDay, setSelectedDay, disabledFrom, disabledTo } =
     useCalendarContext();
 
-  console.log(fullProfit);
   const tooltipContent = useMemo(() => {
-    return `${fullProfit ? `${fullProfit}` : 'Nothing'}`;
+    return `${fullProfit ? `${fullProfit}` : '0'}`;
   }, [fullProfit]);
 
   const [tooltip, setTooltip] = useState<TooltipState>({ visible: false, content: '', x: 0, y: 0 });

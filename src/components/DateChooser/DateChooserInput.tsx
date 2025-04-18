@@ -38,10 +38,6 @@ export default function DateChooserInput({
     };
   }, [openCalendar]);
 
-  useEffect(() => {
-    console.log('openCalendar', openCalendar);
-  }, [openCalendar]);
-
   return (
     <>
       <Button variant={'outline'} onClick={() => setOpenCalendar((prev) => !prev)}>

@@ -12,6 +12,7 @@ export default {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        primary_alt: 'var(--primary-alt)',
         background_alt: 'var(--background-alt)',
         foreground_alt: 'var(--foreground-alt)',
         destructive_alt: 'var(--destructive-alt)',
