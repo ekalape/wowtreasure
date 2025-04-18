@@ -2,7 +2,7 @@
 
 import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import CustomError from './CustomError';
-import { IChar } from '@/lib/models/char.interface';
+import { CharDataType, IChar } from '@/lib/models/char.interface';
 import { WowTokenType } from '@/lib/models/user.interface';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
@@ -145,6 +145,72 @@ export async function addNewTokenAmount(tokenAmount: number, date: string) {
     return { success: true };
   } catch (e) {
     console.error('Error in addNewTokenAmount:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function editChar(charid: string, newCharData: CharDataType) {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+
+  const email = session?.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+    const index = user.chars.findIndex((char: IChar) => char.charid === charid);
+    if (index === -1) {
+      return { success: false, error: 'Character not found' };
+    }
+    user.chars[index] = {
+      charid: charid,
+      name: newCharData.name,
+      charclass: newCharData.charclass,
+      server: newCharData.server,
+      fraction: newCharData.fraction,
+      createdAt: user.chars[index].createdAt,
+      earnings: user.chars[index].earnings,
+    };
+
+    user.markModified('chars');
+
+    await user.save();
+
+    revalidatePath('/add');
+    return { success: true };
+  } catch (e) {
+    console.error('Error in editChar:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function deleteChar(charid: string) {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session?.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+    const characterIndex = user.chars.findIndex((char: IChar) => char.charid === charid);
+    if (characterIndex === -1) {
+      return { success: false, error: 'Character not found' };
+    }
+    user.chars.splice(characterIndex, 1);
+    user.markModified('chars');
+    await user.save();
+    revalidatePath('/add');
+    return { success: true };
+  } catch (e) {
+    console.error('Error in deleteChar:', e);
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
   }
 }

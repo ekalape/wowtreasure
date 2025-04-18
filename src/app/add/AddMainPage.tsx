@@ -2,7 +2,7 @@
 import CharsHolder from './components/CharsHolder';
 import AddProfitForm from './components/AddProfitForm';
 import ShortDataViewByChar from './components/ShortDataViewByChar';
-import { format} from 'date-fns';
+import { format } from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
@@ -10,12 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { IChar } from '@/lib/models/char.interface';
 
-
 export default function AddMainPage({ chars }: { chars: IChar[] }) {
-
-  const setChars = useCharsStore((state) => state.setChars);
-
-  const allchars = useCharsStore((state) => state.chars);
   const selectedChar = useCharsStore((state) => state.selectedChar);
   const selectedDate = useCharsStore((state) => state.selectedDate);
   const setSelectedChar = useCharsStore((state) => state.setSelectedChar);
@@ -33,7 +28,6 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
 
   useEffect(() => {
     if (chars) {
-      setChars(chars);
       setTotal(
         chars.reduce((acc, curr) => {
           return (
@@ -53,7 +47,7 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
 
   return (
     <div className='flex flex-col gap-12 w-full items-center justify-start'>
-      <CharsHolder chars={allchars} />
+      <CharsHolder chars={chars} />
       <section className='flex w-1/3'>
         <OneDateChooser />
       </section>
@@ -79,7 +73,7 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
               {format(selectedDate, 'dd-MMMM-yyyy')}
             </span>
           </h2>
-          <ShortDataViewByDate day={selectedDate} chars={allchars} />
+          <ShortDataViewByDate day={selectedDate} chars={chars} />
         </div>
       </section>
       <section className='w-fit bg-sky-950/20 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>

@@ -17,9 +17,6 @@ const useCharsStore = create<ICharsStore>()(
       setSelectedDate: (date: string) => set({ selectedDate: date }),
       setSign: (sign: string) => {
         set({ sign: sign });
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('sign', sign);
-        }
       },
 
       setChars(chars: IChar[]) {
@@ -29,18 +26,6 @@ const useCharsStore = create<ICharsStore>()(
     {
       name: 'wwchars-store',
       partialize: (state) => ({ selectedChar: state.selectedChar, sign: state.sign }),
-      onRehydrateStorage: () => {
-        console.log('hydration starts');
-
-        // optional
-        return (error) => {
-          if (error) {
-            console.log('an error happened during hydration', error);
-          } else {
-            console.log('hydration finished');
-          }
-        };
-      },
     },
   ),
 );

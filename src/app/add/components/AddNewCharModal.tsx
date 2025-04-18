@@ -15,19 +15,20 @@ import {
 import { IChar } from '@/lib/models/char.interface';
 import { v4 as uuidv4 } from 'uuid';
 import { addNewCharacter } from '@/app/actions/UserAction';
-import useCharsStore from '@/store/charsStore';
 import InputRadio from './InputVariants/Radio/InputRadio';
 import DropDownMenu from './InputVariants/DropDownMenu/DropDownMenu';
 import { CLASS_OPTIONS } from './InputVariants/InputVariantsConstToUse';
+import { useRouter } from 'next/navigation';
+import Loading from '@/app/loading';
+import { createPortal } from 'react-dom';
 
 export function AddNewCharModal() {
   const [open, setOpen] = useState(false);
   const [currentFraction, setCurrentFraction] = useState('Horde');
   const [currentClass, setCurrentClass] = useState('');
+  const router = useRouter();
 
   const [, formAction, isPending] = useActionState(handleSubmit, { chars: null, error: null });
-
-  const setChars = useCharsStore((state) => state.setChars);
 
   async function handleSubmit(
     prevState: { chars: IChar[] | null; error: Error | null },
@@ -52,7 +53,7 @@ export function AddNewCharModal() {
       const updatedChars = await addNewCharacter(newCharacter);
 
       if (updatedChars && updatedChars.chars) {
-        setChars(updatedChars.chars);
+        router.refresh();
       }
       setOpen(false);
       return { chars: updatedChars.chars, error: updatedChars.error };
@@ -68,6 +69,7 @@ export function AddNewCharModal() {
           +
         </button>
       </DialogTrigger>
+      {isPending && createPortal(<Loading />, document.body)}
       <DialogContent className='sm:max-w-[425px]' onPointerDownOutside={() => setOpen(false)}>
         <DialogHeader>
           <DialogTitle className='text-xl text-center'>Add New Character</DialogTitle>
