@@ -81,7 +81,7 @@ export default function Calendar(props: CalendarPropsType) {
               <DayTile
                 key={d.date.getTime()}
                 day={d.date}
-                value={d.value}
+                fullProfit={d.fullProfit}
                 enabled={d.enabled}
                 insideRange={isWithinInterval(d.date, {
                   start: props.startDay || new Date(),
