@@ -5,15 +5,18 @@ import { IChar } from '@/lib/models/char.interface';
 import React, { useActionState, useEffect, useRef } from 'react';
 import { addNewProfit } from '@/app/actions/UserAction';
 import { motion } from 'motion/react';
+import useCharsStore from '@/store/charsStore';
 
 interface ProfitResponse {
   success: boolean;
   error?: string;
-  updatedChars?: IChar[];
+  updatedChar?: IChar;
 }
 
 export default function AddProfitForm({ charid, date }: { charid: string; date: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const setSelectedChar = useCharsStore((state) => state.setSelectedChar);
   const submitProfitForm = async (
     prevState: ProfitResponse | null,
     formData: FormData,
@@ -38,6 +41,10 @@ export default function AddProfitForm({ charid, date }: { charid: string; date: 
   useEffect(() => {
     if (state?.success && inputRef.current) {
       inputRef.current.value = '';
+
+      if (state.updatedChar) {
+        setSelectedChar(state.updatedChar);
+      }
     }
   }, [state]);
 

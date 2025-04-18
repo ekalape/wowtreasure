@@ -69,6 +69,23 @@ export async function getAllCharsAction() {
   }
 }
 
+export async function getOneCharUpdate(charid: string) {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session?.user?.email;
+  await connectToDb();
+  try {
+    const chars = (await wowUser.findOne({ email })).chars;
+    const char = chars.find((char: IChar) => char.charid === charid);
+    return JSON.parse(JSON.stringify({ char, error: null }));
+  } catch (e) {
+    console.error('Error in getting an update:', e);
+    return { char: null, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
 export async function addNewCharacter(newCharacter: IChar): Promise<NewCharFormDataType> {
   const session = await getServerSession();
   if (!session) {
@@ -116,9 +133,12 @@ export async function addNewProfit(charid: string, date: string, amount: number)
       return { success: false, error: 'Failed to update character earnings' };
     }
     revalidatePath('/add');
-    return {
-      success: true,
-    };
+    return JSON.parse(
+      JSON.stringify({
+        success: true,
+        updatedChar: updateResult.chars.find((char: IChar) => char.charid === charid),
+      }),
+    );
   } catch (e) {
     console.error('Error in addNewProfit:', e);
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };

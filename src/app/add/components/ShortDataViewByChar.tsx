@@ -1,7 +1,8 @@
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
+import { IChar } from '@/lib/models/char.interface';
 import useCharsStore from '@/store/charsStore';
 import { compareAsc, formatDistance } from 'date-fns';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 type ShortDataViewPropsType = {
   entries: number;
@@ -10,8 +11,7 @@ type ShortDataViewPropsType = {
 const laterDate = new Date();
 
 export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType) {
-  const charId = useCharsStore((state) => state.selectedChar)?.charid;
-  const char = useCharsStore((state) => state.chars.find((ch) => ch.charid === charId));
+  const char = useCharsStore((state) => state.selectedChar);
 
   if (!char) {
     return (
