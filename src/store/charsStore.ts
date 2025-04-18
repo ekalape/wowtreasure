@@ -10,10 +10,7 @@ const useCharsStore = create<ICharsStore>()(
       chars: [],
       selectedChar: null,
       selectedDate: new Date().toISOString(),
-      sign:
-        typeof window !== 'undefined'
-          ? localStorage.getItem('sign') || sub(new Date(), { weeks: 1 }).toISOString()
-          : sub(new Date(), { weeks: 1 }).toISOString(),
+      sign: sub(new Date(), { weeks: 1 }).toISOString(),
       start: '10/08/2024',
 
       setSelectedChar: (char: IChar | null) => set({ selectedChar: char }),
