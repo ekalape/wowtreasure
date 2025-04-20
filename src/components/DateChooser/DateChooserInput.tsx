@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { format, formatISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import { CalendarW } from '../CalendarWow';
+import { set } from 'mongoose';
 
 type DateChooserInputProps = {
   date: string;
@@ -19,9 +20,12 @@ export default function DateChooserInput({
 }: DateChooserInputProps) {
   const [openCalendar, setOpenCalendar] = useState(false);
 
+  const [oldSelected, setOldSelected] = useState(date);
+
   const handleCalendarSelect = (e: Date | undefined) => {
-    if (!e) setDate(formatISO(today));
+    if (!e) setDate(formatISO(oldSelected));
     else setDate(formatISO(e));
+
     setOpenCalendar(false);
   };
 
@@ -38,6 +42,10 @@ export default function DateChooserInput({
     };
   }, [openCalendar]);
 
+  useEffect(() => {
+    setOldSelected(date);
+  }, [date]);
+
   return (
     <>
       <Button variant={'outline'} onClick={() => setOpenCalendar((prev) => !prev)}>
@@ -49,6 +57,7 @@ export default function DateChooserInput({
           <CalendarW
             onDayClick={handleCalendarSelect}
             currentDate={today}
+            prevSelectedDay={parseISO(oldSelected)}
             values={[]}
             disabledFrom={disabledAfter}
             disabledTo={disabledBefore}

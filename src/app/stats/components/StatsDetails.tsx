@@ -49,11 +49,10 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
         .reduce((acc, earn) => acc + earn.amount, 0);
 
       const existingChar = result.find((r) => r.char.charid === ch.charid);
+      console.log('existingChar', existingChar);
       if (!existingChar) {
         result.push({ char: ch, dayProfit });
-      } else {
-        existingChar.dayProfit += dayProfit;
-      }
+      } 
     });
 
     return result;

@@ -36,8 +36,6 @@ export default function CharCard(props: { char: IChar }) {
   const handleSelection = () => {
     if (!selectedChar || selectedChar.charid !== char.charid) {
       setSelectedChar(char);
-    } else {
-      setSelectedChar(null);
     }
   };
 

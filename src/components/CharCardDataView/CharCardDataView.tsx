@@ -20,7 +20,7 @@ export default function CharCardDataViewByChar({
 
   return (
     <div
-      className='flex gap-3 border-1 rounded-xl px-3 py-1 items-center cursor-pointer'
+      className='flex gap-3 border-1 rounded-xl px-3 py-1 items-center'
       style={{
         borderColor: classColor,
         backgroundColor: `${classColor}4D`,

@@ -51,13 +51,13 @@
 }
 
 .small {
-  background-color: rgb(from var(--medium-blue) r g b / 0.3);
+  background-color: rgb(from var(--medium-blue) r g b / 0.2);
 }
 .medium {
   background-color: rgb(from var(--medium-blue) r g b / 0.5);
 }
 .large {
-  background-color: rgb(from var(--medium-blue) r g b / 0.7);
+  background-color: rgb(from var(--medium-blue) r g b / 0.75);
 }
 .max {
   background-color: var(--medium-blue);
@@ -66,4 +66,14 @@
 .selected:not(.disabled) {
   color: var(--text-hovered);
   border: var(--light-blue) 1px solid;
+}
+
+.specialDay {
+  @apply text-pink-300;
+  @apply italic;
+}
+
+.prevSelected {
+  @apply text-blue-300/50;
+  border: 1px solid var(--darkier-yellow);
 }

@@ -1,16 +1,19 @@
 import { useMemo, useState } from 'react';
 import styles from './styles.module.css';
-import { format, isAfter, isBefore, isEqual, isToday } from 'date-fns';
+import { format, isAfter, isBefore, isEqual, isSameDay, isToday } from 'date-fns';
 import { useCalendarContext } from '../CalendarMain';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
+import { spec } from 'node:test/reporters';
 
 type DayTilePropsType = {
   enabled?: boolean;
   insideRange?: boolean;
   fullProfit?: number;
   day: Date;
+  specialDay: Date;
   showTooltip?: boolean;
+  prevSelectedDay?: Date;
 };
 
 interface TooltipState {
@@ -21,7 +24,15 @@ interface TooltipState {
 }
 
 export default function DayTile(props: DayTilePropsType) {
-  const { day, enabled = false, insideRange = false, fullProfit = 0, showTooltip } = props;
+  const {
+    day,
+    enabled = false,
+    insideRange = false,
+    fullProfit = 0,
+    showTooltip,
+    specialDay,
+    prevSelectedDay,
+  } = props;
   const { onDaySelect, selectedDay, setSelectedDay, disabledFrom, disabledTo } =
     useCalendarContext();
 
@@ -34,13 +45,13 @@ export default function DayTile(props: DayTilePropsType) {
   const bgIntencity = useMemo((): string => {
     if (!fullProfit) return 'transparent';
     if (fullProfit === 0) return 'transparent';
-    if (fullProfit >= 0 && fullProfit < 1000) {
+    if (fullProfit >= 0 && fullProfit < 10000) {
       return styles.small;
-    } else if (fullProfit >= 1000 && fullProfit < 5000) {
+    } else if (fullProfit >= 10000 && fullProfit < 30000) {
       return styles.medium;
-    } else if (fullProfit >= 5000 && fullProfit < 10000) {
+    } else if (fullProfit >= 30000 && fullProfit < 60000) {
       return styles.large;
-    } else if (fullProfit >= 10000) {
+    } else if (fullProfit >= 60000) {
       return styles.max;
     } else {
       return 'transparent';
@@ -58,8 +69,10 @@ export default function DayTile(props: DayTilePropsType) {
         enabled || styles.disabled,
         bgIntencity,
         isToday(day) && styles.today,
-        selectedDay && isEqual(day, selectedDay) && styles.selected,
+        selectedDay && isSameDay(day, selectedDay) && styles.selected,
+        prevSelectedDay && isSameDay(day, prevSelectedDay) && styles.prevSelected,
         insideRange && styles.insideRange,
+        specialDay && isSameDay(day, specialDay) && styles.specialDay,
         disabledFrom && isAfter(day, disabledFrom) && !isToday(day) && styles.disabled,
         disabledTo && isBefore(day, disabledTo) && !isToday(day) && styles.disabled,
       )}

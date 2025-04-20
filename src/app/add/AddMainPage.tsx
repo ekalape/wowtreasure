@@ -2,7 +2,7 @@
 import CharsHolder from './components/CharsHolder';
 import AddProfitForm from './components/AddProfitForm';
 import ShortDataViewByChar from './components/ShortDataViewByChar';
-import { format } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 import ShortDataViewByDate from './components/ShortDataViewByDate';
 import useCharsStore from '@/store/charsStore';
 import OneDateChooser from '@/components/DateChooser/OneDateChooser';
@@ -21,19 +21,22 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
   useEffect(() => {
     setTotalForChar(
       selectedChar?.earnings.reduce((acc, curr) => {
+        if (!isSameDay(curr.date, selectedDate)) return acc;
         return acc + curr.amount;
       }, 0) || 0,
     );
-  }, [selectedChar]);
+  }, [selectedChar, selectedDate]);
 
   useEffect(() => {
     if (chars) {
       setTotal(
         chars.reduce((acc, curr) => {
+          if (!curr.earnings) return acc;
           return (
             acc +
-            curr.earnings.reduce((acc, curr) => {
-              return acc + curr.amount;
+            curr.earnings.reduce((acc, c) => {
+              if (!isSameDay(c.date, selectedDate)) return acc;
+              return acc + c.amount;
             }, 0)
           );
         }, 0),
@@ -43,7 +46,11 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
         setSelectedChar(chars.find((char) => char.charid === charId) || null);
       }
     }
-  }, [chars]);
+  }, [chars, selectedDate]);
+
+  useEffect(() => {
+    if (chars.length > 0) setSelectedChar(chars[0]);
+  }, []);
 
   return (
     <div className='flex flex-col gap-12 w-full items-center justify-start'>

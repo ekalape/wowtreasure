@@ -1,10 +1,11 @@
-import { add, format, isWithinInterval, sub } from 'date-fns';
+import { add, format, isWithinInterval, parseISO, sub } from 'date-fns';
 import styles from '../styles.module.css';
 import { createContext, useContext, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 import DayTile from '../DayTile';
 import { createMonthDates } from '../createMonthDates';
+import useCharsStore from '@/store/charsStore';
 
 type DateValueType = {
   date: string;
@@ -24,8 +25,10 @@ const CalendarContext = createContext<CalendarContextType | undefined>(undefined
 type CalendarPropsType = {
   onDayClick: (date: Date) => void;
   currentDate: Date;
+  prevSelectedDay?: Date;
   startDay?: Date;
   endDay?: Date;
+  specialDay?: Date;
   disabledFrom?: Date;
   disabledTo?: Date;
   showTooltip?: boolean;
@@ -34,6 +37,8 @@ type CalendarPropsType = {
 
 export default function Calendar(props: CalendarPropsType) {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+
+  const sign = useCharsStore((state) => state.sign);
 
   const [monthDay, setMonthDay] = useState<Date>(props.currentDate);
 
@@ -84,6 +89,8 @@ export default function Calendar(props: CalendarPropsType) {
                 day={d.date}
                 fullProfit={d.fullProfit}
                 enabled={d.enabled}
+                prevSelectedDay={props.prevSelectedDay}
+                specialDay={props.specialDay || parseISO(sign)}
                 showTooltip={props.showTooltip}
                 insideRange={isWithinInterval(d.date, {
                   start: props.startDay || new Date(),
