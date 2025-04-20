@@ -3,7 +3,7 @@
 import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import CustomError from './CustomError';
 import { CharDataType, IChar } from '@/lib/models/char.interface';
-import { WowTokenType } from '@/lib/models/user.interface';
+import { RangeType, WowTokenType } from '@/lib/models/user.interface';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
@@ -231,6 +231,95 @@ export async function deleteChar(charid: string) {
     return { success: true };
   } catch (e) {
     console.error('Error in deleteChar:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function addRange(from: string, to: string, fullProfit: number) {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session?.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+    user.ranges.push({ from, to, fullProfit });
+    user.currentSign = to;
+    user.markModified('range');
+    await user.save();
+    return { success: true, ranges: user.ranges, error: null };
+  } catch (e) {
+    console.error('Error in addRange:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function getRanges(): Promise<{
+  success: boolean;
+  ranges?: RangeType[];
+  error: string | null;
+}> {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session?.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+
+    return { success: true, ranges: user.ranges, error: null };
+  } catch (e) {
+    console.error('Error in getRanges:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function getSign() {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+
+    return { success: true, currentSign: user.currentSign, error: null };
+  } catch (e) {
+    console.error('Error in getRanges:', e);
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
+export async function setNewSign(newSign: string) {
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+  }
+  const email = session.user?.email;
+  await connectToDb();
+  try {
+    const user = await wowUser.findOne({ email });
+    if (!user) {
+      return { success: false, error: 'User not found' };
+    }
+    user.currentSign = newSign;
+    await user.save();
+    revalidatePath('/');
+    return { success: true, currentSign: user.currentSign, error: null };
+  } catch (e) {
+    console.error('Error in setting new sign:', e);
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
   }
 }

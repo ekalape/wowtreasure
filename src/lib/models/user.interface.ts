@@ -13,3 +13,9 @@ export interface WowTokenType {
   date: string;
   price: number;
 }
+
+export interface RangeType {
+  from: string;
+  to: string;
+  fullProfit: number;
+}

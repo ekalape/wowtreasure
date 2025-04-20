@@ -10,6 +10,7 @@ type DayTilePropsType = {
   insideRange?: boolean;
   fullProfit?: number;
   day: Date;
+  showTooltip?: boolean;
 };
 
 interface TooltipState {
@@ -20,7 +21,7 @@ interface TooltipState {
 }
 
 export default function DayTile(props: DayTilePropsType) {
-  const { day, enabled = false, insideRange = false, fullProfit = 0 } = props;
+  const { day, enabled = false, insideRange = false, fullProfit = 0, showTooltip } = props;
   const { onDaySelect, selectedDay, setSelectedDay, disabledFrom, disabledTo } =
     useCalendarContext();
 
@@ -63,18 +64,19 @@ export default function DayTile(props: DayTilePropsType) {
         disabledTo && isBefore(day, disabledTo) && !isToday(day) && styles.disabled,
       )}
       onMouseEnter={(e) => {
-        setTooltip({
-          visible: true,
-          content: tooltipContent,
-          x: e.clientX + 10, // Смещение вправо от курсора
-          y: e.clientY + 10, // Смещение вниз от курсора
-        });
+        showTooltip &&
+          setTooltip({
+            visible: true,
+            content: tooltipContent,
+            x: e.clientX + 10, // Смещение вправо от курсора
+            y: e.clientY + 10, // Смещение вниз от курсора
+          });
       }}
-      onMouseLeave={() => setTooltip((prev) => ({ ...prev, visible: false }))}>
+      onMouseLeave={() => showTooltip && setTooltip((prev) => ({ ...prev, visible: false }))}>
       {format(day, 'dd')}
 
       <AnimatePresence>
-        {tooltip.visible && (
+        {showTooltip && tooltip.visible && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}

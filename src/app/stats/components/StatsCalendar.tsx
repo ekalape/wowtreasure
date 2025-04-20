@@ -5,7 +5,7 @@ import useCharsStore from '@/store/charsStore';
 import { format, parse } from 'date-fns';
 import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
-import { handleProfitData } from '../handleProfitData';
+import { handleProfitData } from '../../../lib/utils/handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';
 import { transformToDate } from '@/lib/utils/transformDate';
 import { CalendarW } from '@/components/CalendarWow';
@@ -47,6 +47,7 @@ export default function StatsCalendar({ chars }: { chars: IChar[] }) {
         disabledFrom={today}
         startDay={transformToDate(from)}
         endDay={transformToDate(to)}
+        showTooltip={true}
         values={profitsByDate.map((pr) => ({
           date: pr.date,
           fullProfit: pr.fullProfit,

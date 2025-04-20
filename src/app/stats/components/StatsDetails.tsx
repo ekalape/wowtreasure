@@ -1,7 +1,7 @@
 'use client';
 
 import { parseAsString, useQueryState } from 'nuqs';
-import { handleProfitData } from '../handleProfitData';
+import { handleProfitData } from '../../../lib/utils/handleProfitData';
 
 import { isSameDay } from 'date-fns';
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';

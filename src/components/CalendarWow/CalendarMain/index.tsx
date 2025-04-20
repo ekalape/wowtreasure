@@ -28,6 +28,7 @@ type CalendarPropsType = {
   endDay?: Date;
   disabledFrom?: Date;
   disabledTo?: Date;
+  showTooltip?: boolean;
   values: DateValueType[];
 };
 
@@ -83,6 +84,7 @@ export default function Calendar(props: CalendarPropsType) {
                 day={d.date}
                 fullProfit={d.fullProfit}
                 enabled={d.enabled}
+                showTooltip={props.showTooltip}
                 insideRange={isWithinInterval(d.date, {
                   start: props.startDay || new Date(),
                   end: props.endDay || new Date(),

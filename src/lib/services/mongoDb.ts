@@ -32,6 +32,8 @@ const UserSchema = new Schema(
       },
     ],
     wowTokens: [{ date: String, price: Number }],
+    currentSign: { type: String, default: new Date().toString() },
+    ranges: { type: [{ from: String, to: String, fullProfit: Number }], default: [] },
   },
   {
     toJSON: {
@@ -68,7 +70,7 @@ const mongooseConnection = (() => {
     }
 
     try {
-      const mongoDbUri = process.env.MONGODB_EXTERNAL_URI;
+      const mongoDbUri = process.env.MONGODB_LOCAL_URI;
       if (!mongoDbUri) {
         throw new Error('MONGODB_URI is not defined');
       }

@@ -2,11 +2,12 @@
 import { IChar } from '@/lib/models/char.interface';
 import { parseAsString, useQueryState } from 'nuqs';
 import React from 'react';
-import { handleProfitData } from '../handleProfitData';
+import { handleProfitData } from '../../../lib/utils/handleProfitData';
 import { transformToDate, transformToString } from '@/lib/utils/transformDate';
 import useCharsStore from '@/store/charsStore';
 import ChartByDate from './ChartByDate';
 import ChartByChar from './ChartByChar';
+import ChartByRange from './ChartByRange';
 
 const today = new Date();
 
@@ -31,16 +32,23 @@ export default function StatsCharts({ chars }: { chars: IChar[] }) {
         <h3 className='mt-2 font-yatra text-lg'>No profits found for this range</h3>
       ) : (
         <section className='grid grid-cols-2 gap-3'>
-          <ChartByDate
-            profits={profits}
-            from={from || signedDate}
-            to={to || transformToString(today)}
-          />
-          <ChartByChar
-            profits={profits}
-            from={from || signedDate}
-            to={to || transformToString(today)}
-          />
+          <div className='p-2 col-span-2'>
+            <ChartByDate
+              profits={profits}
+              from={from || signedDate}
+              to={to || transformToString(today)}
+            />
+          </div>
+          <div className='p-2'>
+            <ChartByChar
+              profits={profits}
+              from={from || signedDate}
+              to={to || transformToString(today)}
+            />
+          </div>
+          <div className='p-2'>
+            <ChartByRange />
+          </div>
         </section>
       )}
     </div>
