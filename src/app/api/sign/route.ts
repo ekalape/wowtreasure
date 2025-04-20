@@ -1,5 +1,4 @@
 import { getSign, setNewSign } from '@/app/actions/UserAction';
-import { get } from 'http';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {

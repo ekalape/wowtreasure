@@ -2,7 +2,6 @@ import { IChar } from '@/lib/models/char.interface';
 import { sub } from 'date-fns';
 import { create } from 'zustand';
 import { ICharsStore } from './store.models';
-import { persist } from 'zustand/middleware';
 
 const useCharsStore = create<ICharsStore>()(
   /*   persist( */

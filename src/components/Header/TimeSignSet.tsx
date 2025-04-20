@@ -4,7 +4,7 @@ import useCharsStore from '@/store/charsStore';
 import DateChooserInput from '../DateChooser/DateChooserInput';
 import { useHasHydrated } from '@/lib/utils/useHasHydrated';
 import { LoaderHoriz } from '../Loader/LoaderHoriz';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { IChar } from '@/lib/models/char.interface';

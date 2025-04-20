@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react';
 import styles from './styles.module.css';
-import { format, isAfter, isBefore, isEqual, isSameDay, isToday } from 'date-fns';
+import { format, isAfter, isBefore, isSameDay, isToday } from 'date-fns';
 import { useCalendarContext } from '../CalendarMain';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
-import { spec } from 'node:test/reporters';
 
 type DayTilePropsType = {
   enabled?: boolean;
@@ -77,13 +76,14 @@ export default function DayTile(props: DayTilePropsType) {
         disabledTo && isBefore(day, disabledTo) && !isToday(day) && styles.disabled,
       )}
       onMouseEnter={(e) => {
-        showTooltip &&
+        if (showTooltip)
           setTooltip({
             visible: true,
             content: tooltipContent,
-            x: e.clientX + 10, // Смещение вправо от курсора
-            y: e.clientY + 10, // Смещение вниз от курсора
+            x: e.clientX + 10,
+            y: e.clientY + 10,
           });
+        else setTooltip((prev) => ({ ...prev, visible: false }));
       }}
       onMouseLeave={() => showTooltip && setTooltip((prev) => ({ ...prev, visible: false }))}>
       {format(day, 'dd')}
@@ -96,7 +96,7 @@ export default function DayTile(props: DayTilePropsType) {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             style={{
-              position: 'fixed', // Используем fixed для позиционирования относительно окна браузера
+              position: 'fixed',
               left: tooltip.x,
               top: tooltip.y,
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -104,7 +104,7 @@ export default function DayTile(props: DayTilePropsType) {
               padding: '4px 8px',
               borderRadius: '4px',
               fontSize: '12px',
-              pointerEvents: 'none', // Чтобы подсказка не мешала взаимодействию
+              pointerEvents: 'none',
               zIndex: 1000,
             }}>
             {tooltip.content}

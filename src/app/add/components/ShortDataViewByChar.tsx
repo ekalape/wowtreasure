@@ -1,8 +1,6 @@
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
-import { IChar } from '@/lib/models/char.interface';
 import useCharsStore from '@/store/charsStore';
 import { compareAsc, formatDistance } from 'date-fns';
-import React, { useEffect, useState } from 'react';
 
 type ShortDataViewPropsType = {
   entries: number;

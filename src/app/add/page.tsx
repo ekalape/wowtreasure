@@ -14,7 +14,6 @@ export default async function page() {
   }
 
   const chars = await getAllCharsAction();
-  console.dir(chars);
 
   return (
     <div className='w-full flex flex-col mt-8 p-10 items-center relative'>

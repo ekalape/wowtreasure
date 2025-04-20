@@ -276,7 +276,7 @@ export async function getRanges(): Promise<{
     if (!user) {
       return { success: false, error: 'User not found' };
     }
-    console.log('user.ranges inside getRanges', user.ranges);
+
     return { success: true, ranges: user.ranges, error: null };
   } catch (e) {
     console.error('Error in getRanges:', e);

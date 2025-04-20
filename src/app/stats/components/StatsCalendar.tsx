@@ -3,7 +3,7 @@
 import useCharsStore from '@/store/charsStore';
 
 import { format, parse } from 'date-fns';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../../../lib/utils/handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';
