@@ -70,7 +70,7 @@ const mongooseConnection = (() => {
     }
 
     try {
-      const mongoDbUri = process.env.MONGODB_LOCAL_URI;
+      const mongoDbUri = process.env.MONGODB_EXTERNAL_URI;
       if (!mongoDbUri) {
         throw new Error('MONGODB_URI is not defined');
       }
