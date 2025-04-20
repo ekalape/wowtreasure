@@ -29,7 +29,6 @@ export default function ChartByRange() {
       const result = await fetch('/api/range');
       const res = await result.json();
       if (res.success && res.ranges) {
-        console.log(res.ranges);
         const ranges = res.ranges.map((range: { from: string; to: string; fullProfit: number }) => {
           return { period: range.from + ' period ' + range.to, fullProfit: range.fullProfit };
         });
@@ -43,11 +42,12 @@ export default function ChartByRange() {
     updateRanges();
   }, [sign]);
 
-  useEffect(() => {
-    console.log('fullChartData', fullChartData);
-  }, [fullChartData]);
-
-  if (!fullChartData.length) return <></>;
+  if (!fullChartData.length)
+    return (
+      <>
+        <h3>No data yet</h3>
+      </>
+    );
 
   return (
     <ChartContainer config={chartConfig} className='min-h-[100px] max-h-[250px] w-full'>

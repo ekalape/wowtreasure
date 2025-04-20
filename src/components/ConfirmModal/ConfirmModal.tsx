@@ -6,15 +6,15 @@ export default function ConfirmModal({
   setConfirm,
 }: {
   message: string;
-  setConfirm: (confirm: boolean) => void;
+  setConfirm: (confirm: 'yes' | 'no' | 'idle') => void;
 }) {
   const handleYes = () => {
-    setConfirm(true);
+    setConfirm('yes');
   };
 
   const handleNo = () => {
     console.log('inside modal');
-    setConfirm(false);
+    setConfirm('no');
   };
 
   return (

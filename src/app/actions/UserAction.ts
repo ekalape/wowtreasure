@@ -251,6 +251,7 @@ export async function addRange(from: string, to: string, fullProfit: number) {
     user.currentSign = to;
     user.markModified('range');
     await user.save();
+    revalidatePath('/');
     return { success: true, ranges: user.ranges, error: null };
   } catch (e) {
     console.error('Error in addRange:', e);
@@ -269,12 +270,13 @@ export async function getRanges(): Promise<{
   }
   const email = session?.user?.email;
   await connectToDb();
+
   try {
     const user = await wowUser.findOne({ email });
     if (!user) {
       return { success: false, error: 'User not found' };
     }
-
+    console.log('user.ranges inside getRanges', user.ranges);
     return { success: true, ranges: user.ranges, error: null };
   } catch (e) {
     console.error('Error in getRanges:', e);

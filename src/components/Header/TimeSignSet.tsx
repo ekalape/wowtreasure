@@ -20,23 +20,21 @@ type TimeSignSetProps = {
 export default function TimeSignSet({ chars, className, currentSign }: TimeSignSetProps) {
   const hasHydrated = useHasHydrated();
 
-  console.log('currentSign inside timeSignSet', currentSign);
-
   const sign = useCharsStore((state) => state.sign);
   const setSign = useCharsStore((state) => state.setSign);
 
-  const [confirmed, setConfirmed] = useState<boolean | null>(null);
+  const [confirmed, setConfirmed] = useState<'yes' | 'no' | 'idle'>('idle');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [newSign, setNewSign] = useState(sign);
 
   const handleSetNewSign = (newsign: string) => {
-    /* if (isBefore(newsign, sign)) return; */
+    if (isBefore(newsign, sign)) return;
     setNewSign(newsign);
     setShowConfirmModal(true);
   };
 
   useEffect(() => {
-    if (confirmed) {
+    if (confirmed === 'yes') {
       const fullProfit = handleProfitData(chars, new Date(currentSign), new Date(newSign)).reduce(
         (acc, curr) => acc + curr.fullProfit,
         0,
@@ -49,7 +47,7 @@ export default function TimeSignSet({ chars, className, currentSign }: TimeSignS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newRange),
         });
-        console.log(res);
+
         const result = await res.json();
         if (!result.success) console.log(result.error);
         if (result.success) {
@@ -57,25 +55,25 @@ export default function TimeSignSet({ chars, className, currentSign }: TimeSignS
         }
       };
       updateRange();
-    } else {
+    }
+    if (confirmed === 'no') {
       const updateSign = async () => {
         const res = await fetch('/api/sign', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sign: newSign }),
         });
-        console.log(res);
+
         const result = await res.json();
         if (!result.success) console.log(result.error);
         if (result.success) {
-          console.log('sign updated');
           setSign(newSign);
         }
       };
       updateSign();
     }
     setShowConfirmModal(false);
-    setConfirmed(null);
+    setConfirmed('idle');
   }, [confirmed]);
 
   useEffect(() => {
