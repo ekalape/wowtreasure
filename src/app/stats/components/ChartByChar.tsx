@@ -1,6 +1,6 @@
 'use client';
 import { IChar } from '@/lib/models/char.interface';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 import {
@@ -9,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { handleProditDataByChar } from '@/lib/utils/handleProfitData';
 
 type ChartProps = {
   profits: { date: string; chars: IChar[]; fullProfit: number }[];
@@ -24,17 +25,7 @@ const chartConfig: ChartConfig = {
 
 export default function ChartByChar({ profits }: ChartProps) {
   const profitsByChars = useMemo(() => {
-    return profits.reduce((acc, pr) => {
-      pr.chars.forEach((char) => {
-        const existingChar = acc.find((item) => item.charId === char.charid);
-        if (existingChar) {
-          existingChar.fullProfit += pr.fullProfit;
-        } else {
-          acc.push({ charId: char.charid, charName: char.name, fullProfit: pr.fullProfit });
-        }
-      });
-      return acc;
-    }, [] as { charId: string; charName: string; fullProfit: number }[]);
+    return handleProditDataByChar(profits);
   }, [profits]);
 
   return (
@@ -57,7 +48,7 @@ export default function ChartByChar({ profits }: ChartProps) {
             />
           }
         />
-        <Bar dataKey='fullProfit' fill='var(--foreground-alt)' radius={8} />
+        <Bar dataKey='rangeProfit' fill='var(--foreground-alt)' radius={8} />
       </BarChart>
     </ChartContainer>
   );

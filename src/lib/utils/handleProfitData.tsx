@@ -38,3 +38,29 @@ export function handleProfitData(chars: IChar[], from: Date, to: Date) {
 
   return result;
 }
+
+export function handleProditDataByChar(
+  profit: {
+    date: string;
+    chars: IChar[];
+    fullProfit: number;
+  }[],
+) {
+  const result: { char: IChar; rangeProfit: number }[] = [];
+
+  return profit.reduce((acc, pr) => {
+    pr.chars.forEach((char) => {
+      const dailyProfit = char.earnings.reduce((acc, er) => {
+        if (isSameDay(er.date, pr.date)) return acc + er.amount;
+        else return acc;
+      }, 0);
+      const existingChar = result.find((item) => item.char.charid === char.charid);
+      if (existingChar) {
+        existingChar.rangeProfit += dailyProfit;
+      } else {
+        result.push({ char, rangeProfit: dailyProfit });
+      }
+    });
+    return result;
+  }, [] as { char: IChar; rangeProfit: number }[]);
+}

@@ -1,13 +1,13 @@
 'use client';
 
 import { parseAsString, useQueryState } from 'nuqs';
-import { handleProfitData } from '../../../lib/utils/handleProfitData';
+import { handleProditDataByChar, handleProfitData } from '@/lib/utils/handleProfitData';
 
 import { isSameDay } from 'date-fns';
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
 import { useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
-import { transformToDate } from './../../../lib/utils/transformDate';
+import { transformToDate } from '@/lib/utils/transformDate';
 
 export default function StatsDetails({ chars }: { chars: IChar[] }) {
   const [from] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
@@ -20,23 +20,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
   }, [chars, from, to]);
 
   const profitsByChars = useMemo(() => {
-    const result: { char: IChar; rangeProfit: number }[] = [];
-
-    return profits.reduce((acc, pr) => {
-      pr.chars.forEach((char) => {
-        const dailyProfit = char.earnings.reduce((acc, er) => {
-          if (isSameDay(er.date, pr.date)) return acc + er.amount;
-          else return acc;
-        }, 0);
-        const existingChar = result.find((item) => item.char.charid === char.charid);
-        if (existingChar) {
-          existingChar.rangeProfit += dailyProfit;
-        } else {
-          result.push({ char, rangeProfit: dailyProfit });
-        }
-      });
-      return result;
-    }, [] as { char: IChar; rangeProfit: number }[]);
+    return handleProditDataByChar(profits);
   }, [profits]);
 
   const profitsByDate = useMemo(() => {
