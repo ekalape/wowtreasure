@@ -2,6 +2,7 @@ import mongoose, { Mongoose } from 'mongoose';
 import { IChar } from '../models/char.interface';
 import { WowTokenType } from '../models/user.interface';
 import bcrypt from 'bcryptjs';
+import { sub } from 'date-fns';
 
 console.log('mongoDb.ts loaded');
 
@@ -32,13 +33,13 @@ const UserSchema = new Schema(
       },
     ],
     wowTokens: [{ date: String, price: Number }],
-    currentSign: { type: String, default: new Date().toString() },
+    currentSign: { type: String, default: sub(new Date(), { weeks: 1 }).toISOString() },
     ranges: { type: [{ from: String, to: String, fullProfit: Number }], default: [] },
   },
   {
     toJSON: {
       transform: (doc, ret) => {
-        ret._id = ret._id.toString(); // Преобразуем _id в строку
+        ret._id = ret._id.toString();
         return ret;
       },
     },

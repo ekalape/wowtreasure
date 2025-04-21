@@ -20,17 +20,23 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
   }, [chars, from, to]);
 
   const profitsByChars = useMemo(() => {
+    const result: { char: IChar; rangeProfit: number }[] = [];
+
     return profits.reduce((acc, pr) => {
       pr.chars.forEach((char) => {
-        const existingChar = acc.find((item) => item.char.charid === char.charid);
+        const dailyProfit = char.earnings.reduce((acc, er) => {
+          if (isSameDay(er.date, pr.date)) return acc + er.amount;
+          else return acc;
+        }, 0);
+        const existingChar = result.find((item) => item.char.charid === char.charid);
         if (existingChar) {
-          existingChar.fullProfit += pr.fullProfit;
+          existingChar.rangeProfit += dailyProfit;
         } else {
-          acc.push({ char, fullProfit: pr.fullProfit });
+          result.push({ char, rangeProfit: dailyProfit });
         }
       });
-      return acc;
-    }, [] as { char: IChar; fullProfit: number }[]);
+      return result;
+    }, [] as { char: IChar; rangeProfit: number }[]);
   }, [profits]);
 
   const profitsByDate = useMemo(() => {
@@ -49,10 +55,10 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
         .reduce((acc, earn) => acc + earn.amount, 0);
 
       const existingChar = result.find((r) => r.char.charid === ch.charid);
-      console.log('existingChar', existingChar);
+
       if (!existingChar) {
         result.push({ char: ch, dayProfit });
-      } 
+      }
     });
 
     return result;
@@ -97,7 +103,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
               charclass={pr.char.charclass}
               fraction={pr.char.fraction}>
               {' '}
-              {pr.char.name} - {pr.fullProfit}
+              {pr.char.name} - {pr.rangeProfit}
             </CharCardDataView>
           ))}
         </div>
