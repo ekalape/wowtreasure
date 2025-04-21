@@ -25,7 +25,10 @@ const chartConfig: ChartConfig = {
 
 export default function ChartByChar({ profits }: ChartProps) {
   const profitsByChars = useMemo(() => {
-    return handleProditDataByChar(profits);
+    return handleProditDataByChar(profits).map((pr) => ({
+      charName: pr.char.name,
+      rangeProfit: pr.rangeProfit,
+    }));
   }, [profits]);
 
   return (
