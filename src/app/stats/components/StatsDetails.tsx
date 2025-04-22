@@ -20,7 +20,7 @@ export default function StatsDetails({ chars }: { chars: IChar[] }) {
   }, [chars, from, to]);
 
   const profitsByChars = useMemo(() => {
-    return handleProditDataByChar(profits);
+    return handleProditDataByChar(profits).sort((a, b) => b.rangeProfit - a.rangeProfit);
   }, [profits]);
 
   const profitsByDate = useMemo(() => {

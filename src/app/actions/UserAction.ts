@@ -109,6 +109,7 @@ export async function addNewProfit(charid: string, date: string, amount: number)
     redirect('/');
   }
   const email = session?.user?.email;
+  await connectToDb();
   try {
     const user = await wowUser.findOne({ email });
 
@@ -127,7 +128,7 @@ export async function addNewProfit(charid: string, date: string, amount: number)
           'chars.$.earnings': { date, amount },
         },
       },
-      { success: true },
+      { new: true },
     );
     if (!updateResult) {
       return { success: false, error: 'Failed to update character earnings' };

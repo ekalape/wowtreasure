@@ -20,7 +20,9 @@ export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType)
   }
   const profs = char.earnings
     .sort((a, b) => compareAsc(a.date, b.date))
-    .slice(char.earnings.length - entries, char.earnings.length);
+    /* .slice(char.earnings.length - entries, char.earnings.length); */
+
+    if(profs.length > entries) profs.splice(0, profs.length - entries)
 
   return (
     <div className='flex flex-col gap-2 w-full mt-4'>
