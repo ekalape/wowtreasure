@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
 import AddMainPage from './AddMainPage';
 import { getAllCharsAction } from '../actions/UserAction';

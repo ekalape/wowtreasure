@@ -19,15 +19,6 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
   const [totalForChar, setTotalForChar] = useState(0);
 
   useEffect(() => {
-    setTotalForChar(
-      selectedChar?.earnings.reduce((acc, curr) => {
-        if (!isSameDay(curr.date, selectedDate)) return acc;
-        return acc + curr.amount;
-      }, 0) || 0,
-    );
-  }, [selectedChar, selectedDate]);
-
-  useEffect(() => {
     if (chars) {
       setTotal(
         chars.reduce((acc, curr) => {
@@ -47,6 +38,16 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
       }
     }
   }, [chars, selectedDate]);
+
+  useEffect(() => {
+    const charsProfit =
+      selectedChar?.earnings.reduce((acc, curr) => {
+        if (!isSameDay(curr.date, selectedDate)) return acc;
+        return acc + curr.amount;
+      }, 0) || 0;
+
+    setTotalForChar(charsProfit <= total ? Number(((charsProfit * 100) / total).toFixed(2)) : 0);
+  }, [selectedDate, selectedChar, total]);
 
   useEffect(() => {
     if (chars.length > 0) setSelectedChar(chars[0]);
@@ -89,10 +90,11 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
           <span className='text-xl  not-italic font-yatra text-foreground_alt'>
             {selectedChar?.name}
           </span>
-          : <span className='highlighted font-yatra not-italic text-pink-300'>{totalForChar}</span>
+          : <span className='highlighted font-yatra not-italic text-pink-300'>{totalForChar}%</span>
         </div>
         <div className='italic font-hachi '>
-          Total: <span className='highlighted font-yatra not-italic text-pink-300'>{total}</span>
+          Total this day:{' '}
+          <span className='highlighted font-yatra not-italic text-pink-300'>{total}</span>
         </div>
       </section>
     </div>
