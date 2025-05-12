@@ -31,7 +31,7 @@ export default function ShortDataViewByChar({ entries }: ShortDataViewPropsType)
           id={char.charid}
           charclass={char.charclass}
           fraction={char.fraction}>
-          {formatDistance(laterDate, pr.date) + ' ago'} - {pr.amount}
+          {formatDistance(laterDate, pr.date || new Date()) + ' ago'} - {pr.amount}
         </CharCardDataView>
       ))}
     </div>

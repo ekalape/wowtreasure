@@ -3,7 +3,7 @@
 import useCharsStore from '@/store/charsStore';
 
 import { format, parse } from 'date-fns';
-import { useMemo } from 'react';
+import { use, useMemo } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { handleProfitData } from '../../../lib/utils/handleProfitData';
 import { parseAsString, useQueryState } from 'nuqs';
@@ -12,7 +12,9 @@ import { CalendarW } from '@/components/CalendarWow';
 
 const today = new Date();
 
-export default function StatsCalendar({ chars }: { chars: IChar[] }) {
+export default function StatsCalendar({ charsData }: { charsData: Promise<IChar[]> }) {
+  const chars = use(charsData);
+
   const sign = useCharsStore((state) => state.sign);
 
   const [from] = useQueryState(

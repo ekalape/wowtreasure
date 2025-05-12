@@ -14,7 +14,7 @@ export default async function StatsPage() {
     redirect('/');
   }
 
-  const chars = await getAllCharsAction();
+  const chars = getAllCharsAction();
 
   return (
     <NuqsAdapter>
@@ -24,17 +24,18 @@ export default async function StatsPage() {
         </section>
 
         <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
-          <StatsCalendar chars={chars} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <StatsCalendar charsData={chars} />
+          </Suspense>
         </section>
         <Suspense fallback={<div>Loading...</div>}>
           <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
-            <StatsDetails chars={chars} />
-          </section>
-
-          <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg lg:col-span-2 justify-center items-center'>
-            <StatsCharts chars={chars} />
+            <StatsDetails charsData={chars} />
           </section>
         </Suspense>
+        <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg lg:col-span-2 justify-center items-center'>
+          <StatsCharts charsData={chars} />
+        </section>
       </div>
     </NuqsAdapter>
   );

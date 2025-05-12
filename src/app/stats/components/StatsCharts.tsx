@@ -1,7 +1,7 @@
 'use client';
 import { IChar } from '@/lib/models/char.interface';
 import { parseAsString, useQueryState } from 'nuqs';
-import React from 'react';
+import React, { use } from 'react';
 import { handleProfitData } from '../../../lib/utils/handleProfitData';
 import { transformToDate, transformToString } from '@/lib/utils/transformDate';
 import useCharsStore from '@/store/charsStore';
@@ -11,7 +11,8 @@ import ChartByRange from './ChartByRange';
 
 const today = new Date();
 
-export default function StatsCharts({ chars }: { chars: IChar[] }) {
+export default function StatsCharts({ charsData }: { charsData: Promise<IChar[]> }) {
+  const chars = use(charsData);
   const [from] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
   const [to] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
 

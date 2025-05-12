@@ -13,14 +13,14 @@ export default function ShortDataViewByDate({ day, chars }: ShortDataViewPropsTy
   const todayAdded = chars
     .filter((ch) => {
       return ch.earnings.some((er) => {
-        return isSameDay(er.date.split('T')[0], theDay);
+        return er.date && isSameDay(er.date.split('T')[0], theDay);
       });
     })
     .map((ch) => {
       return {
         char: ch,
         earns: ch.earnings
-          .filter((er) => isSameDay(er.date.split('T')[0], theDay))
+          .filter((er) => er.date && isSameDay(er.date.split('T')[0], theDay))
           .reduce((acc, earn) => acc + earn.amount, 0),
       };
     });

@@ -7,6 +7,7 @@ import { RangeType, WowTokenType } from '@/lib/models/user.interface';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { isSameDay } from 'date-fns';
 
 type NewCharFormDataType = {
   chars: IChar[] | null;
@@ -62,10 +63,11 @@ export async function getAllCharsAction() {
   await connectToDb();
   try {
     const chars = (await wowUser.findOne({ email })).chars;
+
     return JSON.parse(JSON.stringify(chars));
   } catch (e) {
     console.error('Error in getAllCharsAction:', e);
-    return { chars: null, error: e instanceof Error ? e.message : 'Unknown error' };
+    return /* { chars: null, error: e instanceof Error ? e.message : 'Unknown error' } */ [];
   }
 }
 
@@ -104,9 +106,15 @@ export async function addNewCharacter(newCharacter: IChar): Promise<NewCharFormD
   }
 }
 export async function addNewProfit(charid: string, date: string, amount: number) {
+  let actualDate = date;
   const session = await getServerSession();
   if (!session) {
     redirect('/');
+  }
+  if (isSameDay(date, new Date())) {
+    console.log('date inside userActions', date);
+    actualDate = new Date().toISOString();
+    console.log('actualDate', actualDate);
   }
   const email = session?.user?.email;
   await connectToDb();
@@ -125,7 +133,7 @@ export async function addNewProfit(charid: string, date: string, amount: number)
       { email, 'chars.charid': charid },
       {
         $push: {
-          'chars.$.earnings': { date, amount },
+          'chars.$.earnings': { date: actualDate, amount },
         },
       },
       { new: true },

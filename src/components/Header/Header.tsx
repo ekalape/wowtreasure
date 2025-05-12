@@ -13,8 +13,6 @@ export default async function Header() {
   const chars = await getAllCharsAction();
   const signData = await getSign();
 
-  console.log('signData', signData);
-
   return (
     <section className='flex flex-col gap-3 bg-transparent relative'>
       <div className='flex items-center mt-4 gap-3 bg-gradient-to-b from-background to-background_alt'>

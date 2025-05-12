@@ -4,12 +4,13 @@ import { handleProditDataByChar, handleProfitData } from '@/lib/utils/handleProf
 
 import { isSameDay } from 'date-fns';
 import CharCardDataView from '@/components/CharCardDataView/CharCardDataView';
-import { useMemo, useState } from 'react';
+import { use, useMemo, useState } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { transformToDate } from '@/lib/utils/transformDate';
 import Sortsvg from '@/components/Sortsvg';
 
-export default function StatsDetails({ chars }: { chars: IChar[] }) {
+export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]> }) {
+  const chars = use(charsData);
   const [from] = useQueryState('from', parseAsString.withOptions({ shallow: false }));
   const [to] = useQueryState('to', parseAsString.withOptions({ shallow: false }));
   const [dayToView] = useQueryState('day', parseAsString.withOptions({ shallow: false }));
