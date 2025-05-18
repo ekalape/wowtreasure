@@ -46,6 +46,11 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
         return acc + curr.amount;
       }, 0) || 0;
 
+      if(total === 0) {
+        setTotalForChar(0);
+        return;
+      }
+
     setTotalForChar(charsProfit <= total ? Number(((charsProfit * 100) / total).toFixed(2)) : 0);
   }, [selectedDate, selectedChar, total]);
 
@@ -86,7 +91,7 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
       </section>
       <section className='w-fit bg-sky-950/20 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
         <div className='italic font-hachi'>
-          Total for{' '}
+          Part of{' '}
           <span className='text-xl  not-italic font-yatra text-foreground_alt'>
             {selectedChar?.name}
           </span>

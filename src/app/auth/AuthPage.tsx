@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
@@ -26,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { signIn } from 'next-auth/react';
 import { createNewUserAction } from '../actions/UserAction';
+import Alert from '@/components/Alert/Alert';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -50,7 +50,9 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>('login');
-  const [, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const [isPending, setIsPending] = useState(false);
 
   // Login form
   const loginForm = useForm<LoginFormValues>({
@@ -76,22 +78,35 @@ export default function AuthPage() {
 
   // Handle login form submission
   async function onLoginSubmit(data: LoginFormValues) {
+    setIsPending(true);
     const res = await signIn('credentials', {
       email: data.email,
       password: data.password,
       redirect: true,
+      callbackUrl: '/add',
     });
 
     console.log('Login data:', data);
     console.log('result ', res);
+    if (res?.ok) {
+      setError(null);
+      setIsPending(false);
+    }
+
     if (res?.error) {
-      setError(res.error);
-      alert(res.error);
+      if (res.error === 'CredentialsSignin') {
+        setError('Invalid credentials');
+      } else {
+        setError('Login error');
+      }
+      loginForm.reset();
+      setIsPending(false);
     }
   }
 
   // Handle register form submission
   async function onRegisterSubmit(data: RegisterFormValues) {
+    setIsPending(true);
     const res = await createNewUserAction(data.email, data.password, data.name);
 
     console.log('Register data:', data);
@@ -101,15 +116,22 @@ export default function AuthPage() {
         email: data.email,
         password: data.password,
         redirect: true,
+        callbackUrl: '/add',
       });
-      if (resSignIn?.error) {
-        setError(resSignIn.error);
-        alert(resSignIn.error);
+      if (res?.ok) {
+        setError(null);
+        // router.push('/add');
       }
+
+      if (resSignIn?.error) {
+        setError('Register error');
+      }
+      registerForm.reset();
     } else {
       setError('User creation error');
-      alert('Something went wrong');
+      registerForm.reset();
     }
+    setIsPending(false);
   }
 
   return (
@@ -131,44 +153,47 @@ export default function AuthPage() {
                 <CardDescription>Enter your credentials</CardDescription>
               </CardHeader>
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)}>
-                  <CardContent className='space-y-4'>
-                    <FormField
-                      control={loginForm.control}
-                      name='email'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder='m@example.com' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={loginForm.control}
-                      name='password'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <Input type='password' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </CardContent>
-                  <CardFooter>
-                    <Button
-                      type='submit'
-                      className='w-full'
-                      disabled={!loginForm.formState.isValid}>
-                      Enter
-                    </Button>
-                  </CardFooter>
-                </form>
+                <div className='flex flex-col items-center justify-center'>
+                  <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className='w-full'>
+                    <CardContent className='space-y-4'>
+                      <FormField
+                        control={loginForm.control}
+                        name='email'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input placeholder='m@example.com' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={loginForm.control}
+                        name='password'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input type='password' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                    <CardFooter>
+                      <Button
+                        type='submit'
+                        className='w-full'
+                        disabled={!loginForm.formState.isValid || isPending}>
+                        {isPending ? 'Entering...' : 'Enter'}
+                      </Button>
+                    </CardFooter>
+                  </form>
+                  {error && <Alert message={error} onConfirm={() => setError(null)} />}
+                </div>
               </Form>
             </Card>
           </TabsContent>
@@ -239,11 +264,12 @@ export default function AuthPage() {
                     <Button
                       type='submit'
                       className='w-full'
-                      disabled={!registerForm.formState.isValid}>
-                      Create Account
+                      disabled={!registerForm.formState.isValid || isPending}>
+                      {isPending ? 'Creating...' : 'Create account'}
                     </Button>
                   </CardFooter>
                 </form>
+                {error && <Alert message={error} onConfirm={() => setError(null)} />}
               </Form>
             </Card>
           </TabsContent>

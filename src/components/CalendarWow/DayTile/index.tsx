@@ -44,14 +44,14 @@ export default function DayTile(props: DayTilePropsType) {
   const bgIntencity = useMemo((): string => {
     if (!fullProfit) return 'transparent';
     if (fullProfit === 0) return 'transparent';
-    if (fullProfit >= 0 && fullProfit < 10000) {
+    if (fullProfit >= 0 && fullProfit < 20000) {
       return styles.small;
-    } else if (fullProfit >= 10000 && fullProfit < 30000) {
+    } else if (fullProfit >= 20000 && fullProfit < 50000) {
       return styles.medium;
-    } else if (fullProfit >= 30000 && fullProfit < 60000) {
+    } else if (fullProfit >= 50000 && fullProfit < 70000) {
       return styles.large;
-    } else if (fullProfit >= 60000) {
-      return styles.max;
+/*     } else if (fullProfit >= 60000) {
+      return styles.max; */
     } else {
       return 'transparent';
     }

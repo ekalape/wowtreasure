@@ -54,10 +54,10 @@
   background-color: rgb(from var(--medium-blue) r g b / 0.2);
 }
 .medium {
-  background-color: rgb(from var(--medium-blue) r g b / 0.5);
+  background-color: rgb(from var(--medium-blue) r g b / 0.6);
 }
 .large {
-  background-color: rgb(from var(--medium-blue) r g b / 0.75);
+  background-color: rgb(from var(--medium-blue) r g b / 0.9);
 }
 .max {
   background-color: var(--medium-blue);
