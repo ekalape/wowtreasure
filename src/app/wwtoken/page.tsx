@@ -1,9 +1,10 @@
-import { WowTokenType } from '@/lib/models/user.interface';
+import { IUser, WowTokenType } from '@/lib/models/user.interface';
 import TokenForm from './TokenForm';
 import { connectToDb, wowUser } from '@/lib/services/mongoDb';
 import { format } from 'date-fns/format';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import TokensList from './TokensList';
 
 export default async function page() {
   const session = await getServerSession();
@@ -12,7 +13,10 @@ export default async function page() {
   }
   const email = session?.user?.email;
   await connectToDb();
-  const userTokens: WowTokenType[] = (await wowUser.findOne({ email })).wowTokens;
+  /* const userTokens: WowTokenType[] = (await wowUser.findOne({ email })).wowTokens; */
+  const rawUser = await wowUser.findOne({ email }).lean<IUser>(); // автоматически делает .toObject()
+  const userTokens: WowTokenType[] =
+    rawUser?.wowTokens.map((t) => ({ price: t.price, date: t.date })) || [];
 
   const smallest = userTokens.reduce((acc, curr) => {
     return acc.price < curr.price ? acc : curr;
@@ -53,6 +57,7 @@ export default async function page() {
             </div>
           </>
         )}
+        <TokensList tokens={userTokens || []} />
       </div>
     </div>
   );
