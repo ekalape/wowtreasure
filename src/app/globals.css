@@ -73,6 +73,8 @@ html {
     --chart-4: #6a6aa1;
     --chart-5: #a64d89;
 
+    --muted: rgba(80, 57, 255, 0.5);
+
     --hordeColor: #ac5454;
     --allianceColor: #5272ff;
   }

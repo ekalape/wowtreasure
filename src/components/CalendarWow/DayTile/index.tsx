@@ -48,9 +48,9 @@ export default function DayTile(props: DayTilePropsType) {
       return styles.small;
     } else if (fullProfit >= 20000 && fullProfit < 50000) {
       return styles.medium;
-    } else if (fullProfit >= 50000 && fullProfit < 70000) {
+    } else if (fullProfit >= 50000 /* && fullProfit < 70000 */) {
       return styles.large;
-/*     } else if (fullProfit >= 60000) {
+      /*     } else if (fullProfit >= 60000) {
       return styles.max; */
     } else {
       return 'transparent';

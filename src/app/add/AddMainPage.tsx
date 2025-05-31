@@ -9,6 +9,7 @@ import OneDateChooser from '@/components/DateChooser/OneDateChooser';
 import { useEffect, useState } from 'react';
 
 import { IChar } from '@/lib/models/char.interface';
+import LastEntriesList from './components/LastEntriesList';
 
 export default function AddMainPage({ chars }: { chars: IChar[] }) {
   const selectedChar = useCharsStore((state) => state.selectedChar);
@@ -46,10 +47,10 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
         return acc + curr.amount;
       }, 0) || 0;
 
-      if(total === 0) {
-        setTotalForChar(0);
-        return;
-      }
+    if (total === 0) {
+      setTotalForChar(0);
+      return;
+    }
 
     setTotalForChar(charsProfit <= total ? Number(((charsProfit * 100) / total).toFixed(2)) : 0);
   }, [selectedDate, selectedChar, total]);
@@ -89,19 +90,25 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
           <ShortDataViewByDate day={selectedDate} chars={chars} />
         </div>
       </section>
-      <section className='w-fit bg-sky-950/20 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
-        <div className='italic font-hachi'>
-          Part of{' '}
-          <span className='text-xl  not-italic font-yatra text-foreground_alt'>
-            {selectedChar?.name}
-          </span>
-          : <span className='highlighted font-yatra not-italic text-pink-300'>{totalForChar}%</span>
-        </div>
-        <div className='italic font-hachi '>
-          Total this day:{' '}
-          <span className='highlighted font-yatra not-italic text-pink-300'>{total}</span>
-        </div>
-      </section>
+      <div className='flex gap-4 w-full  items-center'>
+        <section className='w-fit bg-sky-950/20 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+          <div className='italic font-hachi'>
+            Part of{' '}
+            <span className='text-xl  not-italic font-yatra text-foreground_alt'>
+              {selectedChar?.name}
+            </span>
+            :{' '}
+            <span className='highlighted font-yatra not-italic text-pink-300'>{totalForChar}%</span>
+          </div>
+          <div className='italic font-hachi '>
+            Total this day:{' '}
+            <span className='highlighted font-yatra not-italic text-pink-300'>{total}</span>
+          </div>
+        </section>
+        <section>
+          <LastEntriesList chars={chars} />
+        </section>
+      </div>
     </div>
   );
 }
