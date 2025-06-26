@@ -8,6 +8,7 @@ import { use, useMemo, useState } from 'react';
 import { IChar } from '@/lib/models/char.interface';
 import { transformToDate } from '@/lib/utils/transformDate';
 import Sortsvg from '@/components/Sortsvg';
+import { LoaderHoriz } from '@/components/Loader/LoaderHoriz';
 
 export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]> }) {
   const chars = use(charsData);
@@ -57,6 +58,7 @@ export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]
       <h3 className='font-yatra mt-10'>
         No profits between {from} and {to}
       </h3>
+      {/*   <LoaderHoriz /> */}
     </div>
   );
   const noSelectedDay = (
@@ -72,62 +74,68 @@ export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]
   );
 
   return (
-    <div className='grid grid-cols-[repeat(2,minmax(350px,50%))] gap-12 items-start'>
-      <div className='flex flex-col gap-2'>
-        <h3 className='flex  gap-3 items-center justify-center'>
-          <span>Total Profit: </span>
-          <span className='highlighted font-yatra'>
-            {profits.reduce((acc, pr) => acc + pr.fullProfit, 0)}
-          </span>
-          <button
-            className='w-8 h-8 p-1 opacity-50 hover:opacity-100 duration-200'
-            onClick={() => {
-              setDescendentSorting((prev) => !prev);
-            }}>
-            <Sortsvg color='#FCAACA' />
-          </button>
-        </h3>
-
-        <div className='flex flex-col gap-2'>
-          {profitsByChars.length === 0 && noRangeProfits}
-          {profitsByChars
-            .sort((a, b) =>
-              descendentSorting ? b.rangeProfit - a.rangeProfit : a.rangeProfit - b.rangeProfit,
-            )
-            .map((pr) => (
-              <CharCardDataView
-                key={pr.char.charid}
-                id={pr.char.charid}
-                charclass={pr.char.charclass}
-                fraction={pr.char.fraction}>
-                {' '}
-                {pr.char.name} - {pr.rangeProfit}
-              </CharCardDataView>
-            ))}
-        </div>
-      </div>
-      {dayToView && (
-        <div className='flex flex-col gap-2'>
-          <h3>
-            <span>Selected day: </span>
-            <span className='highlighted font-yatra'>{dayToView}</span>
-          </h3>
+    <>
+      {chars.length === 0 ? (
+        <LoaderHoriz />
+      ) : (
+        <div className='grid grid-cols-[repeat(2,minmax(350px,50%))] gap-12 items-start'>
           <div className='flex flex-col gap-2'>
-            {!dayToView && noSelectedDay}
-            {dayToView && (!profitsByDate || profitsByDate?.length === 0) && noDayProfits}
-            {profitsByDate?.map((pr) => (
-              <CharCardDataView
-                key={pr.char.charid}
-                id={pr.char.charid}
-                charclass={pr.char.charclass}
-                fraction={pr.char.fraction}>
-                {' '}
-                {pr.char.name} - {pr.dayProfit}
-              </CharCardDataView>
-            ))}
+            <h3 className='flex  gap-3 items-center justify-center'>
+              <span>Total Profit: </span>
+              <span className='highlighted font-yatra'>
+                {profits.reduce((acc, pr) => acc + pr.fullProfit, 0)}
+              </span>
+              <button
+                className='w-8 h-8 p-1 opacity-50 hover:opacity-100 duration-200'
+                onClick={() => {
+                  setDescendentSorting((prev) => !prev);
+                }}>
+                <Sortsvg color='#FCAACA' />
+              </button>
+            </h3>
+
+            <div className='flex flex-col gap-2'>
+              {profitsByChars.length === 0 && noRangeProfits}
+              {profitsByChars
+                .sort((a, b) =>
+                  descendentSorting ? b.rangeProfit - a.rangeProfit : a.rangeProfit - b.rangeProfit,
+                )
+                .map((pr) => (
+                  <CharCardDataView
+                    key={pr.char.charid}
+                    id={pr.char.charid}
+                    charclass={pr.char.charclass}
+                    fraction={pr.char.fraction}>
+                    {' '}
+                    {pr.char.name} - {pr.rangeProfit}
+                  </CharCardDataView>
+                ))}
+            </div>
           </div>
+          {dayToView && (
+            <div className='flex flex-col gap-2'>
+              <h3>
+                <span>Selected day: </span>
+                <span className='highlighted font-yatra'>{dayToView}</span>
+              </h3>
+              <div className='flex flex-col gap-2'>
+                {!dayToView && noSelectedDay}
+                {dayToView && (!profitsByDate || profitsByDate?.length === 0) && noDayProfits}
+                {profitsByDate?.map((pr) => (
+                  <CharCardDataView
+                    key={pr.char.charid}
+                    id={pr.char.charid}
+                    charclass={pr.char.charclass}
+                    fraction={pr.char.fraction}>
+                    {' '}
+                    {pr.char.name} - {pr.dayProfit}
+                  </CharCardDataView>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }

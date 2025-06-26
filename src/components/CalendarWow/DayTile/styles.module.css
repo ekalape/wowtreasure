@@ -18,7 +18,7 @@
 .disabled {
   color: rgb(from var(--text) r g b / 0.2);
   cursor: default;
-  pointer-events: none;
+  /*  pointer-events: none; */
 }
 
 .transparent {

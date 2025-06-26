@@ -1,22 +1,26 @@
+'use client';
+
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
+import { WowTokenType } from '@/lib/models/user.interface';
 import useCharsStore from '@/store/charsStore';
-import { format } from 'date-fns';
+import { format, isAfter, isBefore } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
-type RangeChartType = {
+type TokensChartType = {
   period: string;
-  fullProfit: number;
+  tokens: number;
+  tokensSum: number;
 }[];
 const chartConfig: ChartConfig = {
-  fullProfit: {
-    label: 'Profit',
+  tokens: {
+    label: 'Tokens',
     color: 'var(--primary)',
   },
 };
 
-export default function ChartByRange() {
-  const [fullChartData, setFullChartData] = useState<RangeChartType>([]);
+export default function ChartTokens({ tokens }: { tokens: WowTokenType[] }) {
+  const [fullChartData, setFullChartData] = useState<TokensChartType>([]);
   const sign = useCharsStore((state) => state.sign);
 
   useEffect(() => {
@@ -25,9 +29,18 @@ export default function ChartByRange() {
       const res = await result.json();
       if (res.success && res.ranges) {
         const ranges = res.ranges.map((range: { from: string; to: string; fullProfit: number }) => {
-          return { period: range.from + ' period ' + range.to, fullProfit: range.fullProfit };
+          console.log('range', range);
+          const tokensInRange = tokens.filter(
+            (token) => isBefore(token.date, range.to) && isAfter(token.date, range.from),
+          );
+          console.log('tokensInRange', tokensInRange);
+          return {
+            period: range.from + ' period ' + range.to,
+            tokens: tokensInRange.length || 0,
+            tokensSum: tokensInRange.reduce((acc, curr) => acc + curr.price, 0) || 0,
+          };
         });
-        if (ranges.length > 6) ranges.splice(0, ranges.length - 6);
+        /* if (ranges.length > 6) ranges.splice(0, ranges.length - 6); */
         setFullChartData(ranges);
       }
       if (res.error) {
@@ -66,14 +79,16 @@ export default function ChartByRange() {
             const item = payload[0];
             return (
               <div className='rounded bg-background p-2 text-sm shadow'>
-                <div className='text-muted-foreground'>Profit:</div>
+                <div className='text-muted-foreground'>Tokens:</div>
+                <div className='font-bold'>{item.payload.tokens}</div>
+                <div className='text-muted-foreground'>Expense:</div>
                 <div className='font-bold'>{item.value}</div>
               </div>
             );
           }}
         />
 
-        <Bar dataKey='fullProfit' fill='var(--primary)' radius={4} />
+        <Bar dataKey='tokensSum' fill='var(--primary)' radius={4} />
       </BarChart>
     </ChartContainer>
   );

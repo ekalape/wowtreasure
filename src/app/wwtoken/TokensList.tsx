@@ -13,7 +13,7 @@ export default function TokensList({ tokens }: { tokens: WowTokenType[] }) {
         Show all
       </Button>
       {show && (
-        <div className='mt-2 max-h-96 p-6 absolute left-0 overflow-y-auto bg-background border-2 border-background_alt rounded-lg '>
+        <div className='mt-2 max-h-96 p-6 absolute left-0 overflow-y-auto bg-background  border-2 border-background_alt rounded-lg z-10'>
           {tokens
             .sort((a, b) => (isBefore(b.date, a.date) ? 1 : -1))
             .map((token, index) => (

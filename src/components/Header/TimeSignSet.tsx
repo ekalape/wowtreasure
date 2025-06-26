@@ -85,8 +85,9 @@ export default function TimeSignSet({ chars, className, currentSign }: TimeSignS
       className={`flex p-4 text-pink-300 font-yatra
         gap-3 
          ${className}`}>
-      {!hasHydrated && <LoaderHoriz />}
+      {!hasHydrated ? <LoaderHoriz />:
       <DateChooserInput date={sign} setDate={handleSetNewSign} />
+      }      
       {showConfirmModal &&
         createPortal(
           <ConfirmModal message='Do you want to save previous range?' setConfirm={setConfirmed} />,

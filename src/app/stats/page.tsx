@@ -1,12 +1,13 @@
 import TwoDateChooser from '@/components/DateChooser/TwoDatesChooser';
 import { NuqsAdapter } from 'nuqs/adapters/next';
-import React, { Suspense } from 'react';
 import StatsCalendar from './components/StatsCalendar';
 import StatsDetails from './components/StatsDetails';
 import StatsCharts from './components/StatsCharts';
 import { getAllCharsAction } from '../actions/UserAction';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { LoaderHoriz } from '@/components/Loader/LoaderHoriz';
 
 export default async function StatsPage() {
   const session = await getServerSession();
@@ -24,17 +25,19 @@ export default async function StatsPage() {
         </section>
 
         <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col items-center justify-center'>
-          <Suspense fallback={<div>Loading...</div>}>
-            <StatsCalendar charsData={chars} />
+          <StatsCalendar charsData={chars} />
+        </section>
+
+        <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+          <Suspense fallback={<LoaderHoriz />}>
+            <StatsDetails charsData={chars} />
           </Suspense>
         </section>
-        <Suspense fallback={<div>Loading...</div>}>
-          <section className='w-full border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
-            <StatsDetails charsData={chars} />
-          </section>
-        </Suspense>
+
         <section className='min-w-1/2 w-full border-2 flex border-background_alt p-4 rounded-lg lg:col-span-2 justify-center items-center'>
-          <StatsCharts charsData={chars} />
+          <Suspense fallback={<LoaderHoriz />}>
+            <StatsCharts charsData={chars} />
+          </Suspense>
         </section>
       </div>
     </NuqsAdapter>

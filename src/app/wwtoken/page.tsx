@@ -5,6 +5,7 @@ import { format } from 'date-fns/format';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import TokensList from './TokensList';
+import ChartTokens from './ChartTokens';
 
 export default async function page() {
   const session = await getServerSession();
@@ -58,6 +59,9 @@ export default async function page() {
           </>
         )}
         <TokensList tokens={userTokens || []} />
+      </div>
+      <div className='lg:col-span-5 w-full border-2 min-w-80 border-background_alt p-4 rounded-lg flex flex-col gap-3 justify-start'>
+        <ChartTokens tokens={userTokens || []} />
       </div>
     </div>
   );
