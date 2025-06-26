@@ -27,28 +27,42 @@ export default function ChartTokens({ tokens }: { tokens: WowTokenType[] }) {
     const updateRanges = async () => {
       const result = await fetch('/api/range');
       const res = await result.json();
+
       if (res.success && res.ranges) {
-        const ranges = res.ranges.map((range: { from: string; to: string; fullProfit: number }) => {
-          console.log('range', range);
-          const tokensInRange = tokens.filter(
-            (token) => isBefore(token.date, range.to) && isAfter(token.date, range.from),
+        const ranges: TokensChartType = res.ranges.map(
+          (range: { from: string; to: string; fullProfit: number }) => {
+            const tokensInRange = tokens.filter(
+              (token) => isBefore(token.date, range.to) && isAfter(token.date, range.from),
+            );
+
+            return {
+              period: range.from + ' period ' + range.to,
+              tokens: tokensInRange.length || 0,
+              tokensSum: tokensInRange.reduce((acc, curr) => acc + curr.price, 0) || 0,
+            };
+          },
+        );
+
+        const currentRange = () => {
+          const currenttokens = tokens.filter(
+            (token) => isBefore(token.date, new Date()) && isAfter(token.date, sign),
           );
-          console.log('tokensInRange', tokensInRange);
           return {
-            period: range.from + ' period ' + range.to,
-            tokens: tokensInRange.length || 0,
-            tokensSum: tokensInRange.reduce((acc, curr) => acc + curr.price, 0) || 0,
+            period: sign + ' period ' + new Date().toISOString(),
+            tokens: currenttokens.length || 0,
+            tokensSum: currenttokens.reduce((acc, curr) => acc + curr.price, 0) || 0,
           };
-        });
-        /* if (ranges.length > 6) ranges.splice(0, ranges.length - 6); */
-        setFullChartData(ranges);
+        };
+        /* if (ranges.length > 12) ranges.splice(0, ranges.length - 6); */
+
+        setFullChartData([...ranges, currentRange()]);
       }
       if (res.error) {
         console.log('update ranges error');
       }
     };
     updateRanges();
-  }, [sign]);
+  }, [sign, tokens]);
 
   if (!fullChartData.length)
     return (
