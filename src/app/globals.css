@@ -112,7 +112,7 @@ html {
     margin: 0 auto;
 
     max-width: 1620px;
-    min-width: 480px;
+    min-width: 440px;
   }
   h2 {
     color: rgb(from var(--foreground-alt) r g b / 0.9);
