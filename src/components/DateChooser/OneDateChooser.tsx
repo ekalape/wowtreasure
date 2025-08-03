@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../ui/button';
 import useCharsStore from '@/store/charsStore';
 import { formatISO, sub } from 'date-fns';
@@ -29,7 +29,7 @@ export default function OneDateChooser() {
   };
 
   return (
-    <div className='flex gap-3 p-3 w-full relative'>
+    <div className='flex gap-3 p-3 relative'>
       <Button onClick={() => handleSelectedDate('Start')}>Start</Button>
       <Button onClick={() => handleSelectedDate('Sign')}>Sign</Button>
 

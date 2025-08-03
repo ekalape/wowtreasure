@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { IChar } from '@/lib/models/char.interface';
-import React, { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef } from 'react';
 import { addNewProfit } from '@/app/actions/UserAction';
 import { motion } from 'motion/react';
 import useCharsStore from '@/store/charsStore';
@@ -49,7 +49,7 @@ export default function AddProfitForm({ charid, date }: { charid: string; date: 
   }, [state]);
 
   return (
-    <div className='flex flex-col gap-12 w-1/3 items-center justify-start'>
+    <div className='flex flex-col gap-12 w-full items-center justify-start'>
       <form
         key={state?.success ? Date.now() : 'form'}
         action={formAction}

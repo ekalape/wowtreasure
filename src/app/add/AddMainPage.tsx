@@ -60,14 +60,14 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
   }, []);
 
   return (
-    <div className='flex flex-col gap-12 w-full items-center justify-start'>
+    <div className='flex flex-col gap-12 w-full items-center justify-center'>
       <CharsHolder chars={chars} />
-      <section className='flex w-1/3'>
+      <section className='flex w-full justify-center items-center self-center'>
         <OneDateChooser />
       </section>
-      <section className='flex gap-12 w-full'>
+      <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 w-full items-center justify-center'>
         <AddProfitForm charid={selectedChar?.charid as string} date={selectedDate} />
-        <div className='w-1/3 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+        <div className=' border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
           {selectedChar ? (
             <>
               <h2>
@@ -80,7 +80,7 @@ export default function AddMainPage({ chars }: { chars: IChar[] }) {
             <h2>Choose a character</h2>
           )}
         </div>
-        <div className='w-1/3 border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
+        <div className=' border-2 border-background_alt p-4 rounded-lg flex flex-col justify-start'>
           <h2 className='right-h2'>
             Entries in{' '}
             <span className='highlighted font-yatra text-xl'>

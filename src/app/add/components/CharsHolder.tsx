@@ -3,7 +3,6 @@ import CharCard from './CharCard';
 import { AddNewCharModal } from './AddNewCharModal';
 
 export default function CharsHolder({ chars }: { chars: IChar[] }) {
-  console.log(chars);
   return (
     <div className='flex gap-2 w-full items-center justify-start mt-2 relative z-3'>
       {chars.map((ch) => (
