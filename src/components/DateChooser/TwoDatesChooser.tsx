@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import useCharsStore from '@/store/charsStore';
 import { format } from 'date-fns';
@@ -37,7 +37,7 @@ export default function TwoDateChooser() {
   }, [fromDate, toDate]);
 
   return (
-    <div className='flex gap-3 p-3 w-full relative'>
+    <div className='grid grid-cols-2 grid-rows-3 md:grid-rows-1 gap-3 p-3 w-full relative md:grid-cols-5'>
       <Button onClick={() => handleDate('Start')}>Start</Button>
       <Button onClick={() => handleDate('Sign')}>Sign</Button>
       <DateChooserInput
