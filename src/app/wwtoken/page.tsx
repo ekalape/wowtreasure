@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import TokensList from './TokensList';
 import ChartTokens from './ChartTokens';
+import OneDateChooser from '@/components/DateChooser/OneDateChooser';
 
 export default async function page() {
   const session = await getServerSession();
@@ -32,6 +33,9 @@ export default async function page() {
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-5 gap-20  mt-8 w-4/5 items-center justify-center m-auto relative'>
+      <section className='flex lg:col-span-3 lg:col-start-2 lg:col-end-5 w-2/3 min-w-min  m-auto'>
+        <OneDateChooser />
+      </section>
       <TokenForm />
       <div className='w-full lg:col-span-3 border-2 min-w-80 border-background_alt p-4 rounded-lg flex flex-col gap-3 justify-start'>
         <div className='text-foreground_alt'>
