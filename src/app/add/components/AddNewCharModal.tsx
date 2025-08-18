@@ -70,7 +70,9 @@ export function AddNewCharModal() {
         </button>
       </DialogTrigger>
       {isPending && createPortal(<Loading />, document.body)}
-      <DialogContent className='sm:max-w-[425px]' onPointerDownOutside={() => setOpen(false)}>
+      <DialogContent
+        className='max-w-[340px] sm:max-w-[425px]'
+        onPointerDownOutside={() => setOpen(false)}>
         <DialogHeader>
           <DialogTitle className='text-xl text-center'>Add New Character</DialogTitle>
           <DialogDescription className='text-sm text-center'>
