@@ -53,9 +53,7 @@ export async function GET() {
     }
 
     const data = await commoditiesRes.json();
-    console.log(data);
 
-    console.log(data.price);
     return NextResponse.json(data);
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : String(err);
