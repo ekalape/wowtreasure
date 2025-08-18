@@ -1,8 +1,9 @@
-import { LoaderHoriz } from '@/components/Loader/LoaderHoriz';
 import { useEffect, useState } from 'react';
 
 export default function TokenCost() {
   const [price, setPrice] = useState<number | null>(null);
+
+  const [prevPrice, setPrevPrice] = useState(0);
 
   const [direction, setDirection] = useState<'up' | 'down' | 'same' | null>(null);
 
@@ -12,9 +13,10 @@ export default function TokenCost() {
     if (saved) {
       const parsed = JSON.parse(saved);
       savedPrice = parsed.price;
-      setPrice(parsed.price);
+      setPrevPrice(parsed.price);
+    } else {
+      setPrevPrice(0);
     }
-    console.log('saved', saved);
 
     const res = async () => {
       try {
@@ -27,6 +29,7 @@ export default function TokenCost() {
           if (data.price > savedPrice) setDirection('up');
           else if (data.price < savedPrice) setDirection('down');
           else setDirection('same');
+          setPrevPrice(savedPrice);
         }
 
         setPrice(data.price);
@@ -39,24 +42,24 @@ export default function TokenCost() {
     res();
   }, []);
 
+  const dirSymbolClass = `flex items-center justify-center pb-2 ${
+    direction === 'up' ? 'text-red-500' : direction === 'down' ? 'text-green-500' : 'text-gray-400'
+  }`;
+
   return (
     <div className='border-2 border-background_alt p-2 rounded-lg '>
-      {price ? (
-        <>
-          <span>Token cost: </span>
-          <div>
-            <span className='text-blue-400 text-2xl font-bold font-yatra'>
-              {' '}
-              {(price / 10000).toLocaleString('en-US')}
-            </span>{' '}
-            {direction === 'up' && <span className='text-red-500'>▲</span>}
-            {direction === 'down' && <span className='text-green-500'>▼</span>}
-            {direction === 'same' && <span className='text-gray-400'>—</span>}
-          </div>
-        </>
-      ) : (
-        <LoaderHoriz />
-      )}
+      <span>Token cost: </span>
+      <div className='flex items-center gap-2'>
+        <span className='text-blue-400 text-2xl font-bold font-yatra'>
+          {' '}
+          {price
+            ? (price / 10000).toLocaleString('en-US')
+            : (prevPrice / 10000).toLocaleString('en-US')}
+        </span>{' '}
+        <span className={dirSymbolClass}>
+          {direction === 'up' ? '▲' : direction === 'down' ? '▼' : <span>●</span>}
+        </span>
+      </div>
     </div>
   );
 }
