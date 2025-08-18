@@ -28,7 +28,7 @@ export default function CharCardDataViewByChar({
       <Image
         width={10}
         height={10}
-        src={fraction === 'horde' ? horde_img.src : alliance_img.src}
+        src={fraction === 'Horde' || fraction === 'horde' ? horde_img.src : alliance_img.src}
         className='w-4 h-4 '
         alt='Fraction icon'
       />
