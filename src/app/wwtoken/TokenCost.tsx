@@ -47,14 +47,18 @@ export default function TokenCost() {
   }`;
 
   return (
-    <div className='border-2 border-background_alt p-2 rounded-lg '>
+    <div className='border-2 border-background_alt p-3 rounded-lg flex flex-col justify-center items-center gap-2'>
       <span>Token cost: </span>
       <div className='flex items-center gap-2'>
         <span className='text-blue-400 text-2xl font-bold font-yatra'>
           {' '}
           {price
-            ? (price / 10000).toLocaleString('en-US')
-            : (prevPrice / 10000).toLocaleString('en-US')}
+            ? (price / 10000).toLocaleString('de-DE', {
+                useGrouping: true,
+              })
+            : (prevPrice / 10000).toLocaleString('de-DE', {
+                useGrouping: true,
+              })}
         </span>{' '}
         <span className={dirSymbolClass}>
           {direction === 'up' ? '▲' : direction === 'down' ? '▼' : <span>●</span>}

@@ -42,7 +42,11 @@ export default async function page() {
           You bought{'  '} <span className='text-blue-200 text-xl'>{userTokens.length}</span>
           {'  '}
           tokens with total of{'  '}
-          <span className='text-pink-300 text-xl'>{totalCost}</span>
+          <span className='text-pink-300 text-xl'>
+            {totalCost.toLocaleString('de-DE', {
+              useGrouping: true,
+            })}
+          </span>
         </div>
         {userTokens.length > 0 && (
           <>
@@ -51,14 +55,24 @@ export default async function page() {
               <span className='text-foreground text-xl'>
                 {format(smallest.date, 'dd MMMM (yyyy)')}
               </span>
-              - <span className='text-pink-300 text-xl'>{smallest.price}</span>
+              -{' '}
+              <span className='text-pink-300 text-xl'>
+                {smallest.price.toLocaleString('de-DE', {
+                  useGrouping: true,
+                })}
+              </span>
             </div>
             <div className='text-foreground_alt'>
               Largest token cost:{'  '}
               <span className='text-foreground text-xl'>
                 {format(largest.date, 'dd MMMM (yyyy)')}
               </span>
-              - <span className='text-pink-300 text-xl'>{largest.price}</span>
+              -{' '}
+              <span className='text-pink-300 text-xl'>
+                {largest.price.toLocaleString('de-DE', {
+                  useGrouping: true,
+                })}
+              </span>
             </div>
           </>
         )}

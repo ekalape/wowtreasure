@@ -83,7 +83,11 @@ export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]
             <h3 className='flex  gap-3 items-center justify-center'>
               <span>Total Profit: </span>
               <span className='highlighted font-yatra'>
-                {profits.reduce((acc, pr) => acc + pr.fullProfit, 0)}
+                {profits
+                  .reduce((acc, pr) => acc + pr.fullProfit, 0)
+                  .toLocaleString('de-DE', {
+                    useGrouping: true,
+                  })}
               </span>
               <button
                 className='w-8 h-8 p-1 opacity-50 hover:opacity-100 duration-200'
@@ -107,7 +111,10 @@ export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]
                     charclass={pr.char.charclass}
                     fraction={pr.char.fraction}>
                     {' '}
-                    {pr.char.name} - {pr.rangeProfit}
+                    {pr.char.name} -{' '}
+                    {pr.rangeProfit.toLocaleString('de-DE', {
+                      useGrouping: true,
+                    })}
                   </CharCardDataView>
                 ))}
             </div>
@@ -128,7 +135,10 @@ export default function StatsDetails({ charsData }: { charsData: Promise<IChar[]
                     charclass={pr.char.charclass}
                     fraction={pr.char.fraction}>
                     {' '}
-                    {pr.char.name} - {pr.dayProfit}
+                    {pr.char.name} -{' '}
+                    {pr.dayProfit.toLocaleString('de-DE', {
+                      useGrouping: true,
+                    })}
                   </CharCardDataView>
                 ))}
               </div>

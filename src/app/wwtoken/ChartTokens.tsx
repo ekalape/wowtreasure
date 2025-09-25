@@ -96,7 +96,21 @@ export default function ChartTokens({ tokens }: { tokens: WowTokenType[] }) {
                 <div className='text-muted-foreground'>Tokens:</div>
                 <div className='font-bold'>{item.payload.tokens}</div>
                 <div className='text-muted-foreground'>Expense:</div>
-                <div className='font-bold'>{item.value}</div>
+                <div className='font-bold'>
+                  {item.value?.toLocaleString('de-DE', {
+                    useGrouping: true,
+                  })}
+                </div>
+                <div className='text-muted-foreground'>Medium:</div>
+                <div className='font-bold'>
+                  {typeof item.value === 'number' &&
+                  typeof item.payload.tokens === 'number' &&
+                  item.payload.tokens > 0
+                    ? Math.round(item.value / item.payload.tokens).toLocaleString('de-DE', {
+                        useGrouping: true,
+                      })
+                    : 0}
+                </div>
               </div>
             );
           }}

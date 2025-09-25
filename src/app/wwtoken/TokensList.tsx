@@ -23,7 +23,11 @@ export default function TokensList({ tokens }: { tokens: WowTokenType[] }) {
                     {new Date(token.date).toLocaleDateString()}
                   </span>
                   <span className='text-sm text-primary'> - </span>
-                  <span className='text-sm text-foreground_alt'>{token.price}</span>
+                  <span className='text-sm text-foreground_alt'>
+                    {token.price.toLocaleString('de-DE', {
+                      useGrouping: true,
+                    })}
+                  </span>
                 </div>
               </div>
             ))}
