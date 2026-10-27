@@ -4,15 +4,13 @@ import AddMainPage from './AddMainPage';
 import { getAllCharsAction } from '../actions/UserAction';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
 import Loading from '../loading';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 
 export default async function page() {
-  const session = await getServerSession();
+/*   const session = await getServerSession();
   if (!session) {
     redirect('/');
   }
-
+ */
   const chars = await getAllCharsAction();
 
   return (

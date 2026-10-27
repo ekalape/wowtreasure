@@ -6,6 +6,7 @@ import { useActionState, useEffect, useRef } from 'react';
 import { addNewProfit } from '@/app/actions/UserAction';
 import { motion } from 'motion/react';
 import useCharsStore from '@/store/charsStore';
+import { useRouter } from 'next/navigation';
 
 interface ProfitResponse {
   success: boolean;
@@ -16,6 +17,7 @@ interface ProfitResponse {
 export default function AddProfitForm({ charid, date }: { charid: string; date: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const router = useRouter();
   const setSelectedChar = useCharsStore((state) => state.setSelectedChar);
   const submitProfitForm = async (
     prevState: ProfitResponse | null,
@@ -45,6 +47,8 @@ export default function AddProfitForm({ charid, date }: { charid: string; date: 
       if (state.updatedChar) {
         setSelectedChar(state.updatedChar);
       }
+
+      router.refresh();
     }
   }, [state]);
 

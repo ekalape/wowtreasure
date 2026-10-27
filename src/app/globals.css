@@ -146,33 +146,32 @@ html {
   }
 
   .btn-shine {
-    /*     padding: 12px 48px; */
-    @apply text-blue-400;
     background: linear-gradient(
       to right,
-      #b2e9ff 0,
-      var(--foreground-alt) 16%,
-      rgb(from var(--foreground-alt) r g b / 0.9) 30%
+      var(--foreground-alt) 0%,
+      #b2e9ff 20%,
+      var(--foreground-alt) 40%
     );
-    background-position: left center;
+    background-size: 200% auto;
+    background-position: 100% center;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: shine 4s infinite linear;
-    animation-fill-mode: forwards;
     -webkit-text-size-adjust: none;
-    cursor: default;
+    cursor: pointer;
+    transition: background-position 0s;
+  }
+
+  .btn-shine:hover {
+    animation: shine 0.8s linear infinite;
   }
 
   @keyframes shine {
     0% {
-      background-position: 0;
-    }
-    60% {
-      background-position: 60%;
+      background-position: 100% center;
     }
     100% {
-      background-position: 100%;
+      background-position: -50% center;
     }
   }
 }

@@ -3,7 +3,7 @@
 import { Card } from '@/components/ui/card';
 import { getClassColor } from '@/lib/charClass-color';
 import { IChar } from '@/lib/models/char.interface';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import alliance_img from '@/assets/aliance-icon.png';
 import horde_img from '@/assets/horde-icon.png';
@@ -23,8 +23,9 @@ export default function CharCard(props: { char: IChar }) {
 
   const [showCharSettings, setShowCharSettings] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-
   const [isPending, setIsPending] = useState(false);
+
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
 
@@ -71,17 +72,19 @@ export default function CharCard(props: { char: IChar }) {
 
   useEffect(() => {
     const outsideClick = (e: MouseEvent) => {
-      const cardElement = document.querySelector('.char-card');
-      if (cardElement && !(e.target as HTMLElement).closest('.char-card') && showCharSettings) {
+      const cardElement = cardRef.current;
+      if (!cardElement) return;
+      if (!(e.target as HTMLElement).closest('.char-card') && showCharSettings) {
         setShowCharSettings(false);
       }
-      if (cardElement && (e.target as HTMLElement) === cardElement) {
-        setShowCharSettings((prev) => !prev);
-      }
     };
+    const closeMenu = () => setShowCharSettings(false);
+
     document.body.addEventListener('click', outsideClick);
+    document.body.addEventListener('close-char-menus', closeMenu);
     return () => {
       document.body.removeEventListener('click', outsideClick);
+      document.body.removeEventListener('close-char-menus', closeMenu);
     };
   }, [showCharSettings]);
 
@@ -92,6 +95,7 @@ export default function CharCard(props: { char: IChar }) {
         animate={showCharSettings ? { y: -6 } : { y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
         <Card
+          ref={cardRef}
           className='char-card w-20 bg-background p-2 pb-1 flex flex-col items-center border-2 cursor-pointer relative'
           title={char.name}
           style={{
@@ -102,6 +106,7 @@ export default function CharCard(props: { char: IChar }) {
           onClick={handleSelection}
           onContextMenu={(e) => {
             e.preventDefault();
+            document.body.dispatchEvent(new Event('close-char-menus'));
             setShowCharSettings((prev) => !prev);
           }}>
           <Image
