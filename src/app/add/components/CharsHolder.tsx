@@ -9,10 +9,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function CharsHolder({ chars }: { chars: IChar[] }) {
 
   const [showAllChars, setShowAllChars] = useState(false)
+  
 
   const sortedAll = sortByActivity(chars)
   const activeChars = sortedAll.filter(isActive)
   const inactiveChars = sortedAll.filter(ch => !isActive(ch))
+
+
 
   return (
     <div className='flex flex-col w-full relative z-3'>
@@ -47,6 +50,7 @@ export default function CharsHolder({ chars }: { chars: IChar[] }) {
           {showAllChars ? "hide inactive" : `show inactive (${inactiveChars.length})`}
         </button>
       </div>
+      
     </div>
   );
 }
@@ -71,7 +75,7 @@ function sortByActivity(chars: IChar[]): IChar[] {
 }
 
 function isActive(char: IChar): boolean {
-  const periodStart = sub(new Date(), { days: 1 });
+  const periodStart = sub(new Date(), { days: 7 });
   const lastDate = getLastActivityDate(char);
   if (!lastDate) return false;
   return isAfter(lastDate, periodStart);
